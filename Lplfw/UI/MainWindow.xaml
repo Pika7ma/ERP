@@ -1,0 +1,17 @@
+﻿<Window x:Class="Lplfw.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lplfw"
+        mc:Ignorable="d"
+        Title="父愁者联盟" Height="350" Width="525">
+    <Grid>
+        <Button Content="BOM管理" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="OpenBomWindow"/>
+        <Button Content="库存管理" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,24,0,0" Click="OpenInventoryWindow"/>
+        <Button Content="订单管理" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,48,0,0" Click="OpenOrderWindow"/>
+        <Button Content="生产管理" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,72,0,0" Click="OpenProduceWindow"/>
+        <Button Content="采购辅助" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,96,0,0" Click="OpenPurchaseWindow"/>
+        <Button Content="用户管理" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,120,0,0" Click="OpenUserWindow"/>
+    </Grid>
+</Window>

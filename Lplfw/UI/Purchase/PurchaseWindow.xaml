@@ -1,0 +1,179 @@
+﻿<Window x:Class="Lplfw.UI.Purchase.PurchaseWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lplfw.UI.Purchase"
+        mc:Ignorable="d"
+        Title="采购管理" Height="768" Width="1124">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <TabControl>
+            <TabItem Header="缺料管理">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ToolBar Height="45" VerticalAlignment="Top" Grid.ColumnSpan="2">
+                        <Button x:Name="btnShowAll" Content="显示全部" Width="75"/>
+                        <Button x:Name="btnFilterMaterial" Content="筛选材料" Width="75"/>
+                        <Button x:Name="btnPurchase" Content="我要采购" Width="75"/>
+                    </ToolBar>
+                    <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" Grid.RowSpan="2" Width="5"/>
+                    <GridSplitter Grid.Row="1" VerticalAlignment="Bottom" Grid.Column="1" Height="5" HorizontalAlignment="Stretch"/>
+                    <TreeView Grid.Row="1" Grid.RowSpan="2">
+                        <TreeViewItem Header="建筑材料" IsExpanded="True">
+                            <TreeViewItem Header="木质材料" IsSelected="True"/>
+                        </TreeViewItem>
+                    </TreeView>
+                    <DataGrid Grid.Column="1" Grid.Row="1" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Grid.RowSpan="2">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="原料名称" Width="100"/>
+                            <DataGridTextColumn Header="规格" Width="100"/>
+                            <DataGridTextColumn Header="数量" Width="100"/>
+                            <DataGridTextColumn Header="最低报价" Width="100"/>
+                            <DataGridTextColumn Header="供货商" Width="100"/>
+                            <DataGridTextColumn Header="负责人" Width="100"/>
+                            <DataGridTextColumn Header="联系方式" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="报价管理">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ToolBar Height="45" VerticalAlignment="Top" Grid.ColumnSpan="2">
+                        <Button x:Name="btnShowAll2" Content="显示全部" Width="75"/>
+                        <Button x:Name="btnFliterPrice" Content="筛选报价" Width="75"/>
+                        <Separator/>
+                        <Button x:Name="btnNewPrice" Content="新建报价" Width="75"/>
+                        <Button x:Name="btnEditPrice" Content="修改报价" Width="75"/>
+                        <Button x:Name="btnDeletePrice" Content="删除报价" Width="75"/>
+                    </ToolBar>
+                    <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" Grid.RowSpan="2" Width="5"/>
+                    <TreeView Grid.Row="1" Grid.RowSpan="2">
+                        <TreeViewItem Header="建筑材料" IsExpanded="True">
+                            <TreeViewItem Header="木质材料" IsSelected="True"/>
+                        </TreeViewItem>
+                    </TreeView>
+                    <DataGrid Grid.Column="1" Grid.Row="1" Margin="5,0,0,5" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header=" ID "/>
+                            <DataGridTextColumn Header="状态" Width ="50"/>
+                            <DataGridTextColumn Header="名称" Width ="150"/>
+                            <DataGridTextColumn Header="规格" Width ="150"/>
+                            <DataGridTextColumn Header="计量单位" Width ="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Height="5" Grid.Row="1" VerticalAlignment="Bottom"/>
+                    <DataGrid Grid.Column="1" Grid.Row="2" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="单价" Width="100"/>
+                            <DataGridTextColumn Header="批次" Width ="100"/>
+                            <DataGridTextColumn Header="供货商" Width ="150"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="供货商管理">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <ToolBar Height="45" VerticalAlignment="Top">
+                        <Button x:Name="btnShowAll3" Content="显示全部" Width="75" Click="btnShowAll3_Click"/>
+                        <Button x:Name="btnFliterSupplier" Content="筛选供货商" Width="75"/>
+                        <Separator/>
+                        <Button x:Name="btnNewSupplier" Content="新建供货商" Width="75"/>
+                        <Button x:Name="btnEditSupplier" Content="修改供货商" Width="75"/>
+                        <Button x:Name="btnDeleteSupplier" Content="删除供货商" Width="75"/>
+                        <Separator/>
+                        <Button x:Name="btnNewPrice2" Content="新建报价" Width="75"/>
+                        <Button x:Name="btnEditPrice2" Content="修改报价" Width="75"/>
+                        <Button x:Name="btnDeletePrice2" Content="删除报价" Width="75"/>
+                    </ToolBar>
+                    <DataGrid Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Margin="0,0,0,5">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header=" ID "/>
+                            <DataGridTextColumn Header="供货商" Width ="200"/>
+                            <DataGridTextColumn Header="负责人" Width ="150"/>
+                            <DataGridTextColumn Header="联系方式" Width ="150"/>
+                            <DataGridTextColumn Header="优先级" Width ="100"/>
+                            <DataGridTextColumn Header="备注" Width ="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <GridSplitter HorizontalAlignment="Stretch" Height="5" Grid.Row="1" VerticalAlignment="Bottom" Margin="0,5,0,0"/>
+                    <DataGrid Grid.Row="2" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Margin="0,0,0,5">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="零件名称" Width="150"/>
+                            <DataGridTextColumn Header="规格" Width ="200"/>
+                            <DataGridTextColumn Header="批次" Width ="150"/>
+                            <DataGridTextColumn Header="单价" Width ="150"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="采购订单管理">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <ToolBar Height="45" VerticalAlignment="Top">
+                        <Button x:Name="btnShowAll4" Content="显示全部" Width="75"/>
+                        <Button x:Name="btnFliterOder" Content="筛选订单" Width="75"/>
+                        <Separator/>
+                        <Button x:Name="btnNewOrder" Content="新建订单" Width="75"/>
+                        <Button x:Name="btnEditOrder" Content="修改订单" Width="75"/>
+                        <Button x:Name="btnDeleteOder" Content="删除订单" Width="75"/>
+                        <Separator/>
+                        <Button x:Name="btnNewLog" Content="生成采购日志" Width="95"/>
+                        <Button x:Name="btnNewTest" Content="生成质检单" Width="95"/>
+                    </ToolBar>
+                    <DataGrid Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Margin="0,0.2,0.2,-0.4" Grid.RowSpan="2" Height="641" VerticalAlignment="Top">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="订单ID" Width ="100"/>
+                            <DataGridTextColumn Header="物料ID" Width ="100"/>
+                            <DataGridTextColumn Header="单价" Width ="70"/>
+                            <DataGridTextColumn Header="数量" Width ="70"/>
+                            <DataGridTextColumn Header="状态" Width ="100"/>
+                            <DataGridTextColumn Header="创建时间" Width ="120"/>
+                            <DataGridTextColumn Header="完成时间" Width ="120"/>
+                            <DataGridTextColumn Header="负责人" Width ="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid >
+            </TabItem>
+        </TabControl>
+        <StatusBar Grid.Row="1">
+            <TextBlock x:Name="txtStatus" Text="欢迎使用ERP系统, 管理员 admin" TextWrapping="NoWrap"/>
+        </StatusBar>
+        <TextBox x:Name="search1"  HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="请输入查询关键字" VerticalAlignment="Top" Width="145" Margin="820,36,0,0"/>
+        <ComboBox  x:Name="btnSearchMaterialClass" HorizontalAlignment="Left" VerticalAlignment="Top" Width="58" Margin="965,36,0,0" Height="23"/>
+        <Button  x:Name="cbbSearchMaterialClass"  Content="搜索" VerticalAlignment="Top" Margin="1044,36,22.6,0" Height="23"/>
+
+    </Grid>
+</Window>
+

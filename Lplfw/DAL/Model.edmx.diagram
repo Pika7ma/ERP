@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="26f6b3eb30ea47eb8ef38f1f963d6d56" Name="Diagram1" ZoomLevel="97" >
+        <EntityTypeShape EntityType="Model.ProductClass" Width="1.5" PointX="1.25" PointY="0.5" />
+        <AssociationConnector Association="Model.ProductClassNesting" />
+        <EntityTypeShape EntityType="Model.Product" Width="1.5" PointX="1.25" PointY="3.125" />
+        <AssociationConnector Association="Model.ClassOfProduct" />
+        <EntityTypeShape EntityType="Model.MaterialClass" Width="1.5" PointX="4.875" PointY="0.5" />
+        <AssociationConnector Association="Model.MaterialClassNesting" />
+        <EntityTypeShape EntityType="Model.Material" Width="1.5" PointX="4.875" PointY="4.125" />
+        <AssociationConnector Association="Model.ClassOfMaterial" />
+        <EntityTypeShape EntityType="Model.RecipeItem" Width="1.5" PointX="3.125" PointY="4.875" />
+        <AssociationConnector Association="Model.RecipeOfProduct" />
+        <AssociationConnector Association="Model.RecipeItemToMaterial" />
+        <EntityTypeShape EntityType="Model.Privilege" Width="1.5" PointX="1.125" PointY="20.875" FillColor="Silver" />
+        <EntityTypeShape EntityType="Model.UserGroup" Width="1.5" PointX="1.125" PointY="16.75" FillColor="Silver" />
+        <EntityTypeShape EntityType="Model.UserGroupPrivilegeItem" Width="1.5" PointX="1.125" PointY="19" FillColor="Silver" />
+        <AssociationConnector Association="Model.UserGroupPrivilegeItemDescription" />
+        <AssociationConnector Association="Model.UserGroupPrivilegeItemUserGroup" />
+        <EntityTypeShape EntityType="Model.User" Width="1.5" PointX="3" PointY="16.75" FillColor="Silver" />
+        <AssociationConnector Association="Model.UserUserGroup" />
+        <EntityTypeShape EntityType="Model.Supplier" Width="1.5" PointX="9.75" PointY="23.125" FillColor="WhiteSmoke" />
+        <EntityTypeShape EntityType="Model.Customer" Width="1.5" PointX="6.75" PointY="14.5" FillColor="WhiteSmoke" />
+        <EntityTypeShape EntityType="Model.Storage" Width="1.5" PointX="3.125" PointY="9.625" FillColor="Black" />
+        <AssociationConnector Association="Model.PrincipalOfStorage" />
+        <EntityTypeShape EntityType="Model.ProductStock" Width="1.5" PointX="1.25" PointY="7.125" FillColor="Black" />
+        <AssociationConnector Association="Model.StockInStorage" />
+        <AssociationConnector Association="Model.ProductInStock" />
+        <EntityTypeShape EntityType="Model.MaterialStock" Width="1.5" PointX="5.625" PointY="7.125" FillColor="Black" />
+        <AssociationConnector Association="Model.MaterialInStock" />
+        <AssociationConnector Association="Model.MaterialOfStorage" />
+        <EntityTypeShape EntityType="Model.StockIn" Width="1.5" PointX="1.25" PointY="13.125" FillColor="Black" />
+        <AssociationConnector Association="Model.StockInStorage1" />
+        <AssociationConnector Association="Model.StockInUser" />
+        <EntityTypeShape EntityType="Model.StockOut" Width="1.5" PointX="4.875" PointY="13.125" FillColor="Black" />
+        <AssociationConnector Association="Model.StockOutStorage" />
+        <AssociationConnector Association="Model.StockOutUser" />
+        <EntityTypeShape EntityType="Model.ProductStockInItem" Width="1.5" PointX="0.5" PointY="9.25" FillColor="Black" />
+        <AssociationConnector Association="Model.ProductStockInItemStockIn" />
+        <AssociationConnector Association="Model.ProductStockInItemProduct" />
+        <EntityTypeShape EntityType="Model.MaterialStockInItem" Width="1.5" PointX="1.25" PointY="11.125" FillColor="Black" />
+        <AssociationConnector Association="Model.MaterialStockInItemStockIn" />
+        <AssociationConnector Association="Model.MaterialStockInItemMaterial" ManuallyRouted="true" >
+          <ConnectorPoint PointX="2.75" PointY="12.234080310546876" />
+          <ConnectorPoint PointX="3.4768167981339761" PointY="12.234080310546876" />
+          <ConnectorPoint PointX="3.6434834648006431" PointY="12.234080310546876" />
+          <ConnectorPoint PointX="3.7468266376006496" PointY="12.234080310546876" />
+          <ConnectorPoint PointX="3.9134933042673166" PointY="12.234080310546876" />
+          <ConnectorPoint PointX="3.9725883598892096" PointY="12.234080310546876" />
+          <ConnectorPoint PointX="4.1392550265558761" PointY="12.234080310546876" />
+          <ConnectorPoint PointX="4.75" PointY="12.234080310546876" />
+          <ConnectorPoint PointX="4.75" PointY="6.7898160807291674" />
+          <ConnectorPoint PointX="5.0671485827596" PointY="6.7898160807291674" />
+          <ConnectorPoint PointX="5.0671485827596" PointY="6.4148160807291665" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="Model.ProductStockOutItem" Width="1.5" PointX="5.875" PointY="9.25" FillColor="Black" />
+        <AssociationConnector Association="Model.ProductStockOutItemProduct" />
+        <AssociationConnector Association="Model.ProductStockOutItemStockOut" />
+        <EntityTypeShape EntityType="Model.MaterialStockOutItem" Width="1.5" PointX="5.25" PointY="11.125" FillColor="Black" />
+        <AssociationConnector Association="Model.MaterialStockOutItemMaterial" />
+        <AssociationConnector Association="Model.MaterialStockOutItemStockOut" />
+        <EntityTypeShape EntityType="Model.Sales" Width="1.5" PointX="5.875" PointY="17" FillColor="WhiteSmoke" />
+        <AssociationConnector Association="Model.SalesCustomer" />
+        <AssociationConnector Association="Model.SalesUser" />
+        <EntityTypeShape EntityType="Model.SalesItem" Width="1.5" PointX="7.875" PointY="17" FillColor="WhiteSmoke" />
+        <AssociationConnector Association="Model.SalesItemSales" />
+        <AssociationConnector Association="Model.SalesItemProduct" />
+        <EntityTypeShape EntityType="Model.Purchase" Width="1.5" PointX="5.875" PointY="20.25" FillColor="WhiteSmoke" />
+        <AssociationConnector Association="Model.PurchaseUser" ManuallyRouted="false" >
+        </AssociationConnector>
+        <EntityTypeShape EntityType="Model.PurchaseItem" Width="1.5" PointX="7.875" PointY="20.875" FillColor="WhiteSmoke" />
+        <AssociationConnector Association="Model.PurchaseItemPurchase" />
+        <EntityTypeShape EntityType="Model.MaterialPrice" Width="1.5" PointX="9.75" PointY="20.875" FillColor="WhiteSmoke" />
+        <AssociationConnector Association="Model.MaterialPriceMaterial" />
+        <AssociationConnector Association="Model.MaterialPriceSupplier" />
+        <AssociationConnector Association="Model.PurchaseItemMaterialPrice" />
+        <EntityTypeShape EntityType="Model.AssemblyLine" Width="1.5" PointX="15.75" PointY="6.125" FillColor="DimGray" />
+        <AssociationConnector Association="Model.AssemblyLineUser" />
+        <EntityTypeShape EntityType="Model.Requisition" Width="1.5" PointX="18.5" PointY="6" FillColor="DimGray" />
+        <AssociationConnector Association="Model.RequisitionAssemblyLine" />
+        <AssociationConnector Association="Model.RequisitionUser" />
+        <EntityTypeShape EntityType="Model.RequisitionItem" Width="1.5" PointX="21.125" PointY="6" FillColor="DimGray" />
+        <AssociationConnector Association="Model.RequisitionItemRequisition" />
+        <AssociationConnector Association="Model.RequisitionItemMaterialStock" />
+        <EntityTypeShape EntityType="Model.Return" Width="1.5" PointX="18.625" PointY="2.875" FillColor="DimGray" />
+        <AssociationConnector Association="Model.ReturnRequisition" />
+        <AssociationConnector Association="Model.ReturnUser" />
+        <EntityTypeShape EntityType="Model.ReturnItem" Width="1.5" PointX="20.75" PointY="3.375" FillColor="DimGray" />
+        <AssociationConnector Association="Model.ReturnItemReturn" />
+        <AssociationConnector Association="Model.ReturnItemMaterialStock" />
+        <EntityTypeShape EntityType="Model.Production" Width="1.5" PointX="23.875" PointY="5.875" FillColor="DimGray" />
+        <AssociationConnector Association="Model.ProductionProduct" />
+        <AssociationConnector Association="Model.ProductionRequisition" />
+        <AssociationConnector Association="Model.ProductionAssemblyLine" />
+        <EntityTypeShape EntityType="Model.PurchaseQuality" Width="1.5" PointX="5.875" PointY="23.25" FillColor="DimGray" />
+        <AssociationConnector Association="Model.PurchaseQualityPurchase" />
+        <AssociationConnector Association="Model.PurchaseQualityUser" />
+        <EntityTypeShape EntityType="Model.ProductionQuality" Width="1.5" PointX="23.875" PointY="9.375" FillColor="DimGray" />
+        <AssociationConnector Association="Model.ProductionQualityProduction" />
+        <AssociationConnector Association="Model.ProductionQualityUser" />
+        <EntityTypeShape EntityType="Model.Log" Width="1.5" PointX="3" PointY="24.875" FillColor="Gainsboro" />
+        <AssociationConnector Association="Model.LogUser" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
