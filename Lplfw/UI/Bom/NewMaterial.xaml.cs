@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace ERP.UI.Bom
 {
     /// <summary>
-    /// NewMaterialClass.xaml 的交互逻辑
+    /// NewMaterial.xaml 的交互逻辑
     /// </summary>
-    public partial class NewMaterialClass : Window
+    public partial class NewMaterial : Window
     {
-        public NewMaterialClass()
+        public NewMaterial()
         {
             InitializeComponent();
         }

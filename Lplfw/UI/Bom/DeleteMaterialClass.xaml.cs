@@ -14,16 +14,20 @@ using System.Windows.Shapes;
 namespace ERP.UI.Bom
 {
     /// <summary>
-    /// NewMaterialClass.xaml 的交互逻辑
+    /// DeleteMaterialClass.xaml 的交互逻辑
     /// </summary>
-    public partial class NewMaterialClass : Window
+    public partial class DeleteMaterialClass : Window
     {
-        public NewMaterialClass()
+        public DeleteMaterialClass()
         {
             InitializeComponent();
         }
 
-        private void btnOK(object sender, RoutedEventArgs e)
+        private void BtnCancel(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void BtnOK(object sender, RoutedEventArgs e)
         {
 
         }
