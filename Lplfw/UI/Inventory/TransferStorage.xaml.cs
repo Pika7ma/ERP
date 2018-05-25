@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace ERP.UI.Inventory
 {
     /// <summary>
-    /// NewStorehouse.xaml 的交互逻辑
+    /// TransferStorage.xaml 的交互逻辑
     /// </summary>
-    public partial class NewStorehouse : Window
+    public partial class TransferStorage : Window
     {
-        public NewStorehouse()
+        public TransferStorage()
         {
             InitializeComponent();
         }

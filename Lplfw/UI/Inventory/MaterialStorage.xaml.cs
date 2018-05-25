@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace ERP.UI.Inventory
 {
     /// <summary>
-    /// NewStorehouse.xaml 的交互逻辑
+    /// MaterialStorage.xaml 的交互逻辑
     /// </summary>
-    public partial class NewStorehouse : Window
+    public partial class MaterialStorage : Window
     {
-        public NewStorehouse()
+        public MaterialStorage()
         {
             InitializeComponent();
         }
