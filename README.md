@@ -24,3 +24,37 @@
 1. 字段（私有成员变量）：小驼峰
 2. 属性（公共成员变量）：大驼峰
 3. 局部变量：以`_`开头的小驼峰
+
+## 数据表变动
+
+### BOM管理
+
+1. `MaterialSet`中, 添加`String`属性`Status`, 用于描述材料可用\停用状态
+2. `ProductSet`中, 添加`String`属性`Status`, 用于描述产品生产\停产状态
+3. `RecipeItemSet`中, 删除主键`Id`, 设置主键为`ProductId`和`MaterialId`, 添加`Int32`属性`Quantity`, 用于描述配方条目中原料的数量
+4. `ProductClass`中, 从`ProductClass1 (0...1)-->(*) ProductClass2`, 添加了`ProductClass1`的级联删除
+5. `MaterialClass`中, 从`MaterialClass1 (0...1)-->(*) MaterialClass2`, 添加了`MaterialClass1`的级联删除
+6. 添加了数据视图`recipeview`
+
+```sql
+create view recipeview as
+select
+	recipeitemset.ProductId,
+	recipeitemset.MaterialId,
+    materialset.Name,
+    recipeitemset.Quantity,
+    materialset.Unit
+from recipeitemset join materialset
+	on recipeitemset.MaterialId = materialset.Id;
+```
+
+## NuGet包变动
+
+### BOM管理
+
+1. 添加了用于读取excel文件的包NPOI
+
+```xml
+  <package id="NPOI" version="2.3.0" targetFramework="net40" />
+  <package id="SharpZipLib" version="0.86.0" targetFramework="net40" />
+```

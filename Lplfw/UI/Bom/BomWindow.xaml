@@ -5,17 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Bom"
         mc:Ignorable="d"
-        Title="Bom信息管理" Height="768" Width="1124">
+        Title="Bom信息管理" Height="768" Width="1124" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        <TabControl>
-            <TabItem Header="产品总信息管理">
+        <TabControl SelectionChanged="TabRouter">
+            <TabItem x:Name="tabProduct" Header="产品信息管理">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="65"/>
+                        <RowDefinition Height="35"/>
                         <RowDefinition Height="3*"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
@@ -23,88 +23,80 @@
                         <ColumnDefinition Width="150"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <ToolBar Height="65" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.RowSpan="2">
-                        <Button Content="显示所有产品类别" VerticalAlignment="Stretch" Width="140" Click="ShowAllProducts" Background="#9FB6CD"/>
+                    <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                        <Button Content="显示所有产品" VerticalAlignment="Stretch" Width="100" Click="ShowAllProducts"/>
                         <Separator />
-                        <Button Content="新建产品类别" VerticalAlignment="Stretch" Width="90" Click="NewProductClass"/>
-                        <Button x:Name="btnEditProductClass" Content="修改类别" VerticalAlignment="Stretch" Width="75" IsEnabled="False" Click="EditProductClass"/>
-                        <Button x:Name="btnDeleteProductClass" Content="删除类别" VerticalAlignment="Stretch" Width="75" IsEnabled="False" Click="DeleteProductClass"/>
+                        <Button Content="新建类别" VerticalAlignment="Stretch" Width="75" Click="NewProductClass"/>
+                        <Button Content="修改类别" VerticalAlignment="Stretch" Width="75" Click="EditProductClass"/>
+                        <Button Content="删除类别" VerticalAlignment="Stretch" Width="75" Click="BtnDeleteProductClass"/>
                         <Separator />
-
                         <Button Content="新建产品" VerticalAlignment="Stretch" Width="75" Click="NewProduct"/>
+                        <Button Content="修改产品" VerticalAlignment="Stretch" Width="75" Click="EditProduct"/>
                         <Button Content="删除产品" VerticalAlignment="Stretch" Width="75" Click="EraseProduct"/>
-                        <Button x:Name="btnDeleteProduct"  Content="停产/生产" VerticalAlignment="Stretch" Width="75" IsEnabled="False" Click="DeleteProduct"/>
-                        <Button x:Name="btnSaveProduct"  Content="保存" VerticalAlignment="Stretch" Width="75" IsEnabled="False" Click="SaveProduct"/>
+                        <Button Content="停产/生产" VerticalAlignment="Stretch" Width="75" Click="ChangeProductStatus"/>
+                        <Separator/>
+                        <ComboBox x:Name="cbSearchProduct" Width="75" Height="25" Margin="25,0,0,0" DisplayMemberPath="Name" SelectedValuePath="ID"/>
+                        <TextBox x:Name="txtSearchProduct"  Text="请输入查询关键字" VerticalAlignment="Center" Width="150" Height="25" Margin="5,0,0,0"/>
+                        <Button x:Name="btnSearchProduct" Content="搜索" Width="50" Margin="5,0,0,0" Click="SearchProduct"/>
                     </ToolBar>
                     <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" Grid.RowSpan="2" Width="5"/>
                     <GridSplitter Grid.Row="1" VerticalAlignment="Bottom" Grid.Column="1" Height="5" HorizontalAlignment="Stretch"/>
                     <TreeView x:Name="tvProduct" Grid.Row="1" Grid.RowSpan="2" SelectedItemChanged="SelectProductClass"/>
-                    <DataGrid x:Name="dgProduct" Grid.Column="1" Grid.Row="1" Margin="4.6,0.2,0,34.6" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectedCellsChanged="OnDgProductSelectedChanged">
+                    <DataGrid x:Name="dgProduct" Grid.Column="1" Grid.Row="1" Margin="5,0,0,5" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectedCellsChanged="OnDgProductSelectedChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="状态" Width ="50" Binding="{Binding Status}"/>
-                            <DataGridTextColumn Header="产品编号" Width ="100" Binding="{Binding Code}"/>
                             <DataGridTextColumn Header="名称" Width ="150" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="型号" Width ="100" Binding="{Binding Type}"/>
+                            <DataGridTextColumn Header="规格" Width ="100" Binding="{Binding Format}"/>
+                            <DataGridTextColumn Header="单位" Width ="100" Binding="{Binding Unit}"/>
                             <DataGridTextColumn Header="价格" Width ="100" Binding="{Binding Price}"/>
-                            <DataGridTextColumn Header="型号" Width ="150" Binding="{Binding ProductModel}"/>
-                            <DataGridTextColumn Header="发明人" Width ="100" Binding="{Binding Inventor}"/>
-                            <DataGridTextColumn Header="专利号" Width ="100" Binding="{Binding PatentNo}"/>
-                            <DataGridTextColumn Header="添加时间" Width ="200" Binding="{Binding AddTime}"/>
-                            <DataGridTextColumn Header="备注" Width ="150" Binding="{Binding Description}"/>
-                            <DataGridTextColumn Header="所属种类" Width ="100" Binding="{Binding ClassId}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid x:Name="dgFormula" Grid.Column="1" Grid.Row="1" Margin="4.6,368.2,0,-0.4" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Grid.RowSpan="2">
+                    <DataGrid x:Name="dgRecipe" Grid.Column="1" Grid.Row="2" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Grid.RowSpan="2">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="零件名称" Width ="150" Binding="{Binding Name}" />
-                            <DataGridTextColumn Header="规格" Binding="{Binding Specification}" Width ="150"/>
                             <DataGridTextColumn Header="数量" Width ="100" Binding="{Binding Quantity}" />
                             <DataGridTextColumn Header="单位" Width ="100" Binding="{Binding Unit}" />
                         </DataGrid.Columns>
                     </DataGrid>
-                    <ToolBar Grid.Column="1" HorizontalAlignment="Left" Margin="59.6,348.2,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-                    <ToolBar Grid.Column="1" HorizontalAlignment="Left" Margin="4.6,338.2,0,0" Grid.Row="1" VerticalAlignment="Top" Height="30" Width="957">
-                        <Button x:Name="btnNewRecipe"  Content="新增配方条目" VerticalAlignment="Stretch" Width="120" IsEnabled="False" Click="NewRecipe"/>
-                        <Button x:Name="btnEditRecipe"  Content="修改配方条目" VerticalAlignment="Stretch" Width="120" IsEnabled="False" Click="EditRecipe"/>
-                        <Button x:Name="btnDeleteRecipe"  Content="删除配方条目" VerticalAlignment="Stretch" Width="120" IsEnabled="False" Click="DeleteRecipe"/>
-                        <Button x:Name="btnSaveRecipe"  Content="保存" VerticalAlignment="Stretch" Width="120" IsEnabled="False" Click="SaveRecipe"/>
-                    </ToolBar>
                 </Grid>
             </TabItem>
-            <TabItem Header="物料总信息管理">
+            <TabItem x:Name="tabMaterial" Header="原料信息管理">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="65"/>
+                        <RowDefinition Height="35"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="4"/>
                         <ColumnDefinition Width="150"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <ToolBar Height="65" VerticalAlignment="Top" Grid.ColumnSpan="3" Grid.RowSpan="2">
-                        <Button Content="显示所有物料类别" VerticalAlignment="Stretch" Width="140" Click="ShowAllMaterials" Background="#9FB6CD"/>
+                    <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                        <Button Content="显示所有原料" VerticalAlignment="Stretch" Width="100" Click="ShowAllMaterials"/>
                         <Separator />
-                        <Button Content="新建种类" VerticalAlignment="Stretch" Width="75" Click="NewMaterialClass"/>
-                        <Button x:Name="btnEditMaterialClass" Content="修改种类" VerticalAlignment="Stretch" Width="75" IsEnabled="False" Click="EditMaterialClass"/>
-                        <Button x:Name="btnDeleteMaterialClass" Content="删除种类" VerticalAlignment="Stretch" Width="75" IsEnabled="False" Click="DeleteMaterialClass"/>
+                        <Button Content="新建类别" VerticalAlignment="Stretch" Width="75" Click="NewMaterialClass"/>
+                        <Button x:Name="btnEditMaterialClass" Content="修改类别" VerticalAlignment="Stretch" Width="75" Click="EditMaterialClass"/>
+                        <Button x:Name="btnDeleteMaterialClass" Content="删除类别" VerticalAlignment="Stretch" Width="75" Click="DeleteMaterialClass"/>
                         <Separator />
+                        <Button Content="从excel导入" VerticalAlignment="Stretch" Width="75" Click="ImportExcel"/>
                         <Button Content="新建原料" VerticalAlignment="Stretch" Width="75" Click="NewMaterial"/>
-                        <Button x:Name="btnEditMaterial"  Content="修改原料" VerticalAlignment="Stretch" Width="75" IsEnabled="False" Click="EditMaterial"/>
-                        <Button x:Name="btnEraseMaterial"  Content="删除原料" VerticalAlignment="Stretch" Width="75" IsEnabled="False" Click="EraseMaterial"/>
-                        <Button x:Name="btnDeleteMaterial"  Content="停用原料" VerticalAlignment="Stretch" Width="75" IsEnabled="False" Click="DeleteMaterial"/>
-                        <Button x:Name="btnSaveMaterial"  Content="保存" VerticalAlignment="Stretch" Width="75" IsEnabled="False" Click="SaveMaterial"/>
-
+                        <Button x:Name="btnEditMaterial"  Content="修改原料" VerticalAlignment="Stretch" Width="75" Click="EditMaterial"/>
+                        <Button x:Name="btnEraseMaterial"  Content="删除原料" VerticalAlignment="Stretch" Width="75" Click="EraseMaterial"/>
+                        <Button x:Name="btnChangeMaterialStatus"  Content="停用/可用" VerticalAlignment="Stretch" Width="75" Click="ChangeMaterialStatus"/>
+                        <Separator/>
+                        <ComboBox x:Name="cbSearchMaterial" Width="75" Height="25" Margin="25,0,0,0" DisplayMemberPath="Name" SelectedValuePath="ID"/>
+                        <TextBox x:Name="txtSearchMaterial" Text="请输入查询关键字" VerticalAlignment="Center" Width="150" Height="25" Margin="5,0,0,0"/>
+                        <Button x:Name="btnSearchMaterial" Content="搜索" Width="50" Margin="5,0,0,0" Click="SearchMaterial"/>
                     </ToolBar>
                     <GridSplitter Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" Width="5"/>
-                    <TreeView x:Name="tvMaterial" Grid.Row="1" SelectedItemChanged="SelectMaterialClass" HorizontalAlignment="Left" Width="157" Grid.ColumnSpan="2"/>
-                    <DataGrid x:Name="dgMaterial" Grid.Column="2" Grid.Row="1" Margin="5,0.2,0.4,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionChanged="EnableMaterialButton">
+                    <TreeView x:Name="tvMaterial" Grid.Row="1" SelectedItemChanged="SelectMaterialClass" Grid.Column="0"/>
+                    <DataGrid x:Name="dgMaterial" Grid.Column="2" Grid.Row="1" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header=" ID " Binding="{Binding Id}" ></DataGridTextColumn>
                             <DataGridTextColumn Header="状态" Width ="50" Binding="{Binding Status}" ></DataGridTextColumn>
                             <DataGridTextColumn Header="名称" Width ="150" Binding="{Binding Name}" ></DataGridTextColumn>
-                            <DataGridTextColumn Header="规格" Width ="150" Binding="{Binding Specification}" ></DataGridTextColumn>
-                            <DataGridTextColumn Header="计量单位" Width ="100" Binding="{Binding Unit}" ></DataGridTextColumn>
-                            <DataGridTextColumn Header="所属种类" Width ="100" Binding="{Binding ClassId}" ></DataGridTextColumn>
+                            <DataGridTextColumn Header="规格" Width ="150" Binding="{Binding Format}" ></DataGridTextColumn>
+                            <DataGridTextColumn Header="单位" Width ="100" Binding="{Binding Unit}" ></DataGridTextColumn>
+                            <DataGridTextColumn Header="平均价格" Width ="100" Binding="{Binding Price}" ></DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -113,8 +105,5 @@
         <StatusBar Grid.Row="1">
             <TextBlock x:Name="txtStatus" Text="欢迎使用ERP系统, 管理员 admin" TextWrapping="NoWrap"/>
         </StatusBar>
-        <TextBox x:Name="search1" HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" Text="请输入查询关键字" VerticalAlignment="Top" Width="137" Margin="836,44,0,0"/>
-        <Button  x:Name="btnSearchMaterialClass" Content="搜索" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Margin="1074,44,0,0" Height="24"/>
-        <ComboBox x:Name="cbbSearchMaterialClass" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Margin="973,44,0,0" Height="24" RenderTransformOrigin="1.905,0.552" SelectionChanged="ComboBox_SelectionChanged"/>
     </Grid>
 </Window>

@@ -44,7 +44,7 @@
 -- -----------------------------------------------------------
 -- Entity Designer DDL Script for MySQL Server 4.1 and higher
 -- -----------------------------------------------------------
--- Date Created: 05/22/2018 12:06:46
+-- Date Created: 05/25/2018 20:27:12
 
 -- Generated from EDMX file: E:\code\csharp\Lplfw\Lplfw\DAL\Model.edmx
 -- Target version: 3.0.0.0
@@ -262,7 +262,8 @@ CREATE TABLE `ProductSet`(
 	`Type` longtext NOT NULL, 
 	`Format` longtext NOT NULL, 
 	`Unit` longtext NOT NULL, 
-	`Price` double NOT NULL);
+	`Price` double NOT NULL, 
+	`Status` longtext NOT NULL);
 
 ALTER TABLE `ProductSet` ADD PRIMARY KEY (`Id`);
 
@@ -287,7 +288,8 @@ CREATE TABLE `MaterialSet`(
 	`Format` longtext NOT NULL, 
 	`Unit` longtext NOT NULL, 
 	`ClassId` int NOT NULL, 
-	`Price` double NOT NULL);
+	`Price` double NOT NULL, 
+	`Status` longtext NOT NULL);
 
 ALTER TABLE `MaterialSet` ADD PRIMARY KEY (`Id`);
 
@@ -296,11 +298,11 @@ ALTER TABLE `MaterialSet` ADD PRIMARY KEY (`Id`);
 
 
 CREATE TABLE `RecipeItemSet`(
-	`Id` int NOT NULL AUTO_INCREMENT UNIQUE, 
 	`ProductId` int NOT NULL, 
-	`MaterialId` int NOT NULL);
+	`MaterialId` int NOT NULL, 
+	`Quantity` int NOT NULL);
 
-ALTER TABLE `RecipeItemSet` ADD PRIMARY KEY (`Id`);
+ALTER TABLE `RecipeItemSet` ADD PRIMARY KEY (`ProductId`, `MaterialId`);
 
 
 
@@ -690,7 +692,7 @@ ADD CONSTRAINT `FK_ProductClassNesting`
     FOREIGN KEY (`ParentId`)
     REFERENCES `ProductClassSet`
         (`Id`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_ProductClassNesting'
@@ -726,7 +728,7 @@ ADD CONSTRAINT `FK_MaterialClassNesting`
     FOREIGN KEY (`ParentId`)
     REFERENCES `MaterialClassSet`
         (`Id`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_MaterialClassNesting'
@@ -763,13 +765,6 @@ ADD CONSTRAINT `FK_RecipeOfProduct`
     REFERENCES `ProductSet`
         (`Id`)
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-
--- Creating non-clustered index for FOREIGN KEY 'FK_RecipeOfProduct'
-
-CREATE INDEX `IX_FK_RecipeOfProduct`
-    ON `RecipeItemSet`
-    (`ProductId`);
 
 
 

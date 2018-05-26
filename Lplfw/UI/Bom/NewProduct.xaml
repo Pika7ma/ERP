@@ -1,0 +1,67 @@
+﻿<Window x:Class="Lplfw.UI.Bom.NewProduct"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lplfw.UI.Bom"
+        mc:Ignorable="d"
+        Height="620" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closing="Window_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="175"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="90"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="40"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="产品种类" Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="69"/>
+        <Label Content="名称" Grid.Column="2" Margin="0,30,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Label Content="型号" Grid.Column="2" Margin="0,60,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Label Content="规格" Grid.Column="2" Margin="0,90,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Label Content="单位" Grid.Column="2" Margin="0,120,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Label Content="单价" Grid.Column="2" Margin="0,150,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <ComboBox x:Name="cbClass" Grid.Column="3" Grid.Row="1" VerticalAlignment="Top" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+        <TextBox x:Name="txtName" Grid.Column="3" Height="23" Margin="0,30,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtType" Grid.Column="3" Height="23" Margin="0,60,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtFormat" Grid.Column="3" Height="23" Margin="0,90,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtUnit" Grid.Column="3" Height="23" Margin="0,120,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtPrice" Grid.Column="3" Height="23" Margin="0,150,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <DataGrid x:Name="dgMaterialItems" ItemsSource="{Binding Recipeitems}" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" Width="564" Grid.ColumnSpan="3" SelectionMode="Single" AutoGenerateColumns="False" Margin="0,0,0,5">
+            <DataGrid.Columns>
+                <DataGridComboBoxColumn x:Name="mon" Header="原料" Width="100">
+                    <DataGridComboBoxColumn.EditingElementStyle>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Materials,ElementName=dgMaterialItems}" />
+                            <Setter Property="DisplayMemberPath" Value="Name" />
+                            <Setter Property="SelectedValuePath" Value="Id" />
+                            <Setter Property="SelectedValue" Value="{Binding MaterialId}" />
+                        </Style>
+                    </DataGridComboBoxColumn.EditingElementStyle>
+                    <DataGridComboBoxColumn.ElementStyle>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Materials,ElementName=dgMaterialItems}" />
+                            <Setter Property="DisplayMemberPath" Value="Name" />
+                            <Setter Property="SelectedValuePath" Value="Id" />
+                            <Setter Property="SelectedValue" Value="{Binding MaterialId}" />
+                        </Style>
+                    </DataGridComboBoxColumn.ElementStyle>
+                </DataGridComboBoxColumn>
+                <DataGridTextColumn Header="数量" Binding="{Binding Quantity}" Width="150" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="btnDeleteItem" Content="删除配方条目" Grid.Column="4" HorizontalAlignment="Left" Margin="60,110,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90" Click="DeleteSelectedItem"/>
+        <Button x:Name="btnContinue" Content="继续创建" Grid.Column="4" HorizontalAlignment="Left" Margin="60,200,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90" Click="Continue"/>
+        <Button x:Name="btnOK" Content="确定" Grid.Column="4" HorizontalAlignment="Left" Margin="60,240,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90"/>
+        <Button Content="取消" Grid.Column="4" HorizontalAlignment="Left" Margin="60,280,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90" Click="CloseWindow"/>
+        <TextBlock x:Name="message" Grid.Column="3" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,6,0,0" TextAlignment="Center" Foreground="Red"/>
+
+    </Grid>
+</Window>

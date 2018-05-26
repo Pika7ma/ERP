@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Lplfw.UI
 {
@@ -17,12 +18,27 @@ namespace Lplfw.UI
             window.Show();
         }
 
-        private static void SwitchToMainWindow(object sender, EventArgs e)
+        static private void SwitchToMainWindow(object sender, EventArgs e)
         {
             Application.Current.MainWindow = MainWindow;
             MainWindow.Visibility = Visibility.Visible;
             Subwindow.Close();
         }
 
+        static public int? GetTreeViewSelectedValue(ref TreeView tv)
+        {
+            int? index;
+            if (tv.SelectedItem == null)
+                index = null;
+            else
+                index = (int)((TreeViewItem)tv.SelectedItem).DataContext;
+            return index;
+        }
+
+        public class KeyValue
+        {
+            public int ID { get; set; }
+            public string Name { get; set; }
+        }
     }
 }

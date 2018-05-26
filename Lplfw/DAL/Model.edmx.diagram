@@ -46,16 +46,18 @@
         <AssociationConnector Association="Model.MaterialStockInItemStockIn" />
         <AssociationConnector Association="Model.MaterialStockInItemMaterial" ManuallyRouted="true" >
           <ConnectorPoint PointX="2.75" PointY="12.234080310546876" />
-          <ConnectorPoint PointX="3.4768167981339761" PointY="12.234080310546876" />
-          <ConnectorPoint PointX="3.6434834648006431" PointY="12.234080310546876" />
-          <ConnectorPoint PointX="3.7468266376006496" PointY="12.234080310546876" />
-          <ConnectorPoint PointX="3.9134933042673166" PointY="12.234080310546876" />
-          <ConnectorPoint PointX="3.9725883598892096" PointY="12.234080310546876" />
-          <ConnectorPoint PointX="4.1392550265558761" PointY="12.234080310546876" />
-          <ConnectorPoint PointX="4.75" PointY="12.234080310546876" />
-          <ConnectorPoint PointX="4.75" PointY="6.7898160807291674" />
-          <ConnectorPoint PointX="5.0671485827596" PointY="6.7898160807291674" />
-          <ConnectorPoint PointX="5.0671485827596" PointY="6.4148160807291665" />
+          <ConnectorPoint PointX="3.3541641666666666" PointY="12.234080310546876" />
+          <ConnectorPoint PointX="3.5208308333333336" PointY="12.234080310546876" />
+          <ConnectorPoint PointX="3.7291666666666665" PointY="12.234080310546876" />
+          <ConnectorPoint PointX="3.8958333333333335" PointY="12.234080310546876" />
+          <ConnectorPoint PointX="4.1666691666666669" PointY="12.234080310546876" />
+          <ConnectorPoint PointX="4.3333358333333329" PointY="12.234080310546876" />
+          <ConnectorPoint PointX="4.947916666666667" PointY="12.234080310546876" />
+          <ConnectorPoint PointX="5.114583333333333" PointY="12.234080310546876" />
+          <ConnectorPoint PointX="5.1875" PointY="12.234080310546876" />
+          <ConnectorPoint PointX="5.1875" PointY="6.6933601888020835" />
+          <ConnectorPoint PointX="5.2109375" PointY="6.6933601888020835" />
+          <ConnectorPoint PointX="5.2109375" PointY="6.5996101888020835" />
         </AssociationConnector>
         <EntityTypeShape EntityType="Model.ProductStockOutItem" Width="1.5" PointX="5.875" PointY="9.25" FillColor="Black" />
         <AssociationConnector Association="Model.ProductStockOutItemProduct" />

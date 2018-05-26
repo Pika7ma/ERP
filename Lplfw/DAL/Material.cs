@@ -17,6 +17,7 @@ namespace Lplfw.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Material()
         {
+            this.Status = "可用";
             this.MaterialStock = new HashSet<MaterialStock>();
         }
     
@@ -26,6 +27,7 @@ namespace Lplfw.DAL
         public string Unit { get; set; }
         public int ClassId { get; set; }
         public double Price { get; set; }
+        public string Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MaterialStock> MaterialStock { get; set; }

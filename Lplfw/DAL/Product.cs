@@ -17,6 +17,7 @@ namespace Lplfw.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
+            this.Status = "生产";
             this.RecipeItems = new HashSet<RecipeItem>();
             this.ProductStock = new HashSet<ProductStock>();
         }
@@ -28,6 +29,7 @@ namespace Lplfw.DAL
         public string Format { get; set; }
         public string Unit { get; set; }
         public double Price { get; set; }
+        public string Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RecipeItem> RecipeItems { get; set; }

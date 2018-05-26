@@ -268,6 +268,7 @@
     <Property Name="Format" Type="longtext" Nullable="false" />
     <Property Name="Unit" Type="longtext" Nullable="false" />
     <Property Name="Price" Type="double" Nullable="false" />
+    <Property Name="Status" Type="longtext" Nullable="false" DefaultValue="生产" />
   </EntityType>
   <EntityType Name="MaterialClassSet">
     <Key>
@@ -287,14 +288,16 @@
     <Property Name="Unit" Type="longtext" Nullable="false" />
     <Property Name="ClassId" Type="int" Nullable="false" />
     <Property Name="Price" Type="double" Nullable="false" />
+    <Property Name="Status" Type="longtext" Nullable="false" DefaultValue="可用" />
   </EntityType>
   <EntityType Name="RecipeItemSet">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="ProductId" />
+      <PropertyRef Name="MaterialId" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ProductId" Type="int" Nullable="false" />
     <Property Name="MaterialId" Type="int" Nullable="false" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PrivilegeSet">
     <Key>
@@ -596,7 +599,9 @@
     <Property Name="Description" Type="longtext" Nullable="true" />
   </EntityType>
   <Association Name="ProductClassNesting">
-    <End Role="ProductClass" Type="Model.Store.ProductClassSet" Multiplicity="0..1" />
+    <End Role="ProductClass" Type="Model.Store.ProductClassSet" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="ProductClass1" Type="Model.Store.ProductClassSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ProductClass">
@@ -620,7 +625,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="MaterialClassNesting">
-    <End Role="MaterialClass" Type="Model.Store.MaterialClassSet" Multiplicity="0..1" />
+    <End Role="MaterialClass" Type="Model.Store.MaterialClassSet" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="MaterialClass1" Type="Model.Store.MaterialClassSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="MaterialClass">
@@ -1484,7 +1491,9 @@
           <NavigationProperty Name="Products" Relationship="Model.ClassOfProduct" FromRole="ProductClass" ToRole="Product" />
         </EntityType>
         <Association Name="ProductClassNesting">
-          <End Type="Model.ProductClass" Role="ProductClass" Multiplicity="0..1" />
+          <End Type="Model.ProductClass" Role="ProductClass" Multiplicity="0..1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="Model.ProductClass" Role="ProductClass1" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ProductClass">
@@ -1508,6 +1517,7 @@
           <NavigationProperty Name="RecipeItems" Relationship="Model.RecipeOfProduct" FromRole="Product" ToRole="RecipeItem" />
           <Property Name="Price" Type="Double" Nullable="false" />
           <NavigationProperty Name="ProductStock" Relationship="Model.ProductInStock" FromRole="Product" ToRole="ProductStock" />
+          <Property Name="Status" Type="String" Nullable="false" DefaultValue="生产" />
         </EntityType>
         <Association Name="ClassOfProduct">
           <End Type="Model.Product" Role="Product" Multiplicity="*" />
@@ -1532,8 +1542,11 @@
           <NavigationProperty Name="Materials" Relationship="Model.ClassOfMaterial" FromRole="MaterialClass" ToRole="Material" />
         </EntityType>
         <Association Name="MaterialClassNesting">
-          <End Type="Model.MaterialClass" Role="MaterialClass" Multiplicity="0..1" />
-          <End Type="Model.MaterialClass" Role="MaterialClass1" Multiplicity="*" />
+          <End Type="Model.MaterialClass" Role="MaterialClass" Multiplicity="0..1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.MaterialClass" Role="MaterialClass1" Multiplicity="*" >
+          </End>
           <ReferentialConstraint>
             <Principal Role="MaterialClass">
               <PropertyRef Name="Id" />
@@ -1554,6 +1567,7 @@
           <Property Name="ClassId" Type="Int32" Nullable="false" />
           <Property Name="Price" Type="Double" Nullable="false" />
           <NavigationProperty Name="MaterialStock" Relationship="Model.MaterialInStock" FromRole="Material" ToRole="MaterialStock" />
+          <Property Name="Status" Type="String" Nullable="false" DefaultValue="可用" />
         </EntityType>
         <Association Name="ClassOfMaterial">
           <End Type="Model.Material" Role="Material" Multiplicity="*" />
@@ -1569,11 +1583,12 @@
         </Association>
         <EntityType Name="RecipeItem">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="ProductId" />
+            <PropertyRef Name="MaterialId" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="MaterialId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="RecipeOfProduct">
           <End Type="Model.RecipeItem" Role="RecipeItem" Multiplicity="*" />
@@ -2492,6 +2507,7 @@
           <ScalarProperty Name="Format" ColumnName="Format" />
           <ScalarProperty Name="Unit" ColumnName="Unit" />
           <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -2513,15 +2529,16 @@
           <ScalarProperty Name="Unit" ColumnName="Unit" />
           <ScalarProperty Name="ClassId" ColumnName="ClassId" />
           <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="RecipeItemSet">
       <EntityTypeMapping TypeName="IsTypeOf(Model.RecipeItem)">
         <MappingFragment StoreEntitySet="RecipeItemSet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="ProductId" ColumnName="ProductId" />
           <ScalarProperty Name="MaterialId" ColumnName="MaterialId" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
