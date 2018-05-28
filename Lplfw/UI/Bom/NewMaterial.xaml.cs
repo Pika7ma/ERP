@@ -60,7 +60,11 @@ namespace Lplfw.UI.Bom
         /// <param name="e"></param>
         private void Confirm(object sender, RoutedEventArgs e)
         {
-            if (SubmitNewMaterial()) DialogResult = true;
+            if (SubmitNewMaterial())
+            {
+                hasChanged = true;
+                Close();
+            }
         }
 
         private bool SubmitNewMaterial() {
@@ -103,7 +107,7 @@ namespace Lplfw.UI.Bom
                     material.Price = double.Parse(txtPrice.Text);
                     _db.SaveChanges();
                 }
-                DialogResult = true;
+                hasChanged = true;
                 Close();
             }
         }

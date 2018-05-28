@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-
+using System.Threading;
 
 namespace Lplfw.UI.Bom
 {
@@ -31,12 +31,20 @@ namespace Lplfw.UI.Bom
         /// <param name="e"></param>
         private void ShowAllProducts(object sender, RoutedEventArgs e)
         {
+            new Thread(new ThreadStart(ShowAllProductsThread)).Start();
+        }
+
+        private void ShowAllProductsThread()
+        {
             using (var _db = new ModelContainer())
             {
                 var _products = _db.ProductSet.ToList();
-                dgProduct.ItemsSource = _products;
-                var _node = tvProduct.SelectedItem as TreeViewItem;
-                if (_node != null) _node.IsSelected = false;
+                Dispatcher.BeginInvoke((Action) delegate ()
+               {
+                   dgProduct.ItemsSource = _products;
+                   var _node = tvProduct.SelectedItem as TreeViewItem;
+                   if (_node != null) _node.IsSelected = false;
+               });
             }
         }
 
@@ -102,8 +110,18 @@ namespace Lplfw.UI.Bom
             var _rtn = _win.ShowDialog();
             if (_rtn == true)
             {
-                dgProduct.ItemsSource = ProductClass.GetSubClassProducts((int)_classId);
+                new Thread(new ParameterizedThreadStart(NewProductThread)).Start(_classId);
             }
+        }
+
+        private void NewProductThread(object id)
+        {
+            var _id = id as int?;
+            var _products = ProductClass.GetSubClassProducts((int)_id);
+            Dispatcher.BeginInvoke((Action) delegate ()
+            {
+                dgProduct.ItemsSource = _products;
+            });
         }
 
         /// <summary>
@@ -120,9 +138,20 @@ namespace Lplfw.UI.Bom
             if (_rtn == true)
             {
                 var _classId = Utils.GetTreeViewSelectedValue(ref tvProduct);
-                dgProduct.ItemsSource = ProductClass.GetSubClassProducts((int)_classId);
-                dgRecipe.ItemsSource = RecipeView.GetByProductId(_product.Id);
+                new Thread(new ParameterizedThreadStart(EditProductThread)).Start(new int?[] { _classId, _product.Id });
             }
+        }
+
+        private void EditProductThread(object obj)
+        {
+            var _obj = obj as int?[];
+            var _classId = _obj[0];
+            var _productId = _obj[1];
+            Dispatcher.BeginInvoke((Action) delegate ()
+            {
+                dgProduct.ItemsSource = ProductClass.GetSubClassProducts((int)_classId);
+                dgRecipe.ItemsSource = RecipeView.GetByProductId((int)_productId);
+            });
         }
 
         /// <summary>
@@ -137,24 +166,34 @@ namespace Lplfw.UI.Bom
             var _rtn = MessageBox.Show($"真的要删除产品 {_product.Name} 吗? 可能会导致严重后果!", null, MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             if (_rtn == MessageBoxResult.OK)
             {
-                try
+                 new Thread(new ParameterizedThreadStart(EraseProductThread)).Start(_product.Id);
+            }
+        }
+
+        private void EraseProductThread(object id)
+        {
+            try
+            {
+                var _id = id as int?;
+                using (var _db = new ModelContainer())
                 {
-                    using (var _db = new ModelContainer())
-                    {
-                        _db.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS=0;");
-                        var _current = _db.ProductSet.FirstOrDefault(i => i.Id == _product.Id);
-                        _db.ProductSet.Remove(_current);
-                        _db.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS=1;");
-                        _db.SaveChanges();
-                    }
+                    _db.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS=0;");
+                    var _current = _db.ProductSet.FirstOrDefault(i => i.Id == _id);
+                    _db.ProductSet.Remove(_current);
+                    _db.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS=1;");
+                    _db.SaveChanges();
+                }
+                Dispatcher.BeginInvoke((Action) delegate () {
                     var _classId = Utils.GetTreeViewSelectedValue(ref tvProduct);
                     dgProduct.ItemsSource = ProductClass.GetSubClassProducts((int)_classId);
                     dgRecipe.ItemsSource = null;
-                }
-                catch (Exception)
-                {
+                });
+            }
+            catch (Exception)
+            {
+                Dispatcher.BeginInvoke((Action) delegate () {
                     MessageBox.Show("由于此产品与其他数据有重要关联, 无法删除", null, MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                });
             }
         }
 
@@ -167,19 +206,30 @@ namespace Lplfw.UI.Bom
         {
             var _product = dgProduct.SelectedItem as Product;
             if (_product == null) return;
+            new Thread(new ParameterizedThreadStart(ChangeProductStatusThread)).Start(_product.Id);
+        }
+
+        private void ChangeProductStatusThread(object id)
+        {
+            var _id = id as int?;
             using (var _db = new ModelContainer())
             {
-                var _current = _db.ProductSet.FirstOrDefault(i => i.Id == _product.Id);
+                var _current = _db.ProductSet.FirstOrDefault(i => i.Id == _id);
                 if (_current.Status == "生产")
                 {
                     _current.Status = "停产";
                 }
-                else {
+                else
+                {
                     _current.Status = "生产";
                 }
                 _db.SaveChanges();
-                _product.Status = _current.Status;
-                dgProduct.Items.Refresh();
+                Dispatcher.BeginInvoke((Action) delegate ()
+                {
+                    var _product = dgProduct.SelectedItem as Product;
+                    _product.Status = _current.Status;
+                    dgProduct.Items.Refresh();
+                });
             }
         }
 
@@ -192,7 +242,17 @@ namespace Lplfw.UI.Bom
         {
             if (tvProduct.SelectedItem == null) return;
             var _id = (int)Utils.GetTreeViewSelectedValue(ref tvProduct);
-            dgProduct.ItemsSource = ProductClass.GetSubClassProducts(_id);
+            new Thread(new ParameterizedThreadStart(SelectProductClassThread)).Start(_id);
+        }
+
+        private void SelectProductClassThread(object id)
+        {
+            var _id = (int)id;
+            var _products = ProductClass.GetSubClassProducts(_id);
+            Dispatcher.BeginInvoke((Action) delegate ()
+            {
+                dgProduct.ItemsSource = _products;
+            });
         }
 
         /// <summary>
@@ -204,7 +264,17 @@ namespace Lplfw.UI.Bom
         {
             var _product = dgProduct.SelectedItem as Product;
             if (_product == null) return;
-            dgRecipe.ItemsSource = RecipeView.GetByProductId(_product.Id);
+            new Thread(new ParameterizedThreadStart(OnDgProductSelectedChangedThread)).Start(_product.Id);
+        }
+
+        private void OnDgProductSelectedChangedThread(object id)
+        {
+            var _id = (int)id;
+            var _recipes = RecipeView.GetByProductId(_id);
+            Dispatcher.BeginInvoke((Action) delegate ()
+            {
+                dgRecipe.ItemsSource = _recipes;
+            });
         }
 
         /// <summary>
@@ -215,11 +285,23 @@ namespace Lplfw.UI.Bom
         private void SearchProduct(object sender, RoutedEventArgs e)
         {
             if (cbSearchProduct.SelectedValue == null) return;
-            var _str = txtSearchProduct.Text;
+            
+            new Thread(new ParameterizedThreadStart(SearchProductThread)).Start(new SearchParams {
+                Class = Utils.GetTreeViewSelectedValue(ref tvProduct),
+                Str = txtSearchProduct.Text,
+                Type = (int)cbSearchProduct.SelectedValue
+            });
+        }
+
+        private void SearchProductThread(object value)
+        {
+            var obj = value as SearchParams;
+            var _class = obj.Class;
+            var _str = obj.Str;
+            var _type = obj.Type;
             List<Product> _products;
-            var _class = Utils.GetTreeViewSelectedValue(ref tvProduct);
             var _list = ProductClass.GetSubClassProducts(_class);
-            switch (cbSearchProduct.SelectedValue)
+            switch (_type)
             {
                 case 0:
                     _products = _list.Where(i => i.Status.Contains(_str)).ToList();
@@ -237,8 +319,11 @@ namespace Lplfw.UI.Bom
                     _products = null;
                     break;
             }
-            dgProduct.ItemsSource = _products;
-            dgRecipe.ItemsSource = null;
+            Dispatcher.BeginInvoke((Action) delegate ()
+            {
+                dgProduct.ItemsSource = _products;
+                dgRecipe.ItemsSource = null;
+            });
         }
         #endregion
 
@@ -250,11 +335,20 @@ namespace Lplfw.UI.Bom
         /// <param name="e"></param>
         private void ShowAllMaterials(object sender, RoutedEventArgs e)
         {
+            new Thread(new ThreadStart(ShowAllMaterialsThread)).Start();
+        }
+
+        private void ShowAllMaterialsThread()
+        {
             using (var _db = new ModelContainer())
             {
-                dgMaterial.ItemsSource = _db.MaterialSet.ToList();
-                var _node = tvProduct.SelectedItem as TreeViewItem;
-                if (_node != null) _node.IsSelected = false;
+                var _materials = _db.MaterialSet.ToList();
+                Dispatcher.BeginInvoke((Action) delegate ()
+                {
+                    dgMaterial.ItemsSource = _materials;
+                    var _node = tvProduct.SelectedItem as TreeViewItem;
+                    if (_node != null) _node.IsSelected = false;
+                });
             }
         }
 
@@ -291,7 +385,11 @@ namespace Lplfw.UI.Bom
             }
         }
 
-        //TODO: 删除材料类别
+        /// <summary>
+        /// "删除材料类别"按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeleteMaterialClass(object sender, RoutedEventArgs e)
         {
             var _classId = Utils.GetTreeViewSelectedValue(ref tvMaterial);
@@ -317,8 +415,18 @@ namespace Lplfw.UI.Bom
             var _rtn = _win.ShowDialog();
             if (_rtn == true)
             {
-                dgMaterial.ItemsSource = MaterialClass.GetSubClassMaterials((int)_classId);
+                new Thread(new ParameterizedThreadStart(NewMaterialThread)).Start(_classId);
             }
+        }
+
+        private void NewMaterialThread(object id)
+        {
+            var _id = id as int?;
+            var _materials = MaterialClass.GetSubClassMaterials((int)_id);
+            Dispatcher.BeginInvoke((Action) delegate ()
+            {
+                dgMaterial.ItemsSource = _materials;
+            });
         }
 
         /// <summary>
@@ -335,8 +443,17 @@ namespace Lplfw.UI.Bom
             if (_rtn == true)
             {
                 var _classId = Utils.GetTreeViewSelectedValue(ref tvMaterial);
-                dgMaterial.ItemsSource = MaterialClass.GetSubClassMaterials((int)_classId);
+                new Thread(new ParameterizedThreadStart(EditMaterialThread)).Start(_classId);
             }
+        }
+
+        private void EditMaterialThread(object id)
+        {
+            var _classId = id as int?;
+            Dispatcher.BeginInvoke((Action) delegate ()
+            {
+                dgMaterial.ItemsSource = MaterialClass.GetSubClassMaterials((int)_classId);
+            });
         }
 
         /// <summary>
@@ -351,26 +468,37 @@ namespace Lplfw.UI.Bom
             var _rtn = MessageBox.Show($"真的要删除原料 {_material.Name} 吗? 可能会导致严重后果!", null, MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             if (_rtn == MessageBoxResult.OK)
             {
-                try
-                {
-                    using (var _db = new ModelContainer())
-                    {
-                        _db.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS=0;");
-                        var _current = _db.MaterialSet.FirstOrDefault(i => i.Id == _material.Id);
-                        _db.MaterialSet.Remove(_current);
-                        _db.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS=1;");
-                        _db.SaveChanges();
-                    }
-                    var _classId = Utils.GetTreeViewSelectedValue(ref tvMaterial);
-                    dgMaterial.ItemsSource = MaterialClass.GetSubClassMaterials((int)_classId);
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("由于此原料与其他数据有重要关联, 无法删除", null, MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                new Thread(new ParameterizedThreadStart(EraseMaterialThread)).Start(_material.Id);
             }
         }
 
+        private void EraseMaterialThread(object id)
+        {
+            try
+            {
+                var _id = id as int?;
+                using (var _db = new ModelContainer())
+                {
+                    _db.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS=0;");
+                    var _current = _db.MaterialSet.FirstOrDefault(i => i.Id == _id);
+                    _db.MaterialSet.Remove(_current);
+                    _db.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS=1;");
+                    _db.SaveChanges();
+                }
+                Dispatcher.BeginInvoke((Action) delegate ()
+                {
+                    var _classId = Utils.GetTreeViewSelectedValue(ref tvMaterial);
+                    dgMaterial.ItemsSource = MaterialClass.GetSubClassMaterials((int)_classId);
+                });
+            }
+            catch (Exception)
+            {
+                Dispatcher.BeginInvoke((Action) delegate ()
+                {
+                    MessageBox.Show("由于此原料与其他数据有重要关联, 无法删除", null, MessageBoxButton.OK, MessageBoxImage.Error);
+                });
+            }
+        }
 
         /// <summary>
         /// 修改材料"可用\停用"状态
@@ -381,9 +509,15 @@ namespace Lplfw.UI.Bom
         {
             var _material = dgMaterial.SelectedItem as Material;
             if (_material == null) return;
+            new Thread(new ParameterizedThreadStart(ChangeMaterialStatusThread)).Start(_material.Id);
+        }
+
+        private void ChangeMaterialStatusThread(object id)
+        {
+            var _id = id as int?;
             using (var _db = new ModelContainer())
             {
-                var _current = _db.MaterialSet.FirstOrDefault(i => i.Id == _material.Id);
+                var _current = _db.MaterialSet.FirstOrDefault(i => i.Id == _id);
                 if (_current.Status == "可用")
                 {
                     _current.Status = "停用";
@@ -393,8 +527,12 @@ namespace Lplfw.UI.Bom
                     _current.Status = "可用";
                 }
                 _db.SaveChanges();
-                _material.Status = _current.Status;
-                dgMaterial.Items.Refresh();
+                Dispatcher.BeginInvoke((Action) delegate ()
+                {
+                    var _material = dgMaterial.SelectedItem as Material;
+                    _material.Status = _current.Status;
+                    dgMaterial.Items.Refresh();
+                });
             }
         }
 
@@ -407,7 +545,17 @@ namespace Lplfw.UI.Bom
         {
             if (tvMaterial.SelectedItem == null) return;
             var _id = (int)Utils.GetTreeViewSelectedValue(ref tvMaterial);
-            dgMaterial.ItemsSource = MaterialClass.GetSubClassMaterials(_id);
+            new Thread(new ParameterizedThreadStart(SelectMaterialClassThread)).Start(_id);
+        }
+
+        private void SelectMaterialClassThread(object id)
+        {
+            var _id = (int)id;
+            var _material = MaterialClass.GetSubClassMaterials(_id);
+            Dispatcher.BeginInvoke((Action) delegate ()
+            {
+                dgMaterial.ItemsSource = _material;
+            });
         }
 
 
@@ -419,11 +567,24 @@ namespace Lplfw.UI.Bom
         private void SearchMaterial(object sender, RoutedEventArgs e)
         {
             if (cbSearchMaterial.SelectedValue == null) return;
-            var _str = txtSearchMaterial.Text;
+
+            new Thread(new ParameterizedThreadStart(SearchMaterialThread)).Start(new SearchParams
+            {
+                Class = Utils.GetTreeViewSelectedValue(ref tvMaterial),
+                Str = txtSearchMaterial.Text,
+                Type = (int)cbSearchMaterial.SelectedValue
+            });
+        }
+
+        private void SearchMaterialThread(object value)
+        {
+            var obj = value as SearchParams;
+            var _class = obj.Class;
+            var _str = obj.Str;
+            var _type = obj.Type;
             List<Material> _materials;
-            var _class = Utils.GetTreeViewSelectedValue(ref tvMaterial);
             var _list = MaterialClass.GetSubClassMaterials(_class);
-            switch (cbSearchProduct.SelectedValue)
+            switch (_type)
             {
                 case 0:
                     _materials = _list.Where(i => i.Status.Contains(_str)).ToList();
@@ -438,8 +599,10 @@ namespace Lplfw.UI.Bom
                     _materials = null;
                     break;
             }
-            dgMaterial.ItemsSource = _materials;
-            dgRecipe.ItemsSource = null;
+            Dispatcher.BeginInvoke((Action) delegate ()
+            {
+                dgMaterial.ItemsSource = _materials;
+            });
         }
 
         /// <summary>
@@ -530,6 +693,13 @@ namespace Lplfw.UI.Bom
             new Utils.KeyValue { ID=1, Name="名称" },
             new Utils.KeyValue { ID=2, Name="规格" }
         };
+
+        class SearchParams
+        {
+            public int? Class { get; set; }
+            public string Str { get; set; }
+            public int Type { get; set; }
+        }
         #endregion
 
     }

@@ -34,7 +34,7 @@
         <TextBox x:Name="txtFormat" Grid.Column="3" Height="23" Margin="0,90,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBox x:Name="txtUnit" Grid.Column="3" Height="23" Margin="0,120,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBox x:Name="txtPrice" Grid.Column="3" Height="23" Margin="0,150,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <DataGrid x:Name="dgMaterialItems" ItemsSource="{Binding Recipeitems}" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" Width="564" Grid.ColumnSpan="3" SelectionMode="Single" AutoGenerateColumns="False" Margin="0,0,0,5">
+        <DataGrid x:Name="dgMaterialItems" ItemsSource="{Binding RecipeItems}" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" Width="564" Grid.ColumnSpan="3" SelectionMode="Single" AutoGenerateColumns="False" Margin="0,0,0,5">
             <DataGrid.Columns>
                 <DataGridComboBoxColumn x:Name="mon" Header="原料" Width="100">
                     <DataGridComboBoxColumn.EditingElementStyle>

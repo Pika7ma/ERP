@@ -14,7 +14,7 @@ namespace Lplfw.UI.Bom
         private bool isNew;
         private Product product;
         private bool hasChanged = false;
-        public List<RecipeItem> Recipeitems { get; set; }
+        public List<RecipeItem> RecipeItems { get; set; }
         public List<Material> Materials { get; set; }
 
         public NewProduct(int? index, bool isNew)
@@ -29,7 +29,7 @@ namespace Lplfw.UI.Bom
                 Title = "新建产品配方";
                 btnOK.Click += Confirm;
                 cbClass.SelectedValue = index;
-                Recipeitems = new List<RecipeItem>();
+                RecipeItems = new List<RecipeItem>();
             }
             else
             {
@@ -39,7 +39,7 @@ namespace Lplfw.UI.Bom
                 using (var _db = new ModelContainer())
                 {
                     product = _db.ProductSet.FirstOrDefault(i => i.Id == index);
-                    Recipeitems = product.RecipeItems.ToList();
+                    RecipeItems = product.RecipeItems.ToList();
                     SetControlsValue();
                 }
             }
@@ -61,7 +61,7 @@ namespace Lplfw.UI.Bom
         {
             var _item = dgMaterialItems.SelectedItem as RecipeItem;
             if (_item == null) return;
-            Recipeitems.Remove(_item);
+            RecipeItems.Remove(_item);
             dgMaterialItems.Items.Refresh();
         }
 
@@ -82,7 +82,10 @@ namespace Lplfw.UI.Bom
         /// <param name="e"></param>
         private void Confirm(object sender, RoutedEventArgs e)
         {
-            if (SubmitNewProduct()) DialogResult = true;
+            if (SubmitNewProduct()) {
+                hasChanged = true;
+                Close();
+            }
         }
 
         /// <summary>
@@ -121,11 +124,13 @@ namespace Lplfw.UI.Bom
                     _db.ProductSet.Add(product);
                     _db.SaveChanges();
 
-                    for (int _i = 0; _i < Recipeitems.Count; _i++)
+                    SortOutRecipeItems();
+
+                    for (int _i = 0; _i < RecipeItems.Count; _i++)
                     {
-                        Recipeitems[_i].ProductId = product.Id;
+                        RecipeItems[_i].ProductId = product.Id;
                     }
-                    _db.RecipeItemSet.AddRange(Recipeitems);
+                    _db.RecipeItemSet.AddRange(RecipeItems);
                     _db.SaveChanges();
                 }
                 return true;
@@ -153,15 +158,18 @@ namespace Lplfw.UI.Bom
                     product.Price = double.Parse(txtPrice.Text);
                     var _toDelete = _db.RecipeItemSet.Where(i => i.ProductId == product.Id).ToList();
                     _db.RecipeItemSet.RemoveRange(_toDelete);
-                    for (int _i = 0; _i < Recipeitems.Count; _i++)
-                    {
-                        Recipeitems[_i].ProductId = product.Id;
-                    }
-                    _db.RecipeItemSet.AddRange(Recipeitems);
-                    _db.SaveChanges();
 
-                    DialogResult = true;
+                    SortOutRecipeItems();
+
+                    for (int _i = 0; _i < RecipeItems.Count; _i++)
+                    {
+                        RecipeItems[_i].ProductId = product.Id;
+                    }
+                    _db.RecipeItemSet.AddRange(RecipeItems);
+                    _db.SaveChanges();
                 }
+                hasChanged = true;
+                Close();
             }
         }
 
@@ -224,6 +232,41 @@ namespace Lplfw.UI.Bom
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             DialogResult = hasChanged;
+        }
+
+        private void SortOutRecipeItems()
+        {
+            var _materials = new List<int>();
+            var _recipeItems = new List<RecipeItem>();
+
+            for (int _i = 0; _i < RecipeItems.Count; _i++)
+            {
+                _materials.Add(RecipeItems[_i].MaterialId);
+            }
+
+            _materials = _materials.Distinct().ToList();
+
+            if (_materials.Count == RecipeItems.Count) return;
+
+            for (int _i = 0; _i < RecipeItems.Count; _i++)
+            {                
+                var _old = RecipeItems[_i];
+                var _new = _recipeItems.Find(i => i.MaterialId == _old.MaterialId);
+                if (_new == null)
+                {
+                    _recipeItems.Add(new RecipeItem
+                    {
+                        MaterialId = _old.MaterialId,
+                        Quantity = _old.Quantity
+                    });
+                }
+                else
+                {
+                    _new.Quantity += _old.Quantity;
+                }
+            }
+
+            RecipeItems = _recipeItems;
         }
     }
 }
