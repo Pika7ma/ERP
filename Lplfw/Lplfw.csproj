@@ -87,6 +87,9 @@
     <Compile Include="BLL\Bom\MaterialClass.cs" />
     <Compile Include="BLL\Bom\ProductClass.cs" />
     <Compile Include="BLL\Bom\RecipeView.cs" />
+    <Compile Include="BLL\User\Privilege.cs" />
+    <Compile Include="BLL\User\User.cs" />
+    <Compile Include="BLL\User\UserGroup.cs" />
     <Compile Include="DAL\AssemblyLine.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -219,6 +222,12 @@
     <Compile Include="UI\Purchase\PurchaseWindow.xaml.cs">
       <DependentUpon>PurchaseWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\User\NewUser.xaml.cs">
+      <DependentUpon>NewUser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\User\NewUserGroup.xaml.cs">
+      <DependentUpon>NewUserGroup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\User\UserWindow.xaml.cs">
       <DependentUpon>UserWindow.xaml</DependentUpon>
     </Compile>
@@ -287,6 +296,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Purchase\PurchaseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\User\NewUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\User\NewUserGroup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
