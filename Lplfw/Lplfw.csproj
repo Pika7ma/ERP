@@ -87,6 +87,9 @@
     <Compile Include="BLL\Bom\MaterialClass.cs" />
     <Compile Include="BLL\Bom\ProductClass.cs" />
     <Compile Include="BLL\Bom\RecipeView.cs" />
+    <Compile Include="BLL\Purchase\MaterialPriceView.cs" />
+    <Compile Include="BLL\Purchase\SearchCombobox.cs" />
+    <Compile Include="BLL\Purchase\Supplier.cs" />
     <Compile Include="BLL\User\Privilege.cs" />
     <Compile Include="BLL\User\User.cs" />
     <Compile Include="BLL\User\UserGroup.cs" />
@@ -219,6 +222,24 @@
     <Compile Include="UI\Produce\ProduceWindow.xaml.cs">
       <DependentUpon>ProduceWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Purchase\EditPriceClass.xaml.cs">
+      <DependentUpon>EditPriceClass.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Purchase\EditPriceWithSupplier.xaml.cs">
+      <DependentUpon>EditPriceWithSupplier.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Purchase\EditSupplierClass.xaml.cs">
+      <DependentUpon>EditSupplierClass.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Purchase\NewPriceClass.xaml.cs">
+      <DependentUpon>NewPriceClass.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Purchase\NewPriceWithSupplierClass.xaml.cs">
+      <DependentUpon>NewPriceWithSupplierClass.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Purchase\NewSupplierClass.xaml.cs">
+      <DependentUpon>NewSupplierClass.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Purchase\PurchaseWindow.xaml.cs">
       <DependentUpon>PurchaseWindow.xaml</DependentUpon>
     </Compile>
@@ -292,6 +313,30 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Produce\ProduceWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Purchase\EditPriceClass.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Purchase\EditPriceWithSupplier.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Purchase\EditSupplierClass.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Purchase\NewPriceClass.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Purchase\NewPriceWithSupplierClass.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Purchase\NewSupplierClass.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

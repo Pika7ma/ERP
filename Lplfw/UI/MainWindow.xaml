@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw"
         mc:Ignorable="d"
-        Title="父愁者联盟" Height="350" Width="525">
+        Title="父愁者联盟" Height="350" Width="525" WindowStartupLocation="CenterScreen">
     <Grid>
         <Button Content="BOM管理" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="OpenBomWindow"/>
         <Button Content="库存管理" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,24,0,0" Click="OpenInventoryWindow"/>

@@ -1,0 +1,24 @@
+﻿<Window x:Class="Lplfw.UI.Purchase.EditSupplierClass"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lplfw.UI.Purchase"
+        mc:Ignorable="d"
+        Title="EditSupplierClass" Height="300" Width="300"
+        Topmost="True"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        ShowInTaskbar="False">
+    <Grid>
+        <Label Content="名字" HorizontalAlignment="Left" Margin="41,30,0,0" VerticalAlignment="Top"/>
+        <Label Content="联系人" HorizontalAlignment="Left" Margin="41,70,0,0" VerticalAlignment="Top"/>
+        <Label Content="地址" HorizontalAlignment="Left" Margin="41,110,0,0" VerticalAlignment="Top"/>
+        <Label Content="电话" HorizontalAlignment="Left" Margin="41,150,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtName" HorizontalAlignment="Left" Height="23" Margin="108,32,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtContact" HorizontalAlignment="Left" Height="23" Margin="108,72,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtLocation" HorizontalAlignment="Left" Height="23" Margin="108,112,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtTel" HorizontalAlignment="Left" Height="23" Margin="108,152,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <Button Content="确定" HorizontalAlignment="Left" Margin="181,215,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+    </Grid>
+</Window>
