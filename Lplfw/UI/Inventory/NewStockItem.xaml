@@ -1,0 +1,21 @@
+﻿<Window x:Class="Lplfw.UI.Inventory.NewStockItem"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lplfw.UI.Inventory"
+        mc:Ignorable="d"
+        Height="300" Width="300">
+    <Grid>
+        <Label Content="类别" HorizontalAlignment="Left" Margin="40,30,0,0" VerticalAlignment="Top"/>
+        <Label Content="品名" HorizontalAlignment="Left" Margin="40,70,0,0" VerticalAlignment="Top"/>
+        <Label Content="数量" HorizontalAlignment="Left" Margin="40,110,0,0" VerticalAlignment="Top"/>
+        <Label Content="位置" HorizontalAlignment="Left" Margin="40,150,0,0" VerticalAlignment="Top"/>
+        <ComboBox HorizontalAlignment="Left" Margin="120,30,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox HorizontalAlignment="Left" Margin="120,70,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="120,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="120,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button Content="确定" HorizontalAlignment="Left" Margin="165,213,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="取消" HorizontalAlignment="Left" Margin="50,213,0,0" VerticalAlignment="Top" Width="75"/>
+    </Grid>
+</Window>

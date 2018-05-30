@@ -358,6 +358,8 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="longtext" Nullable="false" />
     <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Location" Type="longtext" Nullable="false" />
+    <Property Name="Description" Type="longtext" Nullable="false" />
   </EntityType>
   <EntityType Name="ProductStockSet">
     <Key>
@@ -1716,6 +1718,8 @@
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ProductStock" Relationship="Model.StockInStorage" FromRole="Storage" ToRole="ProductStock" />
           <NavigationProperty Name="MaterialStock" Relationship="Model.MaterialOfStorage" FromRole="Storage" ToRole="MaterialStock" />
+          <Property Name="Location" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
         </EntityType>
         <Association Name="PrincipalOfStorage">
           <End Type="Model.Storage" Role="Storage" Multiplicity="*" />
@@ -2605,6 +2609,8 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

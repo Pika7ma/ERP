@@ -12,9 +12,44 @@ namespace Lplfw.UI.Inventory
             InitializeComponent();
         }
 
-        private void NewStorehouse(object sender, RoutedEventArgs e)
+        private void NewStorage(object sender, RoutedEventArgs e)
         {
+            var _win = new NewStorehouse(isNew: true);
+            var _rtn = _win.ShowDialog();
+            if (_rtn == true)
+            {
 
+            }
+        }
+
+        private void EditStorage(object sender, RoutedEventArgs e)
+        {
+            var _win = new NewStorehouse(isNew: false);
+            var _rtn = _win.ShowDialog();
+            if (_rtn == true)
+            {
+
+            }
+        }
+
+        private void NewStockIn(object sender, RoutedEventArgs e)
+        {
+            var _win = new NewStockInOut(isStockIn: true);
+            var _rtn = _win.ShowDialog();
+            if (_rtn == true)
+            {
+
+            }
+        }
+
+        private void NewStockOut(object sender, RoutedEventArgs e)
+        {
+            var _win = new NewStockInOut(isStockIn: false);
+            var _rtn = _win.ShowDialog();
+            if (_rtn == true)
+            {
+
+            }
         }
     }
 }

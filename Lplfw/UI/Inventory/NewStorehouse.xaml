@@ -5,14 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Inventory"
         mc:Ignorable="d"
-        Title="新建仓库" Height="300" Width="400">
+        Height="300" Width="400">
     <Grid>
-        <Label Content="仓库ID" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.49,4.164" Margin="86,69,0,0"/>
-        <Label Content="负责人" HorizontalAlignment="Left" Margin="86,100,0,0" VerticalAlignment="Top"/>
-        <Label Content="位置" HorizontalAlignment="Left" Margin="86,133,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="StoreID" HorizontalAlignment="Left" Height="23" Margin="177,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="Storename" HorizontalAlignment="Left" Height="23" Margin="177,104,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="Storelocation"  HorizontalAlignment="Left" Height="23" Margin="177,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-
+        <Label Content="仓库名" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,40,0,0"/>
+        <Label Content="负责人" HorizontalAlignment="Left" Margin="80,80,0,0" VerticalAlignment="Top"/>
+        <Label Content="位置" HorizontalAlignment="Left" Margin="80,120,0,0" VerticalAlignment="Top"/>
+        <Label Content="备注" HorizontalAlignment="Left" Margin="80,160,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtName" HorizontalAlignment="Left" Height="23" Margin="170,40,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="cbUser" HorizontalAlignment="Left" Height="23" Margin="170,80,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtLocation"  HorizontalAlignment="Left" Height="23" Margin="170,120,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtDescription"  HorizontalAlignment="Left" Height="23" Margin="170,160,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <Button Content="确定" HorizontalAlignment="Left" Margin="200,220,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="取消" HorizontalAlignment="Left" Margin="100,220,0,0" VerticalAlignment="Top" Width="75"/>
     </Grid>
 </Window>

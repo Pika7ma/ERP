@@ -1,0 +1,21 @@
+﻿<Window x:Class="Lplfw.UI.Produce.NewQuality"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lplfw.UI.Produce"
+        mc:Ignorable="d"
+        Title="新建质检结果" Height="300" Width="300">
+    <Grid>
+        <Label Content="生产记录号" HorizontalAlignment="Left" Margin="30,30,0,0" VerticalAlignment="Top"/>
+        <Label Content="检查时间" HorizontalAlignment="Left" Margin="30,70,0,0" VerticalAlignment="Top"/>
+        <Label Content="检查结果" HorizontalAlignment="Left" Margin="30,110,0,0" VerticalAlignment="Top"/>
+        <Label Content="备注" HorizontalAlignment="Left" Margin="30,190,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="120,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="75" Margin="120,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="120,190,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <DatePicker HorizontalAlignment="Left" Margin="120,70,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button Content="确定" HorizontalAlignment="Left" Margin="165,230,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="取消" HorizontalAlignment="Left" Margin="49,230,0,0" VerticalAlignment="Top" Width="75"/>
+    </Grid>
+</Window>

@@ -120,6 +120,11 @@
     <Compile Include="DAL\MaterialStockOutItem.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Model1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.edmx</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Privilege.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -213,11 +218,35 @@
     <Compile Include="UI\Inventory\InventoryWindow.xaml.cs">
       <DependentUpon>InventoryWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Inventory\NewStockInOut.xaml.cs">
+      <DependentUpon>NewStockInOut.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Inventory\NewStockItem.xaml.cs">
+      <DependentUpon>NewStockItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Inventory\NewStorehouse.xaml.cs">
       <DependentUpon>NewStorehouse.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Order\NewOrder.xaml.cs">
+      <DependentUpon>NewOrder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Order\NewOrderItem.xaml.cs">
+      <DependentUpon>NewOrderItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Order\OrderWindow.xaml.cs">
       <DependentUpon>OrderWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Produce\NewProduction.xaml.cs">
+      <DependentUpon>NewProduction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Produce\NewQuality.xaml.cs">
+      <DependentUpon>NewQuality.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Produce\NewRequsition.xaml.cs">
+      <DependentUpon>NewRequsition.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Produce\NewRequsitionItem.xaml.cs">
+      <DependentUpon>NewRequsitionItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Produce\ProduceWindow.xaml.cs">
       <DependentUpon>ProduceWindow.xaml</DependentUpon>
@@ -277,6 +306,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Inventory\NewStockInOut.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Inventory\NewStockItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Inventory\NewStorehouse.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -308,7 +345,31 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\Order\NewOrder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Order\NewOrderItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Order\OrderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Produce\NewProduction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Produce\NewQuality.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Produce\NewRequsition.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Produce\NewRequsitionItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -377,7 +438,7 @@
     </EmbeddedResource>
     <EntityDeploy Include="DAL\Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model.Designer.cs</LastGenOutput>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="App.Config">
       <SubType>Designer</SubType>

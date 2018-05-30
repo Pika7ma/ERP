@@ -44,7 +44,7 @@
 -- -----------------------------------------------------------
 -- Entity Designer DDL Script for MySQL Server 4.1 and higher
 -- -----------------------------------------------------------
--- Date Created: 05/25/2018 20:27:12
+-- Date Created: 05/30/2018 15:53:36
 
 -- Generated from EDMX file: E:\code\csharp\Lplfw\Lplfw\DAL\Model.edmx
 -- Target version: 3.0.0.0
@@ -380,7 +380,9 @@ ALTER TABLE `CustomerSet` ADD PRIMARY KEY (`Id`);
 CREATE TABLE `StorageSet`(
 	`Id` int NOT NULL AUTO_INCREMENT UNIQUE, 
 	`Name` longtext NOT NULL, 
-	`UserId` int NOT NULL);
+	`UserId` int NOT NULL, 
+	`Location` longtext NOT NULL, 
+	`Description` longtext NOT NULL);
 
 ALTER TABLE `StorageSet` ADD PRIMARY KEY (`Id`);
 

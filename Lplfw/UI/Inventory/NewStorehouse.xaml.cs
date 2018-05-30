@@ -7,9 +7,17 @@ namespace Lplfw.UI.Inventory
     /// </summary>
     public partial class NewStorehouse : Window
     {
-        public NewStorehouse()
+        public NewStorehouse(bool isNew)
         {
             InitializeComponent();
+            if (isNew)
+            {
+                Title = "新建仓库";
+            }
+            else
+            {
+                Title = "修改仓库";
+            }
         }
     }
 }

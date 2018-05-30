@@ -8,86 +8,141 @@
         Title="仓库管理" Height="768" Width="1124">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="45"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <ToolBar Height="45" VerticalAlignment="Top" Grid.ColumnSpan="2">
-            <Label Content="当前处在" Height="40" VerticalAlignment="Top" Margin="0,10,0,-10"/>
-            <TextBlock x:Name="showlocation"  Height="40" TextWrapping="Wrap" Text="x号仓库" VerticalAlignment="Top" Margin="0,15,0,-10"/>
-            <Separator/>
-            <Button Content="新增仓库" Width="75" Click="NewStorehouse"/>
-            <Button x:Name="btnEditStory" Content="修改仓库" Width="75"/>
-            <Button x:Name="btnTranStory" Content="仓库跳转" Width="75"/>
-            <Separator/>
-            <Button x:Name="btnMaterialIntoStory" Content="原料入库" Width="75"/>
-            <Button x:Name="btnMaterialOutStory" Content="原料出库" Width="75"/>
-            <Separator/>
-            <Button x:Name="btnProductIntoStory"  Content="产品入库" Width="75"/>
-            <Button x:Name="btnProductOutStory"  Content="产品出库" Width="75"/>
-            <Separator/>
-            <Button x:Name="btnCount" Content="统计" Width="75"/>
-
-
-        </ToolBar>
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" Grid.RowSpan="2" Width="5"/>
-        <GridSplitter Grid.Row="1" VerticalAlignment="Bottom" Grid.Column="1" Height="5" HorizontalAlignment="Stretch"/>
-        <DataGrid x:Name="dgProduct" Grid.Column="1" Grid.Row="1" Margin="5,0.2,-0.4,38.4" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="名称" Width ="100"/>
-                <DataGridTextColumn Header="可用数量" Width ="100"/>
-                <DataGridTextColumn Header="单位" Width ="100"/>
-                <DataGridTextColumn Header="成本" Width ="100"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <DataGrid x:Name="dgFormula" Grid.Column="1" Grid.Row="2" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="仓库" Width ="100"/>
-                <DataGridTextColumn Header="货位" Width ="100"/>
-                <DataGridTextColumn Header="批次" Width ="100"/>
-                <DataGridTextColumn Header="数量" Width ="100"/>
-                <DataGridTextColumn Header="入库时间" Width ="100"/>
-                <DataGridTextColumn Header="出库时间" Width ="100"/>
-                <DataGridTextColumn Header="状态" Width ="100"/>
-                <DataGridTextColumn Header="单价" Width ="100"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <TabControl Grid.Row="1" Grid.RowSpan="2">
-            <TabItem Header="原料">
+        <TabControl>
+            <TabItem Header="仓库管理">
                 <Grid Background="#FFE5E5E5">
-                    <TreeView>
-                        <TreeViewItem Header="建筑材料" IsExpanded="True">
-                            <TreeViewItem Header="木质材料" IsSelected="True"/>
-                        </TreeViewItem>
-                    </TreeView>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <ToolBar Height="35" VerticalAlignment="Top" Grid.RowSpan="2">
+                        <Button Content="新建仓库" Width="75" VerticalAlignment="Stretch" Click="NewStorage"/>
+                        <Button Content="编辑仓库" Width="75" VerticalAlignment="Stretch" Click="EditStorage"/>
+                        <Button Content="删除仓库" Width="75" VerticalAlignment="Stretch"/>
+                    </ToolBar>
+                    <DataGrid x:Name="dgStoreHouse" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="仓库名称" Width="1*"/>
+                            <DataGridTextColumn Header="负责人" Width="1*"/>
+                            <DataGridTextColumn Header="位置" Width="1*"/>
+                            <DataGridTextColumn Header="备注" Width="2*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem Header="产品">
+            <TabItem Header="库存管理">
                 <Grid Background="#FFE5E5E5">
-                    <TreeView>
-                        <TreeViewItem Header="工具"/>
-                        <TreeViewItem Header="食品"/>
-                    </TreeView>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <ToolBar Height="35" VerticalAlignment="Top">
+                        <Label Content="当前仓库" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
+                        <ComboBox Height="25" Margin="0" VerticalAlignment="Stretch" Width="80"/>
+                        <Button Content="查看全部仓库" Width="100" VerticalAlignment="Stretch"/>
+                        <Separator/>
+                        <Button Content="新建入库" Width="75" VerticalAlignment="Stretch" Click="NewStockIn"/>
+                        <Button Content="新建出库" Width="75" VerticalAlignment="Stretch" Click="NewStockOut"/>
+                        <Separator/>
+                        <Button Content="成本统计" Width="75" VerticalAlignment="Stretch"/>
+                        <Separator/>
+                        <TextBox x:Name="txtSearchInventory" Text="请输入原料\产品名称" VerticalAlignment="Center" Width="150" Height="25" Margin="5,0,0,0"/>
+                        <Button x:Name="btnSearchInventory" Content="搜索" Width="50" Margin="5,0,0,0"/>
+                    </ToolBar>
+                    <TabControl Grid.Row="1">
+                        <TabItem Header="原料">
+                            <DataGrid x:Name="dgMaterial" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="原料名称" Width ="100"/>
+                                    <DataGridTextColumn Header="仓库" Width ="100"/>
+                                    <DataGridTextColumn Header="数量" Width ="100"/>
+                                    <DataGridTextColumn Header="位置" Width ="100"/>
+                                    <DataGridTextColumn Header="库存成本" Width ="100"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </TabItem>
+                        <TabItem Header="产品">
+                            <DataGrid x:Name="dgProduct" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="产品名称" Width ="100"/>
+                                    <DataGridTextColumn Header="仓库" Width ="100"/>
+                                    <DataGridTextColumn Header="数量" Width ="100"/>
+                                    <DataGridTextColumn Header="位置" Width ="100"/>
+                                    <DataGridTextColumn Header="库存成本" Width ="100"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+            <TabItem Header="出入库单据浏览">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="2">
+                        <Label Content="当前仓库" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
+                        <ComboBox Height="25" Margin="0" VerticalAlignment="Stretch" Width="80"/>
+                        <Button Content="查看全部仓库" Width="100" VerticalAlignment="Stretch"/>
+                    </ToolBar>
+                    <TabControl Grid.Row="1" Grid.RowSpan="3">
+                        <TabItem Header="入库单">
+                            <DataGrid x:Name="dgStockIn" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="入库单号" Width ="100"/>
+                                    <DataGridTextColumn Header="仓库" Width ="100"/>
+                                    <DataGridTextColumn Header="入库时间" Width ="100"/>
+                                    <DataGridTextColumn Header="负责人" Width ="100"/>
+                                    <DataGridTextColumn Header="备注" Width ="300"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </TabItem>
+                        <TabItem Header="出库单">
+                            <DataGrid x:Name="dgStockOut" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="出库单号" Width ="100"/>
+                                    <DataGridTextColumn Header="仓库" Width ="100"/>
+                                    <DataGridTextColumn Header="入库时间" Width ="100"/>
+                                    <DataGridTextColumn Header="负责人" Width ="100"/>
+                                    <DataGridTextColumn Header="备注" Width ="300"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </TabItem>
+                    </TabControl>
+                    <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" Width="5" Grid.RowSpan="2"/>
+                    <Label Content="单据详情" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+                    <Label Content="原料条目" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+                    <Label Content="产品条目" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="3" VerticalAlignment="Top"/>
+                    <DataGrid x:Name="dgMaterialItems" Grid.Row="2" Grid.Column="1" Margin="5,25,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="原料" Width ="100"/>
+                            <DataGridTextColumn Header="数量" Width ="100"/>
+                            <DataGridTextColumn Header="库存位置" Width ="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <DataGrid x:Name="dgProductItems" Grid.Row="3" Grid.Column="1" Margin="5,25,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="原料" Width ="100"/>
+                            <DataGridTextColumn Header="数量" Width ="100"/>
+                            <DataGridTextColumn Header="库存位置" Width ="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
         </TabControl>
-        <StatusBar Grid.Row="3" Grid.ColumnSpan="2">
+        <StatusBar Grid.Row="1">
             <TextBlock x:Name="txtStatus" Text="欢迎使用ERP系统, 管理员 admin" TextWrapping="NoWrap"/>
         </StatusBar>
-        <TextBox x:Name="search1"  Grid.Column="1" HorizontalAlignment="Left" Height="24" Margin="590,13,0,0" TextWrapping="Wrap"  Text="请输入查询关键字" VerticalAlignment="Top" Width="154"/>
-        <ComboBox x:Name="cbbSearchMaterialClass" HorizontalAlignment="Left" VerticalAlignment="Top" Width="54" Grid.Column="1" Margin="744,13,0,0" Height="22"/>
-        <Button x:Name="btnSearchMaterialClass" Content="搜索" HorizontalAlignment="Left" VerticalAlignment="Top" Width="53" Grid.Column="1" Margin="826,12,0,0" Height="25" RenderTransformOrigin="0.66,0.852"/>
-        <ToolBar Grid.Column="1" HorizontalAlignment="Left" Margin="0,363.2,-0.4,0" Grid.Row="1" VerticalAlignment="Top" Height="38" Width="918">
-            <Button x:Name="btnNewInto" Content="新建入库信息" Height="34" VerticalAlignment="Top" Width="104" Margin="0,0,0,-0.4"/>
-            <Button x:Name="btnNewOut" Content="新建出库信息" Height="34" VerticalAlignment="Top" Width="104" Margin="0,0,0,-0.4"/>
-            <Button x:Name="btnVacantTest" Content="仓库空位检测" Height="34" VerticalAlignment="Top" Width="104" Margin="0,0,0,-0.4"/>
-            <Button x:Name="btnTransfer" Content="余料转移" Height="34" VerticalAlignment="Top" Width="104" Margin="0,0,0,-0.4"/>
-        </ToolBar>
-
     </Grid>
 </Window>
