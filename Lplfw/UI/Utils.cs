@@ -9,6 +9,12 @@ namespace Lplfw.UI
         static public MainWindow MainWindow { set; get; }
         static public Window Subwindow { get; set; }
 
+        static public void OpenMainWindow()
+        {
+            MainWindow = new MainWindow();
+            MainWindow.Show();
+        }
+
         static public void OpenSubwindow(Window window)
         {
             Subwindow = window;

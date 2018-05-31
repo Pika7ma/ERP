@@ -6,12 +6,26 @@
         xmlns:local="clr-namespace:Lplfw"
         mc:Ignorable="d"
         Title="父愁者联盟" Height="350" Width="525" WindowStartupLocation="CenterScreen">
-    <Grid>
-        <Button Content="BOM管理" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="OpenBomWindow"/>
-        <Button Content="库存管理" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,24,0,0" Click="OpenInventoryWindow"/>
-        <Button Content="订单管理" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,48,0,0" Click="OpenOrderWindow"/>
-        <Button Content="生产管理" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,72,0,0" Click="OpenProduceWindow"/>
-        <Button Content="采购辅助" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,96,0,0" Click="OpenPurchaseWindow"/>
-        <Button Content="用户管理" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,120,0,0" Click="OpenUserWindow"/>
+    <Border>
+        <Border.Background>
+            <ImageBrush Stretch="Fill" ImageSource="Images/green.png"/>
+        </Border.Background>
+        <Grid>
+        <Grid.Background>
+            <ImageBrush Stretch="Fill" ImageSource="Images/background.png"/>
+        </Grid.Background>
+        <Button Content="BOM管理" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="OpenBomWindow" Margin="69,125,0,0" RenderTransformOrigin="0.313,0.771" Background="#FF26CEC5"/>
+        <Button Content="库存管理" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="227,125,0,0" Click="OpenInventoryWindow" Background="#FF26CEC5"/>
+        <Button Content="订单管理" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="383,125,0,0" Click="OpenOrderWindow" Background="#FF26CEC5"/>
+        <Button Content="生产管理" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="69,250,0,0" Click="OpenProduceWindow" Background="#FF26CEC5"/>
+        <Button Content="采购辅助" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="224,250,0,0" Click="OpenPurchaseWindow" RenderTransformOrigin="0.952,0.752" Background="#FF26CEC5"/>
+        <Button Content="用户管理" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="380,250,0,0" Click="OpenUserWindow" Background="#FF26CEC5"/>
+        <Image HorizontalAlignment="Left" Height="67" Margin="72,48,0,0" VerticalAlignment="Top" Width="72" Source="Images/Bom.png"  />
+        <Image HorizontalAlignment="Left" Height="67" Margin="230,48,0,0" VerticalAlignment="Top" Width="72" Source="Images/Inventory.png"  />
+        <Image HorizontalAlignment="Left" Height="67" Margin="383,48,0,0" VerticalAlignment="Top" Width="72" Source="Images/Order.png"  />
+        <Image HorizontalAlignment="Left" Height="67" Margin="72,178,0,0" VerticalAlignment="Top" Width="72" Source="Images/Produce.png"  />
+        <Image HorizontalAlignment="Left" Height="67" Margin="227,178,0,0" VerticalAlignment="Top" Width="72" Source="Images/Purchase.png"  />
+        <Image HorizontalAlignment="Left" Height="67" Margin="383,178,0,0" VerticalAlignment="Top" Width="72" Source="Images/User.png"  />
     </Grid>
+    </Border>
 </Window>

@@ -1,0 +1,39 @@
+﻿<Window x:Class="Lplfw.UI.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lplfw.UI"
+        mc:Ignorable="d"
+        Title="Login" Height="380" Width="366" WindowStyle="None" AllowsTransparency="True" Background="Transparent"  WindowStartupLocation="CenterScreen">
+    <Grid Margin="0,50,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="35*"/>
+            <ColumnDefinition Width="26*"/>
+        </Grid.ColumnDefinitions>
+        <Border CornerRadius="5" BorderThickness="0" Height="246" Grid.ColumnSpan="2" Margin="0,27,0.4,27.4">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#F08080" Offset="0" />
+                    <GradientStop Color="#CAE1FF" Offset="0.415" />
+                    <GradientStop Color="#EED2EE" Offset="0.989" />
+                    <GradientStop Color="#EEE9BF" Offset="0.204" />
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+        <Label Content="Login" Foreground="White" FontWeight="Bold" Margin="0,40,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
+        <Image Source="Images/avenger.png" Width="105" Height="53" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-2,-5,0,0"></Image>
+        <Image Source="Images/plane1.png" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,0,0,-0.6"></Image>
+        <Image Source="Images/plane2.png" Width="68" Height="65" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="78,53,0,0"></Image>
+        <Image Source="Images/cloud.png"  Width="230" Height="50" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30.6,-5,-104.6,0" x:Name="imgCloud" Grid.Column="1"/>
+        <Image Source="Images/close0.png" Width="22" Height="22" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,0.4,0" MouseEnter="Image_MouseEnter" MouseLeave="Image_MouseLeave" Tag="close" MouseLeftButtonDown="Image_MouseLeftButtonDown" Grid.Column="1"></Image>
+        <Image Source="Images/mini0.png" Width="22" Height="22" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,25.4,0" MouseEnter="Image_MouseEnter" MouseLeave="Image_MouseLeave" Tag="mini" MouseLeftButtonDown="Image_MouseLeftButtonDown" Grid.Column="1"></Image>
+        <TextBox Width="218" Height="30" HorizontalAlignment="Center" x:Name="txtName" FontWeight="Bold" Background="{x:Null}" BorderBrush="#FF0E0A0A" Foreground="#FF0E0202" Margin="105,145,43.4,155" Grid.ColumnSpan="2" FontSize="16"></TextBox>
+        <PasswordBox Width="218" Height="30" HorizontalAlignment="Center" x:Name="txtPass" Margin="105,195,43.4,105" FontWeight="Bold" Foreground="#FF0C0202" Background="{x:Null}" BorderBrush="#FF080303" Grid.ColumnSpan="2" FontSize="16"></PasswordBox>
+        <Label Content="用户名" HorizontalAlignment="Left" Margin="35,149,0,0" VerticalAlignment="Top" Background="Transparent" FontSize="16" RenderTransformOrigin="0.457,0.273" Height="26" Width="65"></Label>
+        <Label Content="密码" HorizontalAlignment="Left" Margin="43,195,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Button x:Name="btnOK" Content="登录" HorizontalAlignment="Left" Margin="10,248,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Click="Login"/>
+        <Button x:Name="btnCancel"  Content="取消" HorizontalAlignment="Left" Margin="71,248,0,0" VerticalAlignment="Top" Width="75" Click="CloseApplication"/>
+
+    </Grid>
+</Window>
