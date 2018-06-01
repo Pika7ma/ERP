@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Lplfw.DAL;
+using System.Linq;
 using System.Windows;
 
 namespace Lplfw.UI.Bom
@@ -11,7 +12,8 @@ namespace Lplfw.UI.Bom
     {
         private bool isNew;
         private bool isProduct;
-        private int? Id;
+        private ProductClassViewModel productClass;
+        private MaterialClassViewModel materialClass;
 
         public NewClass(int? index, bool isNew, bool isProduct)
         {
@@ -24,20 +26,18 @@ namespace Lplfw.UI.Bom
                 {
                     Title = "新建产品类别";
                     cbClass.ItemsSource = DAL.ProductClass.GetAllClasses(true);
-                    cbClass.SelectedValue = index;
+                    productClass = new ProductClassViewModel {
+                        CbParentClass = index
+                    };
                 }
                 else
                 {
                     Title = "修改产品类别";
-                    Id = index;
                     cbClass.ItemsSource = DAL.ProductClass.GetClassesExceptSub((int)index);
-                    using (var _db = new DAL.ModelContainer())
-                    {
-                        var _class = _db.ProductClassSet.FirstOrDefault(i => i.Id == index);
-                        cbClass.SelectedValue = _class.ParentId;
-                        txtName.Text = _class.Name;
-                    }
+                    productClass = new ProductClassViewModel(index);
                 }
+                cbClass.Binding(productClass, "CbParentClass");
+                txtName.Binding(productClass, "TxtName");
             }
             else
             {
@@ -45,20 +45,19 @@ namespace Lplfw.UI.Bom
                 {
                     Title = "新建原料类别";
                     cbClass.ItemsSource = DAL.MaterialClass.GetAllClasses(true);
-                    cbClass.SelectedValue = index;
+                    materialClass = new MaterialClassViewModel
+                    {
+                        CbParentClass = index
+                    };
                 }
                 else
                 {
                     Title = "修改原料类别";
-                    Id = index;
                     cbClass.ItemsSource = DAL.MaterialClass.GetClassesExceptSub((int)index);
-                    using (var _db = new DAL.ModelContainer())
-                    {
-                        var _class = _db.MaterialClassSet.FirstOrDefault(i => i.Id == index);
-                        cbClass.SelectedValue = _class.ParentId;
-                        txtName.Text = _class.Name;
-                    }
+                    materialClass = new MaterialClassViewModel(index);
                 }
+                cbClass.Binding(materialClass, "CbParentClass");
+                txtName.Binding(materialClass, "TxtName");
             }
         }
 
@@ -70,47 +69,18 @@ namespace Lplfw.UI.Bom
         /// <param name="e"></param>
         private void SubmitNewProductClass(object sender, RoutedEventArgs e)
         {
-            using (var _db = new DAL.ModelContainer())
+
+            if (isProduct)
             {
-                if (isProduct)
-                {
-                    if (isNew)
-                    {
-                        var _class = new DAL.ProductClass
-                        {
-                            Name = txtName.Text,
-                            ParentId = (int?)cbClass.SelectedValue
-                        };
-                        _db.ProductClassSet.Add(_class);
-                    }
-                    else
-                    {
-                        var _class = _db.ProductClassSet.FirstOrDefault(i => i.Id == Id);
-                        _class.Name = txtName.Text;
-                        _class.ParentId = cbClass.SelectedValue as int?;
-                    }
-                } else
-                {
-                    if (isNew)
-                    {
-                        var _class = new DAL.MaterialClass
-                        {
-                            Name = txtName.Text,
-                            ParentId = (int?)cbClass.SelectedValue
-                        };
-                        _db.MaterialClassSet.Add(_class);
-                    }
-                    else
-                    {
-                        var _class = _db.MaterialClassSet.FirstOrDefault(i => i.Id == Id);
-                        _class.Name = txtName.Text;
-                        _class.ParentId = cbClass.SelectedValue as int?;
-                    }
-                }
-                _db.SaveChanges();
-                DialogResult = true;
-                Close();
+                if (isNew) productClass.CreateNew();
+                else productClass.SaveChanges();
             }
+            else
+            {
+                if (isNew) materialClass.CreateNew();
+                else materialClass.SaveChanges();
+            }
+            DialogResult = true;
         }
     }
 }

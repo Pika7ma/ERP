@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Bom"
         mc:Ignorable="d"
-        Height="620" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closing="Window_Closing">
+        Height="620" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closing="SetDialogResult">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -22,12 +22,12 @@
             <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
-        <Label Content="产品种类" Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="69"/>
-        <Label Content="名称" Grid.Column="2" Margin="0,30,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-        <Label Content="型号" Grid.Column="2" Margin="0,60,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-        <Label Content="规格" Grid.Column="2" Margin="0,90,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Label Content="*产品种类" Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="69"/>
+        <Label Content="*名称" Grid.Column="2" Margin="0,30,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Label Content="*型号" Grid.Column="2" Margin="0,60,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Label Content="*规格" Grid.Column="2" Margin="0,90,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
         <Label Content="单位" Grid.Column="2" Margin="0,120,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-        <Label Content="单价" Grid.Column="2" Margin="0,150,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Label Content="*单价" Grid.Column="2" Margin="0,150,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
         <ComboBox x:Name="cbClass" Grid.Column="3" Grid.Row="1" VerticalAlignment="Top" DisplayMemberPath="Name" SelectedValuePath="Id"/>
         <TextBox x:Name="txtName" Grid.Column="3" Height="23" Margin="0,30,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBox x:Name="txtType" Grid.Column="3" Height="23" Margin="0,60,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>

@@ -49,7 +49,7 @@ namespace Lplfw.UI.Bom
             {
                 hasChanged = true;
                 SetControlsValue(setNull: true);
-                message.Text = "创建成功!关闭窗口后可查看结果";
+                txtMessage.Text = "创建成功!关闭窗口后可查看结果";
             }
         }
 
@@ -121,13 +121,13 @@ namespace Lplfw.UI.Bom
             double _temp;
             var _rtn = false;
             if (cbClass.SelectedValue == null)
-                message.Text = "请选择原料种类!";
+                txtMessage.Text = "请选择原料种类!";
             else if (txtName.Text == "")
-                message.Text = "请输入原料名称!";
+                txtMessage.Text = "请输入原料名称!";
             else if (txtFormat.Text == "")
-                message.Text = "请输入原料规格!";
+                txtMessage.Text = "请输入原料规格!";
             else if (!double.TryParse(txtPrice.Text, out _temp))
-                message.Text = "请输入正确的平均价格!";
+                txtMessage.Text = "请输入正确的平均价格!";
             else
                 _rtn = true;
 
@@ -162,7 +162,7 @@ namespace Lplfw.UI.Bom
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void SetDialogResult(object sender, System.ComponentModel.CancelEventArgs e)
         {
             DialogResult = hasChanged;
         }

@@ -229,7 +229,7 @@ namespace Lplfw.UI.Bom
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void SetDialogResult(object sender, System.ComponentModel.CancelEventArgs e)
         {
             DialogResult = hasChanged;
         }

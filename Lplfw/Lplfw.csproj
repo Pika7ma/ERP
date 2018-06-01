@@ -87,6 +87,8 @@
     <Compile Include="BLL\Bom\ExcelReader.cs" />
     <Compile Include="BLL\Bom\MaterialClass.cs" />
     <Compile Include="BLL\Bom\ProductClass.cs" />
+    <Compile Include="BLL\ViewModels\MaterialClassViewModel.cs" />
+    <Compile Include="BLL\ViewModels\ProductClassViewModel.cs" />
     <Compile Include="BLL\Bom\RecipeView.cs" />
     <Compile Include="BLL\Purchase\MaterialPriceView.cs" />
     <Compile Include="BLL\Purchase\SearchCombobox.cs" />
