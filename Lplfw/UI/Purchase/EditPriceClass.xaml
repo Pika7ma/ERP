@@ -17,6 +17,6 @@
         <TextBox x:Name="txtPrice" HorizontalAlignment="Left" Height="23" Margin="108,42,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.569,-2.029"/>
         <TextBox x:Name="txtSquantity" HorizontalAlignment="Left" Height="23" Margin="108,100,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="txtMquantity" HorizontalAlignment="Left" Height="23" Margin="108,162,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
-        <Button Content="确定" HorizontalAlignment="Left" Margin="184,225,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <Button Content="确定" HorizontalAlignment="Left" Margin="184,225,0,0" VerticalAlignment="Top" Width="75" Click="ButtonOkClick"/>
     </Grid>
 </Window>

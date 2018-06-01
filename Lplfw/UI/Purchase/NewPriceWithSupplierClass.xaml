@@ -10,7 +10,7 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         ShowInTaskbar="False"
-        Loaded="Window_Loaded">
+        Loaded="SetComboboxItem">
     <Grid>
         <Label Content="材料" HorizontalAlignment="Left" Margin="41,30,0,0" VerticalAlignment="Top"/>
         <Label Content="价格" HorizontalAlignment="Left" Margin="41,70,0,0" VerticalAlignment="Top"/>
@@ -20,7 +20,7 @@
         <TextBox x:Name="txtPrice" HorizontalAlignment="Left" Height="23" Margin="108,72,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="txtStartQuantity" HorizontalAlignment="Left" Height="23" Margin="108,112,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="txtMaxQuantity" HorizontalAlignment="Left" Height="23" Margin="108,152,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
-        <Button Content="确定" HorizontalAlignment="Left" Margin="41,215,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-        <Button Content="继续新建" HorizontalAlignment="Left" Margin="177,215,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1" RenderTransformOrigin="0.557,-0.679"/>
+        <Button Content="确定" HorizontalAlignment="Left" Margin="41,215,0,0" VerticalAlignment="Top" Width="75" Click="ButtonOkClick"/>
+        <Button Content="继续新建" HorizontalAlignment="Left" Margin="177,215,0,0" VerticalAlignment="Top" Width="75" Click="ButtonContinueClick" RenderTransformOrigin="0.557,-0.679"/>
     </Grid>
 </Window>

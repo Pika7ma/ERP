@@ -24,7 +24,7 @@ namespace Lplfw.UI.Purchase
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ButtonOkClick(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace Lplfw.UI.Purchase
             }
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void ButtonContinueClick(object sender, RoutedEventArgs e)
         {
             try
             {

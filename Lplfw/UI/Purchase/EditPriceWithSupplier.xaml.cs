@@ -34,7 +34,7 @@ namespace Lplfw.UI.Purchase
             sid = sId;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ButtonOkClick(object sender, RoutedEventArgs e)
         {
             try
             {

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Lplfw.UI.Purchase"
         mc:Ignorable="d"
         Title="采购管理" Height="768" Width="1124"
-        Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+        Loaded="LoadComponent" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50*"/>

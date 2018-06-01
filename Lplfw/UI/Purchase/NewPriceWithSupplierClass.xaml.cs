@@ -31,7 +31,7 @@ namespace Lplfw.UI.Purchase
             sid = id;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void SetComboboxItem(object sender, RoutedEventArgs e)
         {
             using (var _db = new ModelContainer())
             {
@@ -40,7 +40,7 @@ namespace Lplfw.UI.Purchase
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ButtonOkClick(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace Lplfw.UI.Purchase
             }
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void ButtonContinueClick(object sender, RoutedEventArgs e)
         {
             try
             {

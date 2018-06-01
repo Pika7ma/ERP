@@ -31,13 +31,13 @@ namespace Lplfw.UI.Purchase
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void SetComboboxItem(object sender, RoutedEventArgs e)
         {
-            var _thread = new Thread(new ThreadStart(WLthread));
+            var _thread = new Thread(new ThreadStart(SetComboboxItemThread));
             _thread.Start();
         }
 
-        private void WLthread()
+        private void SetComboboxItemThread()
         {
             using (var _db = new ModelContainer())
             {
@@ -56,7 +56,7 @@ namespace Lplfw.UI.Purchase
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ButtonOkClick(object sender, RoutedEventArgs e)
         {
             using (var _db = new ModelContainer())
             {
@@ -76,7 +76,7 @@ namespace Lplfw.UI.Purchase
             Close();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void ButtonContinueClick(object sender, RoutedEventArgs e)
         {
             var _price = new MaterialPrice
             {
@@ -87,12 +87,12 @@ namespace Lplfw.UI.Purchase
                 StartQuantity = Int32.Parse(txtSquantity.Text)
 
             };
-            var _thread = new Thread(new ParameterizedThreadStart(BC1thread));
+            var _thread = new Thread(new ParameterizedThreadStart(ButtonContinueClickThread));
             _thread.Start(_price);
             ifHandeled = true;
         }
 
-        private void BC1thread(object price)
+        private void ButtonContinueClickThread(object price)
         {
             try
             {
@@ -116,7 +116,7 @@ namespace Lplfw.UI.Purchase
             }
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void ReturnDialogResult(object sender, System.ComponentModel.CancelEventArgs e)
         {
             DialogResult = ifHandeled;
         }

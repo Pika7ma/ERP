@@ -24,13 +24,13 @@ namespace Lplfw.UI.Purchase
             _thread2.Start();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void LoadComponent(object sender, RoutedEventArgs e)
         {
-            var _thread = new Thread(new ThreadStart(WLthread));
+            var _thread = new Thread(new ThreadStart(LoadComponentThread));
             _thread.Start();
         }
 
-        private void WLthread()
+        private void LoadComponentThread()
         {
             List<SearchCombobox> _sbbp = new List<SearchCombobox>();
             var _material = new SearchCombobox("材料", 1);

@@ -32,7 +32,7 @@ namespace Lplfw.UI.Purchase
             id = Id;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ButtonOkClick(object sender, RoutedEventArgs e)
         {
             try
             {
