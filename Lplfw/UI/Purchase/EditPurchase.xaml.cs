@@ -1,18 +1,10 @@
-﻿using Lplfw.BLL.Purchase;
-using Lplfw.DAL;
+﻿using Lplfw.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Lplfw.UI.Purchase
 {
@@ -24,7 +16,7 @@ namespace Lplfw.UI.Purchase
         public int Id;
         //public int userid;
         private DAL.Purchase Purchase { set; get; }
-        private List<PurchaseItemView> mypurchaseitems { get; set; }
+        private List<PurchaseItemView> MyPurchaseItems { get; set; }
 
         /// <summary>
         /// 新建函数，在考虑用户权限时参数应加入usergroupid来限制用户对订单的修改情况
@@ -34,30 +26,30 @@ namespace Lplfw.UI.Purchase
         {
             InitializeComponent();
             this.Id = Id;
-            var _thread = new Thread(new ParameterizedThreadStart(Load_Purchase));
+            var _thread = new Thread(new ParameterizedThreadStart(LoadPurchase));
             _thread.Start(Id);
 
         }
-        private void Load_Purchase(object Id)
+        private void LoadPurchase(object Id)
         {
             var _id = (int)Id;
             using (var _db = new DAL.ModelContainer())
             {
                 Purchase = _db.PurchaseSet.FirstOrDefault(i => i.Id == _id);
-                mypurchaseitems = PurchaseItemView.GetPurchaseitemsbypid(_id);
+                MyPurchaseItems = PurchaseItemView.GetPurchaseitemsbypid(_id);
                 var _users = new List<DAL.User>();
                 _users = _db.UserSet.Select(i => i).ToList();
                 Dispatcher.BeginInvoke((Action)delegate ()
                 {
 
-                    dgMaterialItems.ItemsSource = mypurchaseitems;
-                    cbuser.ItemsSource = _users;
-                    cbuser.SelectedValue = Purchase.UserId;
-                    cbst.ItemsSource = load_cbst();
-                    cbst.SelectedValue = Purchase.Status;
-                    cbproirity.Text = Purchase.Priority;
-                    txcreateat.Text = Convert.ToString(Purchase.CreateAt);
-                    dmfinishedat.Value = Convert.ToDateTime(Purchase.FinishedAt);
+                    dgMaterialItems.ItemsSource = MyPurchaseItems;
+                    cbUser.ItemsSource = _users;
+                    cbUser.SelectedValue = Purchase.UserId;
+                    cbSt.ItemsSource = LoadCbSt();
+                    cbSt.SelectedValue = Purchase.Status;
+                    cbProirity.Text = Purchase.Priority;
+                    txtCreateAt.Text = Convert.ToString(Purchase.CreateAt);
+                    dmFinishedAt.Value = Convert.ToDateTime(Purchase.FinishedAt);
                     txdec.Text = Purchase.Description;
                 });
             }
@@ -69,20 +61,16 @@ namespace Lplfw.UI.Purchase
         /// 初始化订单状态，在有权限时会对选项来筛选,普通用户只能申请，取消，检查用户---拒绝，通过，完成
         /// </summary>
         /// <returns></returns>
-        private List<SearchCombobox> load_cbst()
+        private List<Utils.KeyValue> LoadCbSt()
         {
-            List<SearchCombobox> _cbst = new List<SearchCombobox>();
-            var _item1 = new SearchCombobox("申请", 1);
-            var _item2 = new SearchCombobox("取消", 2);
-            var _item3 = new SearchCombobox("拒绝", 3);
-            var _item4 = new SearchCombobox("通过", 4);
-            var _item5 = new SearchCombobox("完成", 5);
-            _cbst.Add(_item1);
-            _cbst.Add(_item2);
-            _cbst.Add(_item3);
-            _cbst.Add(_item4);
-            _cbst.Add(_item5);
-            return _cbst;
+            return new List<Utils.KeyValue>
+            {
+                new Utils.KeyValue{ ID=1, Name="申请" },
+                new Utils.KeyValue{ ID=2, Name="取消" },
+                new Utils.KeyValue{ ID=3, Name="拒绝" },
+                new Utils.KeyValue{ ID=4, Name="通过" },
+                new Utils.KeyValue{ ID=5, Name="完成" },
+            };
         }
 
 
@@ -93,13 +81,13 @@ namespace Lplfw.UI.Purchase
         /// <returns></returns>
         public bool GetItem(PurchaseItemView mypurchaseitem)
         {
-            if (mypurchaseitems.Exists(pi => pi.MaterialId == mypurchaseitem.MaterialId && pi.SupplierId == mypurchaseitem.SupplierId))
+            if (MyPurchaseItems.Exists(pi => pi.MaterialId == mypurchaseitem.MaterialId && pi.SupplierId == mypurchaseitem.SupplierId))
             {
                 return false;
             }
             else
             {
-                mypurchaseitems.Add(mypurchaseitem);
+                MyPurchaseItems.Add(mypurchaseitem);
                 dgMaterialItems.Items.Refresh();
                 return true;
             }
@@ -117,19 +105,19 @@ namespace Lplfw.UI.Purchase
             if (selecteditem.MaterialId == changeditem.MaterialId && selecteditem.SupplierId == changeditem.SupplierId)
             {
                 DeleteSelectedItem(selecteditem);
-                mypurchaseitems.Add(changeditem);
+                MyPurchaseItems.Add(changeditem);
                 return true;
             }
             else
             {
-                if (mypurchaseitems.Exists(pi => pi.MaterialId == changeditem.MaterialId && pi.SupplierId == changeditem.SupplierId))
+                if (MyPurchaseItems.Exists(pi => pi.MaterialId == changeditem.MaterialId && pi.SupplierId == changeditem.SupplierId))
                 {
                     return false;
                 }
                 else
                 {
                     DeleteSelectedItem(selecteditem);
-                    mypurchaseitems.Add(changeditem);
+                    MyPurchaseItems.Add(changeditem);
                     return true;
                 }
             }
@@ -141,7 +129,7 @@ namespace Lplfw.UI.Purchase
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void btnadditem_click(object sender, RoutedEventArgs e)
+        public void BtnAddItemClick(object sender, RoutedEventArgs e)
         {
 
             NewPurchaseItem newitem = new NewPurchaseItem();
@@ -159,18 +147,18 @@ namespace Lplfw.UI.Purchase
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        public void ok_click(object sender, RoutedEventArgs e)
+        public void OKClick(object sender, RoutedEventArgs e)
         {
-            if ((cbuser.Text != "") && (cbproirity.Text != "") && (cbst.Text != ""))
+            if ((cbUser.Text != "") && (cbProirity.Text != "") && (cbSt.Text != ""))
             {
-                if ((cbst.Text == "完成") && (dmfinishedat.Value == Convert.ToDateTime("0001-01-01 00:00:00")))
+                if ((cbSt.Text == "完成") && (dmFinishedAt.Value == Convert.ToDateTime("0001-01-01 00:00:00")))
                 {
                     MessageBox.Show("请填写成时间");
                     return;
                 }
                 try
                 {
-                    var _thread = new Thread(new ThreadStart(ok_thread));
+                    var _thread = new Thread(new ThreadStart(OKThread));
                     _thread.Start();
                     this.Close();
                 }
@@ -187,7 +175,7 @@ namespace Lplfw.UI.Purchase
             }
 
         }
-        private void ok_thread()
+        private void OKThread()
         {
             using (var _db = new DAL.ModelContainer())
             {
@@ -196,17 +184,17 @@ namespace Lplfw.UI.Purchase
                 Dispatcher.BeginInvoke((Action)delegate ()
                 {
 
-                    purchase.CreateAt = Convert.ToDateTime(txcreateat.Text);
-                    purchase.FinishedAt = (DateTime)dmfinishedat.Value;
+                    purchase.CreateAt = Convert.ToDateTime(txtCreateAt.Text);
+                    purchase.FinishedAt = (DateTime)dmFinishedAt.Value;
                     purchase.Description = txdec.Text;
                     purchase.Id = Id;
-                    purchase.Status = cbst.Text;
-                    purchase.Priority = cbproirity.Text;
-                    purchase.UserId = (int)cbuser.SelectedValue;
+                    purchase.Status = cbSt.Text;
+                    purchase.Priority = cbProirity.Text;
+                    purchase.UserId = (int)cbUser.SelectedValue;
                 });
                 List<PurchaseItem> purchaseItems = _db.PurchaseItemSet.Where(i => i.PurchaseId == Id).ToList();
                 _db.PurchaseItemSet.RemoveRange(purchaseItems);
-                _db.PurchaseItemSet.AddRange(PurchaseItemView.changetoitems(mypurchaseitems));
+                _db.PurchaseItemSet.AddRange(PurchaseItemView.changetoitems(MyPurchaseItems));
                 _db.SaveChanges();
             }
         }
@@ -218,11 +206,11 @@ namespace Lplfw.UI.Purchase
         /// <param name="_item"></param>
         private void DeleteSelectedItem(PurchaseItemView _item)
         {
-            foreach (var i in mypurchaseitems.ToArray())
+            foreach (var i in MyPurchaseItems.ToArray())
             {
                 if (i.MaterialId == _item.MaterialId && i.SupplierId == _item.SupplierId)
                 {
-                    mypurchaseitems.Remove(i);
+                    MyPurchaseItems.Remove(i);
                 }
             }
 
@@ -276,15 +264,15 @@ namespace Lplfw.UI.Purchase
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cbst_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CbStSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if ((string)cbst.SelectedValue == "完成")
+            if ((string)cbSt.SelectedValue == "完成")
             {
-                dmfinishedat.IsEnabled = true;
+                dmFinishedAt.IsEnabled = true;
             }
             else
             {
-                dmfinishedat.IsEnabled = false;
+                dmFinishedAt.IsEnabled = false;
             }
         }
         /// <summary>
@@ -292,9 +280,9 @@ namespace Lplfw.UI.Purchase
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cance_click(object sender, RoutedEventArgs e)
+        private void CancelClick(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
 

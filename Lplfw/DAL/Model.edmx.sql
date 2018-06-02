@@ -44,7 +44,7 @@
 -- -----------------------------------------------------------
 -- Entity Designer DDL Script for MySQL Server 4.1 and higher
 -- -----------------------------------------------------------
--- Date Created: 05/30/2018 15:53:36
+-- Date Created: 06/02/2018 17:17:22
 
 -- Generated from EDMX file: E:\code\csharp\Lplfw\Lplfw\DAL\Model.edmx
 -- Target version: 3.0.0.0
@@ -330,7 +330,8 @@ ALTER TABLE `UserGroupSet` ADD PRIMARY KEY (`Id`);
 
 CREATE TABLE `UserGroupPrivilegeItemSet`(
 	`PrivilegeId` int NOT NULL, 
-	`UserGroupId` int NOT NULL);
+	`UserGroupId` int NOT NULL, 
+	`Mode` longtext NOT NULL);
 
 ALTER TABLE `UserGroupPrivilegeItemSet` ADD PRIMARY KEY (`PrivilegeId`, `UserGroupId`);
 

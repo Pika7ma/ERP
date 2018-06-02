@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Lplfw.UI
 {
@@ -69,8 +63,38 @@ namespace Lplfw.UI
 
         private void Login(object sender, RoutedEventArgs e)
         {
-            Utils.OpenMainWindow();
-            Close();
+            var _name = txtName.Text;
+            var _pass = txtPass.Password;
+            if (_name != "" && _pass != "")
+            {
+                using (var _db = new DAL.ModelContainer())
+                {
+                    var _temp = _db.UserSet.FirstOrDefault(i => i.Name == _name);
+                    if (_temp != null)
+                    {
+                        String _thepass = DAL.User.Decrypt(_temp.Password);
+                        if (_thepass != _pass)
+                        {
+                            MessageBox.Show("用户名密码错误！");
+
+                        }
+                        else
+                        {
+                            Utils.CurrentUser = _temp;
+                            Utils.OpenMainWindow();
+                            Close();
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("用户名密码错误！");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("输入为空！");
+            }
         }
 
         private void CloseApplication(object sender, RoutedEventArgs e)

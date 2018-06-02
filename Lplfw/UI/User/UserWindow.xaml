@@ -12,7 +12,7 @@
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <TabControl>
-            <TabItem Header="修改密码">
+            <TabItem x:Name="tiEditPassword" Header="修改密码" IsSelected="True">
                 <Grid Background="#f0f0f0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
@@ -30,11 +30,11 @@
                     <PasswordBox x:Name="OldPassword" Width="120" Height="23" Grid.Column="1" HorizontalAlignment="Left" Margin="148,45,0,0" Grid.Row="1" VerticalAlignment="Top"/>
                     <PasswordBox x:Name="NewPassword" Width="120" Height="23" Grid.Column="1" HorizontalAlignment="Left" Margin="148,75,0,0" Grid.Row="1" VerticalAlignment="Top"/>
                     <PasswordBox x:Name="RepetePassword" Width="120" Height="23" Grid.Column="1" HorizontalAlignment="Left" Margin="148,105,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-                    <Button x:Name="btnCancel" Content="取消" Grid.Column="1" HorizontalAlignment="Left" Margin="66,161,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"/>
-                    <Button x:Name="btnSure" Content="确定" Grid.Column="1" HorizontalAlignment="Left" Margin="203,161,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"/>
+                    <Button x:Name="btnCancel" Click="BtnCancelClick" Content="取消" Grid.Column="1" HorizontalAlignment="Left" Margin="66,161,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"/>
+                    <Button x:Name="btnSure" Click="BtnSureClick" Content="确定" Grid.Column="1" HorizontalAlignment="Left" Margin="203,161,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="用户组管理">
+            <TabItem x:Name="tiUserGroupAdmin" Header="用户组管理">
                 <Grid Background="#f0f0f0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
@@ -42,87 +42,40 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="300"/>
-                        <ColumnDefinition Width="167*"/>
-                        <ColumnDefinition Width="71*"/>
-                        <ColumnDefinition Width="167*"/>
+                        <ColumnDefinition Width="241*"/>
+                        <ColumnDefinition Width="164*"/>
                     </Grid.ColumnDefinitions>
-                    <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="4">
-                        <Button Content="新建用户组" Width="75" VerticalAlignment="Stretch" Click="BtnNewUserAllClick"/>
-                        <Button Content="删除用户组" Width="75" VerticalAlignment="Stretch" Click="BtnDelUserGroupClick"/>
+                    <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="3">
+                        <Button x:Name="btnNewGroup" Content="新建用户组" Width="75" VerticalAlignment="Stretch" Click="BtnNewUserAllClick"/>
+                        <Button x:Name="btnDelGroup" Content="删除用户组" Width="75" VerticalAlignment="Stretch" Click="BtnDelUserGroupClick" IsEnabled="False"/>
                     </ToolBar>
                     <Label Content="用户组" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Margin="10,0,0,0" Height="25" Width="46"/>
                     <TreeView x:Name="tvGroups" Margin="10,23,5,10" Grid.Row="1" MouseDoubleClick="TvGroupsMouseDoubleClick"></TreeView>
-                    <GroupBox Header="原权限" Grid.Column="1" Grid.Row="1" Margin="10,10,10,10">
-                        <Grid>
-                            <Label Content="产品配方管理" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="one" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 10, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right" IsEnabled="False">
-                            </ComboBox>
-                            <Label Content="原料管理" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="two" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 40, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right" IsEnabled="False">
-                            </ComboBox>
-                            <Label Content="仓库管理" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="three" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 70, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right" IsEnabled="False">
-                            </ComboBox>
-                            <Label Content="订单管理" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="four" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 100, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right" IsEnabled="False"/>
-                            <Label Content="缺料浏览" HorizontalAlignment="Left" Margin="10,130,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="five" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 130, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right" IsEnabled="False">
-                            </ComboBox>
-                            <Label Content="报价管理" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="six" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0,160,5,0" VerticalAlignment="Top" HorizontalAlignment="Right" IsEnabled="False">
-                            </ComboBox>
-                            <Label Content="供货商管理" HorizontalAlignment="Left" Margin="10,190,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="seven" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 190, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right" IsEnabled="False">
-                            </ComboBox>
-                            <Label Content="物料确认" HorizontalAlignment="Left" Margin="10,220,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="eight" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 220, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right" IsEnabled="False">
-                            </ComboBox>
-                            <Label Content="领料单管理" HorizontalAlignment="Left" Margin="10,250,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="nine" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 250, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right" IsEnabled="False">
-                            </ComboBox>
-                            <Label Content="修改密码" HorizontalAlignment="Left" Margin="10,280,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="ten" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 280, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right" IsEnabled="False">
-                            </ComboBox>
-                            <Label Content="用户管理" HorizontalAlignment="Left" Margin="10,310,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="eleven" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 310, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right" IsEnabled="False">
-                            </ComboBox>
-                        </Grid>
-                    </GroupBox>
-                    <Grid Grid.Column="2" Grid.Row="1">
-                        <TextBox x:Name="tbGroup" Margin="33,249,33,362" IsEnabled="False"></TextBox>
-                        <TextBox x:Name="tbGroupid" Margin="33,202,33,409" IsEnabled="False"></TextBox>
-                        <Button x:Name="btnChange" Content="确定改变" Margin="33,306,33,306" IsEnabled="False" Click="BtnChangeClick"></Button>
+                    <Label Content="权限" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Margin="10,0,0,0" Height="25" Width="46"/>
+                    <DataGrid x:Name="dgPrivilege" ItemsSource="{Binding Datas}" Margin="10,23,5,10" Grid.Column="1" Grid.Row="1" AutoGenerateColumns="False" SelectionMode="Single" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="权限名称" Width="265" Binding="{Binding Name}" IsReadOnly="True"/>
+                            <DataGridComboBoxColumn x:Name="mon" Header="权限级别" Width="180">
+                                <DataGridComboBoxColumn.EditingElementStyle>
+                                    <Style TargetType="ComboBox">
+                                        <Setter Property="ItemsSource" Value="{Binding Path=DataContext.TheModes,ElementName=dgPrivilege}" />
+                                        <Setter Property="DisplayMemberPath" Value="Name" />
+                                        <Setter Property="SelectedValuePath" Value="Name" />
+                                        <Setter Property="SelectedValue" Value="{Binding Mode}" />
+                                    </Style>
+                                </DataGridComboBoxColumn.EditingElementStyle>
+                            </DataGridComboBoxColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid Grid.Column="2" Grid.Row="1" >
+                        <TextBox x:Name="tbGroup" Margin="65,256,43,355" IsEnabled="False"/>
+                        <TextBox x:Name="tbGroupid" Margin="65,195,43,416" IsEnabled="False"/>
+                        <Button x:Name="btnChange" Content="确定改变" Margin="65,317,43,295" IsEnabled="False" Click="BtnChangeClick"/>
                     </Grid>
-                    <GroupBox Header="新权限" Grid.Column="3" Grid.Row="1" Margin="10,10,10,10">
-                        <Grid>
-                            <Label Content="产品配方管理" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="_one" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 10, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                            <Label Content="原料管理" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="_two" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 40, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                            <Label Content="仓库管理" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="_three" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 70, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                            <Label Content="订单管理" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="_four" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 100, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                            <Label Content="缺料浏览" HorizontalAlignment="Left" Margin="10,130,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="_five" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 130, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                            <Label Content="报价管理" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="_six" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0,160,5,0" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                            <Label Content="供货商管理" HorizontalAlignment="Left" Margin="10,190,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="_seven" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 190, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                            <Label Content="物料确认" HorizontalAlignment="Left" Margin="10,220,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="_eight" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 220, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                            <Label Content="领料单管理" HorizontalAlignment="Left" Margin="10,250,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="_nine" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 250, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                            <Label Content="修改密码" HorizontalAlignment="Left" Margin="10,280,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="_ten" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 280, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                            <Label Content="用户管理" HorizontalAlignment="Left" Margin="10,310,0,0" VerticalAlignment="Top"/>
-                            <ComboBox x:Name="_eleven" DisplayMemberPath="Description" SelectedValuePath="Id" Width="120" Height="23" Margin="0, 310, 5, 10" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                        </Grid>
-                    </GroupBox>
                 </Grid>
 
             </TabItem>
-            <TabItem Header="用户管理">
+            <TabItem x:Name="tiUserAdmin" Header="用户管理">
                 <Grid Background="#f0f0f0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
@@ -136,7 +89,7 @@
                     <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="2">
                         <Button x:Name="btnShowAll"  Content="显示全部" Width="75" VerticalAlignment="Stretch" Click="BtnShowAllClick"/>
                         <Button x:Name="btnNewUser" Content="新建用户" Width="75" VerticalAlignment="Stretch" Click="BtnNewUserClick"/>
-                        <Button x:Name="btnDelUser" Content="删除用户" Width="75" VerticalAlignment="Stretch" Click="BtnDelUserClick"/>
+                        <Button x:Name="btnDelUser" Content="删除用户" Width="75" VerticalAlignment="Stretch" Click="BtnDelUserClick" IsEnabled="False"/>
                     </ToolBar>
                     <Label Content="用户组" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Margin="10,0,0,0"/>
                     <TreeView x:Name="tvUserGroups" Margin="10,23,5,5" Grid.Row="1" MouseDoubleClick="TvUserGroupsMouseDoubleClick"></TreeView>
@@ -175,7 +128,6 @@
             </TabItem>
         </TabControl>
         <StatusBar Grid.Row="2" Grid.ColumnSpan="2">
-            <TextBlock x:Name="txtStatus" Text="欢迎使用ERP系统, 管理员 admin" TextWrapping="NoWrap"/>
         </StatusBar>
     </Grid>
 </Window>

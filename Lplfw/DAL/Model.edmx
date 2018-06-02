@@ -320,6 +320,7 @@
     </Key>
     <Property Name="PrivilegeId" Type="int" Nullable="false" />
     <Property Name="UserGroupId" Type="int" Nullable="false" />
+    <Property Name="Mode" Type="longtext" Nullable="false" />
   </EntityType>
   <EntityType Name="UserSet">
     <Key>
@@ -1639,6 +1640,7 @@
           </Key>
           <Property Name="PrivilegeId" Type="Int32" Nullable="false" />
           <Property Name="UserGroupId" Type="Int32" Nullable="false" />
+          <Property Name="Mode" Type="String" Nullable="false" />
         </EntityType>
         <Association Name="UserGroupPrivilegeItemDescription">
           <End Type="Model.Privilege" Role="Privilege" Multiplicity="1" />
@@ -2567,6 +2569,7 @@
         <MappingFragment StoreEntitySet="UserGroupPrivilegeItemSet">
           <ScalarProperty Name="PrivilegeId" ColumnName="PrivilegeId" />
           <ScalarProperty Name="UserGroupId" ColumnName="UserGroupId" />
+          <ScalarProperty Name="Mode" ColumnName="Mode" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

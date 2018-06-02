@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Windows;
 
 namespace Lplfw.UI.Inventory
 {
@@ -10,7 +13,42 @@ namespace Lplfw.UI.Inventory
         public InventoryWindow()
         {
             InitializeComponent();
+            var _thread = new Thread(new ThreadStart(Refresh));
+            _thread.Start();
         }
+
+
+        #region 权限控制
+
+        private void Refresh()
+        {
+            using (var _db = new DAL.ModelContainer())
+            {
+                var _temp = _db.UserGroupPrivilegeItemSet.First(i => i.PrivilegeId == 2 && i.UserGroupId == Utils.CurrentUser.UserGroupId);
+                if (_temp.Mode == "只读")
+                {
+                    Dispatcher.BeginInvoke((Action)delegate ()
+                    {
+                        OnlyRead();
+                    });
+                }
+            }
+        }
+        /// <summary>
+        /// 只读
+        /// </summary>
+        private void OnlyRead()
+        {
+            btnNewIn.Visibility = Visibility.Hidden;
+            btnNewOut.Visibility = Visibility.Hidden;
+            btnNewStorage.Visibility = Visibility.Hidden;
+            btnEditStorage.Visibility = Visibility.Hidden;
+            btnDelStorage.Visibility = Visibility.Hidden;
+        }
+
+
+        #endregion
+
 
         private void NewStorage(object sender, RoutedEventArgs e)
         {

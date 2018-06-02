@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 
 namespace Lplfw.UI.User
@@ -33,12 +34,13 @@ namespace Lplfw.UI.User
                 {
                     _db.UserGroupSet.Add(_usergroup);
                     _db.SaveChanges();
-                    for (int i = 0; i < 11; i++)
+                    for (int i = 0; i < _db.PrivilegeSet.Count(); i++)
                     {
                         _db.UserGroupPrivilegeItemSet.Add(new DAL.UserGroupPrivilegeItem
                         {
-                            PrivilegeId = 3 * (i + 1),
+                            PrivilegeId = i + 1,
                             UserGroupId = _usergroup.Id,
+                            Mode = "可修改"
                         });
                     }
                     _db.SaveChanges();
@@ -52,31 +54,6 @@ namespace Lplfw.UI.User
             }
         }
 
-        /// <summary>
-        /// 确认按钮的数据读取
-        /// </summary>
-        /// <param name="txtGroup"></param>
-        private void OK(object txtGroup)
-        {
-            var _usergroup = new DAL.UserGroup
-            {
-                Name = (String)txtGroup
-            };
-            using (var _db = new DAL.ModelContainer())
-            {
-                _db.UserGroupSet.Add(_usergroup);
-                _db.SaveChanges();
-                for (int i = 0; i < 11; i++)
-                {
-                    _db.UserGroupPrivilegeItemSet.Add(new DAL.UserGroupPrivilegeItem
-                    {
-                        PrivilegeId = 3 * (i + 1),
-                        UserGroupId = _usergroup.Id,
-                    });
-                }
-                _db.SaveChanges();
-            }
-        }
 
     }
 }

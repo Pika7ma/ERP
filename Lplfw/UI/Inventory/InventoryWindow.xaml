@@ -20,9 +20,9 @@
                     </Grid.RowDefinitions>
 
                     <ToolBar Height="35" VerticalAlignment="Top" Grid.RowSpan="2">
-                        <Button Content="新建仓库" Width="75" VerticalAlignment="Stretch" Click="NewStorage"/>
-                        <Button Content="编辑仓库" Width="75" VerticalAlignment="Stretch" Click="EditStorage"/>
-                        <Button Content="删除仓库" Width="75" VerticalAlignment="Stretch"/>
+                        <Button x:Name="btnNewStorage" Content="新建仓库" Width="75" VerticalAlignment="Stretch" Click="NewStorage"/>
+                        <Button x:Name="btnEditStorage" Content="编辑仓库" Width="75" VerticalAlignment="Stretch" Click="EditStorage"/>
+                        <Button x:Name="btnDelStorage" Content="删除仓库" Width="75" VerticalAlignment="Stretch"/>
                     </ToolBar>
                     <DataGrid x:Name="dgStoreHouse" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                         <DataGrid.Columns>
@@ -45,8 +45,8 @@
                         <ComboBox Height="25" Margin="0" VerticalAlignment="Stretch" Width="80"/>
                         <Button Content="查看全部仓库" Width="100" VerticalAlignment="Stretch"/>
                         <Separator/>
-                        <Button Content="新建入库" Width="75" VerticalAlignment="Stretch" Click="NewStockIn"/>
-                        <Button Content="新建出库" Width="75" VerticalAlignment="Stretch" Click="NewStockOut"/>
+                        <Button x:Name="btnNewIn" Content="新建入库" Width="75" VerticalAlignment="Stretch" Click="NewStockIn"/>
+                        <Button x:Name="btnNewOut" Content="新建出库" Width="75" VerticalAlignment="Stretch" Click="NewStockOut"/>
                         <Separator/>
                         <Button Content="成本统计" Width="75" VerticalAlignment="Stretch"/>
                         <Separator/>
@@ -142,7 +142,6 @@
             </TabItem>
         </TabControl>
         <StatusBar Grid.Row="1">
-            <TextBlock x:Name="txtStatus" Text="欢迎使用ERP系统, 管理员 admin" TextWrapping="NoWrap"/>
         </StatusBar>
     </Grid>
 </Window>

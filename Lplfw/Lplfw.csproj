@@ -100,7 +100,6 @@
     <Compile Include="BLL\ViewModels\ProductClassViewModel.cs" />
     <Compile Include="BLL\Bom\RecipeView.cs" />
     <Compile Include="BLL\Purchase\MaterialPriceView.cs" />
-    <Compile Include="BLL\Purchase\SearchCombobox.cs" />
     <Compile Include="BLL\Purchase\Supplier.cs" />
     <Compile Include="BLL\User\Privilege.cs" />
     <Compile Include="BLL\User\User.cs" />

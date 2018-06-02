@@ -69,7 +69,7 @@
                     <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="2">
                         <Button Content="显示所有记录" VerticalAlignment="Stretch" Width="100"/>
                         <Separator/>
-                        <Button Content="生产\研发借料" VerticalAlignment="Stretch" Width="150" Click="NewRequisition"/>
+                        <Button x:Name="btnNewRequisition" Content="生产\研发借料" VerticalAlignment="Stretch" Width="150" Click="NewRequisition"/>
                         <Separator/>
                         <ComboBox x:Name="cbSearchRequisition" Width="75" Height="25" DisplayMemberPath="Name" SelectedValuePath="ID"/>
                         <TextBox x:Name="txtSearchRequisition" Text="请输入查询关键字" VerticalAlignment="Center" Width="150" Height="25" Margin="5,0,0,0"/>
@@ -109,7 +109,7 @@
                     <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="2">
                         <Button Content="显示所有记录" VerticalAlignment="Stretch" Width="100"/>
                         <Separator/>
-                        <Button Content="生产\研发还料" VerticalAlignment="Stretch" Width="150" Click="NewReturn"/>
+                        <Button x:Name="btnNewReturn" Content="生产\研发还料" VerticalAlignment="Stretch" Width="150" Click="NewReturn"/>
                         <Separator/>
                         <ComboBox x:Name="cbSearchReturn" Width="75" Height="25" DisplayMemberPath="Name" SelectedValuePath="ID"/>
                         <TextBox x:Name="txtSearchReturn" Text="请输入查询关键字" VerticalAlignment="Center" Width="150" Height="25" Margin="5,0,0,0"/>
@@ -145,9 +145,9 @@
                     <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="2">
                         <Button Content="显示所有记录" VerticalAlignment="Stretch" Width="100"/>
                         <Separator/>
-                        <Button Content="新建生产记录" VerticalAlignment="Stretch" Width="100" Click="NewProduction"/>
-                        <Button Content="标记完成生产" VerticalAlignment="Stretch" Width="100"/>
-                        <Button Content="新建生产质检" VerticalAlignment="Stretch" Width="100" Click="NewQuality"/>
+                        <Button x:Name="btnNewProduceOrder" Content="新建生产记录" VerticalAlignment="Stretch" Width="100" Click="NewProduction"/>
+                        <Button x:Name="btnFinishProduce" Content="标记完成生产" VerticalAlignment="Stretch" Width="100"/>
+                        <Button x:Name="btnNewCheck" Content="新建生产质检" VerticalAlignment="Stretch" Width="100" Click="NewQuality"/>
                         <Separator/>
                         <ComboBox x:Name="cbSearchProduction" Width="75" Height="25" DisplayMemberPath="Name" SelectedValuePath="ID"/>
                         <TextBox x:Name="txtSearchProduction" Text="请输入查询关键字" VerticalAlignment="Center" Width="150" Height="25" Margin="5,0,0,0"/>
@@ -197,7 +197,6 @@
             </TabItem>
         </TabControl>
         <StatusBar Grid.Row="1">
-            <TextBlock x:Name="txtStatus" Text="欢迎使用ERP系统, 管理员 admin" TextWrapping="NoWrap"/>
         </StatusBar>
     </Grid>
 </Window>

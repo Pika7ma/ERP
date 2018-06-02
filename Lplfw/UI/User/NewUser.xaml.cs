@@ -50,17 +50,25 @@ namespace Lplfw.UI.User
                 var _user = new DAL.User
                 {
                     Name = txtUsername.Text,
-                    Password = txtPassword.Text,
+                    Password = DAL.User.Encryption(txtPassword.Text),
                     Tel = txtTel.Text,
                     UserGroupId = (int)cbUsergroup.SelectedValue
                 };
                 using (var _db = new ModelContainer())
                 {
-                    _db.UserSet.Add(_user);
-                    _db.SaveChanges();
+                    if (_db.UserSet.FirstOrDefault(i => i.Name == txtUsername.Text) == null)
+                    {
+                        _db.UserSet.Add(_user);
+                        _db.SaveChanges();
+                        DialogResult = true;
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("已有此用户！");
+                    }
                 }
-                DialogResult = true;
-                Close();
+
             }
             else
             {
@@ -68,28 +76,5 @@ namespace Lplfw.UI.User
             }
         }
 
-        /// <summary>
-        /// 确认按钮读取数据
-        /// </summary>
-        /// <param name="ob"></param>
-        private void OK(object ob)
-        {
-            var _username = (String)((dynamic)ob).name;
-            var _password = (String)((dynamic)ob).ps;
-            var _tel = (String)((dynamic)ob).phone;
-            var _groupid = (int)((dynamic)ob).groupid;
-            var _user = new DAL.User
-            {
-                Name = _username,
-                Password = _password,
-                Tel = _tel,
-                UserGroupId = _groupid
-            };
-            using (var _db = new ModelContainer())
-            {
-                _db.UserSet.Add(_user);
-                _db.SaveChanges();
-            }
-        }
     }
 }

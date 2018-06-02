@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Windows;
 
 namespace Lplfw.UI.Order
@@ -13,7 +16,42 @@ namespace Lplfw.UI.Order
             InitializeComponent();
             cbSearchSales.ItemsSource = SalesFields;
             cbSearchSales.SelectedValue = 0;
+            var _thread = new Thread(new ThreadStart(Refresh));
+            _thread.Start();
+
         }
+
+        #region 权限控制
+
+        private void Refresh()
+        {
+            using (var _db = new DAL.ModelContainer())
+            {
+                var _temp = _db.UserGroupPrivilegeItemSet.First(i => i.PrivilegeId == 3 && i.UserGroupId == Utils.CurrentUser.UserGroupId);
+                if (_temp.Mode == "只读")
+                {
+                    Dispatcher.BeginInvoke((Action)delegate ()
+                    {
+                        OnlyRead();
+                    });
+                }
+            }
+        }
+        /// <summary>
+        /// 只读
+        /// </summary>
+        private void OnlyRead()
+        {
+            btnNewOrder.Visibility = Visibility.Hidden;
+            btnFinishOrder.Visibility = Visibility.Hidden;
+            btnCancelOrder.Visibility = Visibility.Hidden;
+            btnDelayOrder.Visibility = Visibility.Hidden;
+            btnSeperateOrder.Visibility = Visibility.Hidden;
+        }
+
+
+        #endregion
+
 
         static public List<Utils.KeyValue> SalesFields = new List<Utils.KeyValue>
         {

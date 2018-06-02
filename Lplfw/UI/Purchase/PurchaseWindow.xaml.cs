@@ -1,5 +1,4 @@
-﻿using Lplfw.BLL.Purchase;
-using Lplfw.DAL;
+﻿using Lplfw.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +27,8 @@ namespace Lplfw.UI.Purchase
             _thread4.Start();
             var _thread5 = new Thread(new ThreadStart(Rdsthread));
             _thread5.Start();
-
+            var _thread6 = new Thread(new ThreadStart(Refresh));
+            _thread6.Start();
         }
 
         private void LoadComponent(object sender, RoutedEventArgs e)
@@ -39,42 +39,35 @@ namespace Lplfw.UI.Purchase
 
         private void LoadComponentThread()
         {
-            List<SearchCombobox> _sbbp = new List<SearchCombobox>();
-            var _material = new SearchCombobox("材料", 1);
-            var _supplier = new SearchCombobox("供应商", 2);
-            _sbbp.Add(_material);
-            _sbbp.Add(_supplier);
+            var _sbbp = new List<Utils.KeyValue>
+            {
+                new Utils.KeyValue {ID=1, Name="材料"},
+                new Utils.KeyValue {ID=2, Name="供应商"},
+            };
 
-            List<SearchCombobox> _sbbs = new List<SearchCombobox>();
-            var _name = new SearchCombobox("名称", 1);
-            var _contact = new SearchCombobox("联系人", 2);
-            var _location = new SearchCombobox("地址", 3);
-            var _tel = new SearchCombobox("电话", 4);
-            _sbbs.Add(_name);
-            _sbbs.Add(_contact);
-            _sbbs.Add(_location);
-            _sbbs.Add(_tel);
+            var _sbbs = new List<Utils.KeyValue>
+            {
+                new Utils.KeyValue {ID=1, Name="名称"},
+                new Utils.KeyValue {ID=2, Name="联系人"},
+                new Utils.KeyValue {ID=3, Name="地址"},
+                new Utils.KeyValue {ID=4, Name="电话"},
+            };
 
+            var _sbbm = new List<Utils.KeyValue>
+            {
+                new Utils.KeyValue {ID=1, Name="材料"},
+                new Utils.KeyValue {ID=2, Name="供应商"},
+                new Utils.KeyValue {ID=3, Name="低于线"},
+            };
 
-            List<SearchCombobox> _sbbm = new List<SearchCombobox>();
-            var _material2 = new SearchCombobox("材料", 1);
-            var _supplier2= new SearchCombobox("供应商", 2);
-            var _lownumber = new SearchCombobox("低于线", 3);
-            _sbbm.Add(_material2);
-            _sbbm.Add(_supplier2);
-            _sbbm.Add(_lownumber);
-
-            List<SearchCombobox> _sbbpur = new List<SearchCombobox>();
-            var _id = new SearchCombobox("订单id", 1);
-            var _createat = new SearchCombobox("创建时间", 2);
-            var _finishedat = new SearchCombobox("完成时间", 3);
-            var _user = new SearchCombobox("负责人", 4);
-            var _sup = new SearchCombobox("供货商", 5);
-            _sbbpur.Add(_id);
-            _sbbpur.Add(_createat);
-            _sbbpur.Add(_finishedat);
-            _sbbpur.Add(_user);
-            _sbbpur.Add(_sup);
+            var _sbbpur = new List<Utils.KeyValue>
+            {
+                new Utils.KeyValue {ID=1, Name="订单id"},
+                new Utils.KeyValue {ID=2, Name="创建时间"},
+                new Utils.KeyValue {ID=3, Name="完成时间"},
+                new Utils.KeyValue {ID=4, Name="负责人"},
+                new Utils.KeyValue {ID=5, Name="供货商"},
+            };
 
             Dispatcher.BeginInvoke((Action)delegate ()
             {
@@ -445,7 +438,7 @@ namespace Lplfw.UI.Purchase
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnShowAll_Click(object sender, RoutedEventArgs e)
+        private void BtnShowAllClick(object sender, RoutedEventArgs e)
         {
             Refreshdgmaterialpurchase();
         }
@@ -455,7 +448,7 @@ namespace Lplfw.UI.Purchase
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btSearchMaterialClass_Click(object sender, RoutedEventArgs e)
+        private void BtnSearchMaterialClassClick(object sender, RoutedEventArgs e)
         {
             if (cbSearchMaterialClass.Text != "" && txsearchMaterial.Text != "")
             {
@@ -479,7 +472,7 @@ namespace Lplfw.UI.Purchase
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnpurchase_click(object sender, RoutedEventArgs e)
+        private void Btnpurchaseclick(object sender, RoutedEventArgs e)
         {
             var _createpurchase = new NewPurchase();
             _createpurchase.Show();
@@ -489,7 +482,7 @@ namespace Lplfw.UI.Purchase
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void tvpurchase_mouseup(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void TreeViewPurchaseMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             try
             {
@@ -520,17 +513,7 @@ namespace Lplfw.UI.Purchase
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-        private void btnCreatepurchase_Click(object sender, RoutedEventArgs e)
+        private void BtnCreatePurchaseClick(object sender, RoutedEventArgs e)
         {
             NewPurchase _createpurchase = new NewPurchase();
             _createpurchase.Show();
@@ -540,7 +523,7 @@ namespace Lplfw.UI.Purchase
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnChangepurchase_Click(object sender, RoutedEventArgs e)
+        private void BtnChangePurchaseClick(object sender, RoutedEventArgs e)
         {
             var _item = dgPurchases.SelectedItem as PurchaseView;
             if (_item == null)
@@ -563,7 +546,7 @@ namespace Lplfw.UI.Purchase
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnDeleteOder_Click(object sender, RoutedEventArgs e)
+        private void BtnDeleteOderClick(object sender, RoutedEventArgs e)
         {
             PurchaseView purchase = (PurchaseView)dgPurchases.SelectedItem;
             if (purchase == null)
@@ -592,7 +575,7 @@ namespace Lplfw.UI.Purchase
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnShowAll4_Click(object sender, RoutedEventArgs e)
+        private void BtnShowAll4Click(object sender, RoutedEventArgs e)
         {
             RefreshdgPurchases();
         }
@@ -601,7 +584,7 @@ namespace Lplfw.UI.Purchase
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnNewquality_Click(object sender, RoutedEventArgs e)
+        private void BtnNewqualityClick(object sender, RoutedEventArgs e)
         {
             var _purchase = (PurchaseView)dgPurchases.SelectedItem;
             if (_purchase == null)
@@ -620,12 +603,7 @@ namespace Lplfw.UI.Purchase
             }
         }
 
-
-
-
-
-
-        private void btSearchSupplierClass_Click(object sender, RoutedEventArgs e)
+        private void BtnSearchSupplierClassClick(object sender, RoutedEventArgs e)
         {
             if (cbSearchPurchaseClass.Text != "")
             {
@@ -636,17 +614,12 @@ namespace Lplfw.UI.Purchase
                     case 3: if (dpsettime.Text != "") dgPurchases.ItemsSource = PurchaseView.Getallbycfinishedat(dpsettime.Text); break;
                     case 4: if (txsearchpurchase.Text != "") dgPurchases.ItemsSource = PurchaseView.Getallbyuser(txsearchpurchase.Text); break;
                     case 5: if (txsearchpurchase.Text != "") dgPurchases.ItemsSource = PurchaseView.Getallbysupplier(txsearchpurchase.Text); break;
-
                 }
-
             }
 
         }
 
-
-
-
-        private void cbSearchPurchaseClass_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CbbSearchPurchaseClassSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cbSearchPurchaseClass.SelectedIndex == 1 || cbSearchPurchaseClass.SelectedIndex == 2)
             {
@@ -660,10 +633,36 @@ namespace Lplfw.UI.Purchase
             }
         }
 
-        private void btnShowquality_Click(object sender, RoutedEventArgs e)
+        private void BtnShowqualityClick(object sender, RoutedEventArgs e)
         {
             var _showquality = new ShowPurchaseQuality();
             _showquality.Show();
         }
+
+        #region 权限控制
+
+        private void Refresh()
+        {
+            using (var _db = new DAL.ModelContainer())
+            {
+                var _temp = _db.UserGroupPrivilegeItemSet.First(i => i.PrivilegeId == 5 && i.UserGroupId == Utils.CurrentUser.UserGroupId);
+                if (_temp.Mode == "只读")
+                {
+                    Dispatcher.BeginInvoke((Action)delegate ()
+                    {
+                        OnlyRead();
+                    });
+                }
+            }
+        }
+
+        /// <summary>
+        /// 只读
+        /// </summary>
+        private void OnlyRead()
+        {
+
+        }
+        #endregion
     }
 }

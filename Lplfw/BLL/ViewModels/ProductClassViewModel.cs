@@ -27,9 +27,14 @@ namespace Lplfw.DAL
             }
         }
 
-        public int? CbParentClass {
+        public int? CbParentClass
+        {
             get { return obj.ParentId; }
-            set { obj.ParentId = value; }
+            set
+            {
+                if (value == 0) obj.ParentId = null;
+                else obj.ParentId = value;
+            }
         }
 
         public string TxtName

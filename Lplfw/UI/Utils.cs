@@ -6,6 +6,7 @@ namespace Lplfw.UI
 {
     public class Utils
     {
+        static public DAL.User CurrentUser { set; get; }
         static public MainWindow MainWindow { set; get; }
         static public Window Subwindow { get; set; }
 

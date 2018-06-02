@@ -21,6 +21,8 @@ namespace Lplfw.UI.Bom
             cbSearchProduct.SelectedValue = 1;
             cbSearchMaterial.ItemsSource = MaterialFields;
             cbSearchMaterial.SelectedValue = 1;
+            var _thread = new Thread(new ThreadStart(Refresh));
+            _thread.Start();
         }
 
         #region 产品管理
@@ -39,12 +41,12 @@ namespace Lplfw.UI.Bom
             using (var _db = new ModelContainer())
             {
                 var _products = _db.ProductSet.ToList();
-                Dispatcher.BeginInvoke((Action) delegate ()
-               {
-                   dgProduct.ItemsSource = _products;
-                   var _node = tvProduct.SelectedItem as TreeViewItem;
-                   if (_node != null) _node.IsSelected = false;
-               });
+                Dispatcher.BeginInvoke((Action)delegate ()
+                {
+                    dgProduct.ItemsSource = _products;
+                    var _node = tvProduct.SelectedItem as TreeViewItem;
+                    if (_node != null) _node.IsSelected = false;
+                });
             }
         }
 
@@ -75,7 +77,8 @@ namespace Lplfw.UI.Bom
             if (_classId == null) return;
             var _win = new NewClass(_classId, false, true);
             var _rtn = _win.ShowDialog();
-            if (_rtn == true){
+            if (_rtn == true)
+            {
                 RefreshTvProduct();
             }
         }
@@ -118,7 +121,7 @@ namespace Lplfw.UI.Bom
         {
             var _id = id as int?;
             var _products = ProductClass.GetSubClassProducts((int)_id);
-            Dispatcher.BeginInvoke((Action) delegate ()
+            Dispatcher.BeginInvoke((Action)delegate ()
             {
                 dgProduct.ItemsSource = _products;
             });
@@ -147,7 +150,7 @@ namespace Lplfw.UI.Bom
             var _obj = obj as int?[];
             var _classId = _obj[0];
             var _productId = _obj[1];
-            Dispatcher.BeginInvoke((Action) delegate ()
+            Dispatcher.BeginInvoke((Action)delegate ()
             {
                 dgProduct.ItemsSource = ProductClass.GetSubClassProducts((int)_classId);
                 dgRecipe.ItemsSource = RecipeView.GetByProductId((int)_productId);
@@ -166,7 +169,7 @@ namespace Lplfw.UI.Bom
             var _rtn = MessageBox.Show($"真的要删除产品 {_product.Name} 吗? 可能会导致严重后果!", null, MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             if (_rtn == MessageBoxResult.OK)
             {
-                 new Thread(new ParameterizedThreadStart(EraseProductThread)).Start(_product.Id);
+                new Thread(new ParameterizedThreadStart(EraseProductThread)).Start(_product.Id);
             }
         }
 
@@ -183,7 +186,7 @@ namespace Lplfw.UI.Bom
                     _db.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS=1;");
                     _db.SaveChanges();
                 }
-                Dispatcher.BeginInvoke((Action) delegate () {
+                Dispatcher.BeginInvoke((Action)delegate () {
                     var _classId = Utils.GetTreeViewSelectedValue(ref tvProduct);
                     dgProduct.ItemsSource = ProductClass.GetSubClassProducts((int)_classId);
                     dgRecipe.ItemsSource = null;
@@ -191,7 +194,7 @@ namespace Lplfw.UI.Bom
             }
             catch (Exception)
             {
-                Dispatcher.BeginInvoke((Action) delegate () {
+                Dispatcher.BeginInvoke((Action)delegate () {
                     MessageBox.Show("由于此产品与其他数据有重要关联, 无法删除", null, MessageBoxButton.OK, MessageBoxImage.Error);
                 });
             }
@@ -224,7 +227,7 @@ namespace Lplfw.UI.Bom
                     _current.Status = "生产";
                 }
                 _db.SaveChanges();
-                Dispatcher.BeginInvoke((Action) delegate ()
+                Dispatcher.BeginInvoke((Action)delegate ()
                 {
                     var _product = dgProduct.SelectedItem as Product;
                     _product.Status = _current.Status;
@@ -249,7 +252,7 @@ namespace Lplfw.UI.Bom
         {
             var _id = (int)id;
             var _products = ProductClass.GetSubClassProducts(_id);
-            Dispatcher.BeginInvoke((Action) delegate ()
+            Dispatcher.BeginInvoke((Action)delegate ()
             {
                 dgProduct.ItemsSource = _products;
             });
@@ -271,7 +274,7 @@ namespace Lplfw.UI.Bom
         {
             var _id = (int)id;
             var _recipes = RecipeView.GetByProductId(_id);
-            Dispatcher.BeginInvoke((Action) delegate ()
+            Dispatcher.BeginInvoke((Action)delegate ()
             {
                 dgRecipe.ItemsSource = _recipes;
             });
@@ -285,8 +288,9 @@ namespace Lplfw.UI.Bom
         private void SearchProduct(object sender, RoutedEventArgs e)
         {
             if (cbSearchProduct.SelectedValue == null) return;
-            
-            new Thread(new ParameterizedThreadStart(SearchProductThread)).Start(new SearchParams {
+
+            new Thread(new ParameterizedThreadStart(SearchProductThread)).Start(new SearchParams
+            {
                 Class = Utils.GetTreeViewSelectedValue(ref tvProduct),
                 Str = txtSearchProduct.Text,
                 Type = (int)cbSearchProduct.SelectedValue
@@ -319,7 +323,7 @@ namespace Lplfw.UI.Bom
                     _products = null;
                     break;
             }
-            Dispatcher.BeginInvoke((Action) delegate ()
+            Dispatcher.BeginInvoke((Action)delegate ()
             {
                 dgProduct.ItemsSource = _products;
                 dgRecipe.ItemsSource = null;
@@ -343,7 +347,7 @@ namespace Lplfw.UI.Bom
             using (var _db = new ModelContainer())
             {
                 var _materials = _db.MaterialSet.ToList();
-                Dispatcher.BeginInvoke((Action) delegate ()
+                Dispatcher.BeginInvoke((Action)delegate ()
                 {
                     dgMaterial.ItemsSource = _materials;
                     var _node = tvProduct.SelectedItem as TreeViewItem;
@@ -423,7 +427,7 @@ namespace Lplfw.UI.Bom
         {
             var _id = id as int?;
             var _materials = MaterialClass.GetSubClassMaterials((int)_id);
-            Dispatcher.BeginInvoke((Action) delegate ()
+            Dispatcher.BeginInvoke((Action)delegate ()
             {
                 dgMaterial.ItemsSource = _materials;
             });
@@ -450,7 +454,7 @@ namespace Lplfw.UI.Bom
         private void EditMaterialThread(object id)
         {
             var _classId = id as int?;
-            Dispatcher.BeginInvoke((Action) delegate ()
+            Dispatcher.BeginInvoke((Action)delegate ()
             {
                 dgMaterial.ItemsSource = MaterialClass.GetSubClassMaterials((int)_classId);
             });
@@ -485,7 +489,7 @@ namespace Lplfw.UI.Bom
                     _db.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS=1;");
                     _db.SaveChanges();
                 }
-                Dispatcher.BeginInvoke((Action) delegate ()
+                Dispatcher.BeginInvoke((Action)delegate ()
                 {
                     var _classId = Utils.GetTreeViewSelectedValue(ref tvMaterial);
                     dgMaterial.ItemsSource = MaterialClass.GetSubClassMaterials((int)_classId);
@@ -493,7 +497,7 @@ namespace Lplfw.UI.Bom
             }
             catch (Exception)
             {
-                Dispatcher.BeginInvoke((Action) delegate ()
+                Dispatcher.BeginInvoke((Action)delegate ()
                 {
                     MessageBox.Show("由于此原料与其他数据有重要关联, 无法删除", null, MessageBoxButton.OK, MessageBoxImage.Error);
                 });
@@ -527,7 +531,7 @@ namespace Lplfw.UI.Bom
                     _current.Status = "可用";
                 }
                 _db.SaveChanges();
-                Dispatcher.BeginInvoke((Action) delegate ()
+                Dispatcher.BeginInvoke((Action)delegate ()
                 {
                     var _material = dgMaterial.SelectedItem as Material;
                     _material.Status = _current.Status;
@@ -552,7 +556,7 @@ namespace Lplfw.UI.Bom
         {
             var _id = (int)id;
             var _material = MaterialClass.GetSubClassMaterials(_id);
-            Dispatcher.BeginInvoke((Action) delegate ()
+            Dispatcher.BeginInvoke((Action)delegate ()
             {
                 dgMaterial.ItemsSource = _material;
             });
@@ -599,7 +603,7 @@ namespace Lplfw.UI.Bom
                     _materials = null;
                     break;
             }
-            Dispatcher.BeginInvoke((Action) delegate ()
+            Dispatcher.BeginInvoke((Action)delegate ()
             {
                 dgMaterial.ItemsSource = _materials;
             });
@@ -702,5 +706,43 @@ namespace Lplfw.UI.Bom
         }
         #endregion
 
+        #region 权限控制
+
+        private void Refresh()
+        {
+            using (var _db = new ModelContainer())
+            {
+                var _temp = _db.UserGroupPrivilegeItemSet.First(i => i.PrivilegeId == 1 && i.UserGroupId == Utils.CurrentUser.UserGroupId);
+                if (_temp.Mode == "只读")
+                {
+                    Dispatcher.BeginInvoke((Action)delegate ()
+                    {
+                        OnlyRead();
+                    });
+                }
+            }
+        }
+        /// <summary>
+        /// 只读
+        /// </summary>
+        private void OnlyRead()
+        {
+            btnNewProductClass.Visibility = Visibility.Hidden;
+            btnEditProductClass.Visibility = Visibility.Hidden;
+            btnDelProductClass.Visibility = Visibility.Hidden;
+            btnNewProduct.Visibility = Visibility.Hidden;
+            btnEditProduct.Visibility = Visibility.Hidden;
+            btnDelProduct.Visibility = Visibility.Hidden;
+            btnProduceStatus.Visibility = Visibility.Hidden;
+            btnNewMaterialClass.Visibility = Visibility.Hidden;
+            btnNewMaterial.Visibility = Visibility.Hidden;
+            btnEditMaterialClass.Visibility = Visibility.Hidden;
+            btnEditMaterial.Visibility = Visibility.Hidden;
+            btnDeleteMaterialClass.Visibility = Visibility.Hidden;
+            btnEraseMaterial.Visibility = Visibility.Hidden;
+            btnChangeMaterialStatus.Visibility = Visibility.Hidden;
+            btnFromExcel.Visibility = Visibility.Hidden;
+        }
+        #endregion
     }
 }

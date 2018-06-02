@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Windows;
 
 namespace Lplfw.UI.Produce
@@ -19,7 +22,46 @@ namespace Lplfw.UI.Produce
             cbSearchProduction.SelectedValue = 0;
             cbSearchQuality.ItemsSource = QualityFields;
             cbSearchQuality.SelectedValue = 0;
+            var _thread = new Thread(new ThreadStart(Refresh));
+            _thread.Start();
+
         }
+
+
+
+        #region 权限控制
+
+        private void Refresh()
+        {
+            using (var _db = new DAL.ModelContainer())
+            {
+                var _temp = _db.UserGroupPrivilegeItemSet.First(i => i.PrivilegeId == 4 && i.UserGroupId == Utils.CurrentUser.UserGroupId);
+                if (_temp.Mode == "只读")
+                {
+                    Dispatcher.BeginInvoke((Action)delegate ()
+                    {
+                        OnlyRead();
+                    });
+                }
+            }
+        }
+        /// <summary>
+        /// 只读
+        /// </summary>
+        private void OnlyRead()
+        {
+            btnFinishProduce.Visibility = Visibility.Hidden;
+            btnNewCheck.Visibility = Visibility.Hidden;
+            btnNewProduceOrder.Visibility = Visibility.Hidden;
+            btnNewRequisition.Visibility = Visibility.Hidden;
+            btnNewReturn.Visibility = Visibility.Hidden;
+        }
+
+
+        #endregion
+
+
+
 
         static public List<Utils.KeyValue> RequisitionFields = new List<Utils.KeyValue>
         {
@@ -56,7 +98,7 @@ namespace Lplfw.UI.Produce
 
         private void NewRequisition(object sender, RoutedEventArgs e)
         {
-            var _win = new NewRequsition(isRequsition:true);
+            var _win = new NewRequsition(isRequsition: true);
             var _rtn = _win.ShowDialog();
             if (_rtn == true)
             {

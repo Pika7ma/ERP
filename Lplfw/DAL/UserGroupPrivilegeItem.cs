@@ -16,5 +16,6 @@ namespace Lplfw.DAL
     {
         public int PrivilegeId { get; set; }
         public int UserGroupId { get; set; }
+        public string Mode { get; set; }
     }
 }

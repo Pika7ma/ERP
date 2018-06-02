@@ -99,7 +99,7 @@ namespace Lplfw.UI.Purchase
         /// <param name="e"></param>
         private void cbMaterial_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cbMaterial.SelectedValue == null) ;
+            if (cbMaterial.SelectedValue == null) return;
             else
             {
                 var _thread = new Thread(new ParameterizedThreadStart(GetPrice));
@@ -131,8 +131,6 @@ namespace Lplfw.UI.Purchase
             }
             else
             {
-
-
                 MaterialPriceView materialPriceView = (MaterialPriceView)cbSupplier.SelectedItem;
                 if (materialPriceView == null)
                 {
@@ -216,10 +214,10 @@ namespace Lplfw.UI.Purchase
         private void txq_lostfocus(object sender, RoutedEventArgs e)
         {
             var _mprice = (MaterialPriceView)cbSupplier.SelectedItem;
-            if (_mprice == null) ;
+            if (_mprice == null) return;
             else
             {
-                if (txq.Text == "") ;
+                if (txq.Text == "") return;
                 else
                 {
                     if (Convert.ToInt32(txq.Text) < _mprice.StartQuantity || Convert.ToInt32(txq.Text) > _mprice.MaxQuantity)

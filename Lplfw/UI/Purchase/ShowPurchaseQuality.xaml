@@ -10,11 +10,11 @@
         <DataGrid x:Name="dgQuality" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="0,0,0.2,-0.4">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="质检单ID" Width ="100" Binding="{Binding Id}"/>
-                <DataGridTextColumn Header="订单Id" Width ="100" Binding="{Binding mName}"/>
-                <DataGridTextColumn Header="负责人" Width ="70" Binding="{Binding Price}"/>
-                <DataGridTextColumn Header="结果" Width ="70" Binding="{Binding sName}"/>
-                <DataGridTextColumn Header="描述" Width ="70" Binding="{Binding Quantity}"/>
-                <DataGridTextColumn Header="时间" Width ="100" Binding="{Binding Status}"/>
+                <DataGridTextColumn Header="订单Id" Width ="100" Binding="{Binding PurchaseId}"/>
+                <DataGridTextColumn Header="负责人" Width ="70" Binding="{Binding UserId}"/>
+                <DataGridTextColumn Header="结果" Width ="70" Binding="{Binding Result}"/>
+                <DataGridTextColumn Header="描述" Width ="70" Binding="{Binding Time}"/>
+                <DataGridTextColumn Header="时间" Width ="100" Binding="{Binding Description}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
