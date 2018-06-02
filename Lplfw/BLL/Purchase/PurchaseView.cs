@@ -8,28 +8,26 @@ namespace Lplfw.DAL
      public class PurchaseView
     {
         public int Id { get; set; }
-        public double Price { get; set; }
-        public int Quantity { get; set; }
         public String Status { get; set; }
+        public String Priority { get; set; }
         public System.DateTime CreateAt { get; set; }
-        public System.DateTime FinishedAt { get; set; }
-        public String mName { get; set; }
-        public String sName { get; set; }
-        public string uName { get; set; }
+        public System.DateTime? FinishedAt { get; set; }
+        public String Description { get; set; }
+        public String Name { get; set; }
+        public int UserId { get; set; }
 
-        public static List<PurchaseView> Getall()
+        public static List<PurchaseView> GetAll()
         {
             using (var db = new ModelContainer())
             {
                 string sql = $"select * from purchaseview";
                 return db.Database.SqlQuery<PurchaseView>(sql).ToList();
             }
-
         }
 
 
 
-        public static List<PurchaseView> Getallbyid(int id)
+        public static List<PurchaseView> GetAllById(int id)
         {
             using (var db = new ModelContainer())
             {
@@ -39,7 +37,7 @@ namespace Lplfw.DAL
 
         }
 
-        public static List<PurchaseView> Getallbysupplier(string supplier)
+        public static List<PurchaseView> GetAllBySupplier(string supplier)
         {
             using (var db = new ModelContainer())
             {
@@ -50,7 +48,7 @@ namespace Lplfw.DAL
         }
 
 
-        public static List<PurchaseView> Getallbyuser(string user)
+        public static List<PurchaseView> GetAllByUser(string user)
         {
             using (var db = new ModelContainer())
             {
@@ -60,7 +58,7 @@ namespace Lplfw.DAL
 
         }
 
-        public static List<PurchaseView> Getallbycreateat(string createat)
+        public static List<PurchaseView> GetAllByCreateAt(string createat)
         {
             var _createat = Convert.ToDateTime(createat);
             var _createat2 = _createat.AddDays(1);
@@ -72,7 +70,7 @@ namespace Lplfw.DAL
 
         }
 
-        public static List<PurchaseView> Getallbycfinishedat(string finishedat)
+        public static List<PurchaseView> GetAllByFinishedat(string finishedat)
         {
             var _finishedat = Convert.ToDateTime(finishedat);
             var _finishedat2 = _finishedat.AddDays(1);

@@ -6,7 +6,7 @@
         xmlns:TimeTool="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
         xmlns:local="clr-namespace:Lplfw.UI.Purchase"
         mc:Ignorable="d"
-        Title="添加采购单" Height="650" Width="800">
+        Title="添加采购单" Height="650" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -42,8 +42,8 @@
         <ComboBox x:Name="cbuser" Grid.Column="3" Height="23" Margin="0,180,0,0" Grid.Row="1" VerticalAlignment="Top" DisplayMemberPath="Name" SelectedValuePath="Id" />
         <DataGrid x:Name="dgMaterialItems" Grid.Row="3" Grid.ColumnSpan="3" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" Grid.Column="1" >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="零件名称" Binding="{Binding mName}" Width="150" />
-                <DataGridTextColumn Header="供应商" Binding="{Binding sName}" Width="150" />
+                <DataGridTextColumn Header="零件名称" Binding="{Binding MaterialName}" Width="150" />
+                <DataGridTextColumn Header="供应商" Binding="{Binding SupplierName}" Width="150" />
                 <DataGridTextColumn Header="数量" Binding="{Binding Quantity}" Width="150" />
                 <DataGridTextColumn Header="价格" Binding="{Binding Price}" Width="150" />
             </DataGrid.Columns>

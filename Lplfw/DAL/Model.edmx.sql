@@ -1,6 +1,6 @@
 
 
-
+use erp;
 
 
 
@@ -44,7 +44,7 @@
 -- -----------------------------------------------------------
 -- Entity Designer DDL Script for MySQL Server 4.1 and higher
 -- -----------------------------------------------------------
--- Date Created: 06/02/2018 17:17:22
+-- Date Created: 06/02/2018 19:26:25
 
 -- Generated from EDMX file: E:\code\csharp\Lplfw\Lplfw\DAL\Model.edmx
 -- Target version: 3.0.0.0
@@ -289,7 +289,8 @@ CREATE TABLE `MaterialSet`(
 	`Unit` longtext NOT NULL, 
 	`ClassId` int NOT NULL, 
 	`Price` double NOT NULL, 
-	`Status` longtext NOT NULL);
+	`Status` longtext NOT NULL, 
+	`SafeQuantity` int NOT NULL);
 
 ALTER TABLE `MaterialSet` ADD PRIMARY KEY (`Id`);
 
@@ -522,7 +523,7 @@ CREATE TABLE `PurchaseSet`(
 	`Status` longtext NOT NULL, 
 	`Priority` longtext NOT NULL, 
 	`CreateAt` datetime NOT NULL, 
-	`FinishedAt` datetime NOT NULL, 
+	`FinishedAt` datetime, 
 	`Description` longtext, 
 	`UserId` int NOT NULL);
 

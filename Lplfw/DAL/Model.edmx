@@ -289,6 +289,7 @@
     <Property Name="ClassId" Type="int" Nullable="false" />
     <Property Name="Price" Type="double" Nullable="false" />
     <Property Name="Status" Type="longtext" Nullable="false" DefaultValue="可用" />
+    <Property Name="SafeQuantity" Type="int" Nullable="false" DefaultValue="0" />
   </EntityType>
   <EntityType Name="RecipeItemSet">
     <Key>
@@ -473,7 +474,7 @@
     <Property Name="Status" Type="longtext" Nullable="false" />
     <Property Name="Priority" Type="longtext" Nullable="false" />
     <Property Name="CreateAt" Type="datetime" Nullable="false" />
-    <Property Name="FinishedAt" Type="datetime" Nullable="false" />
+    <Property Name="FinishedAt" Type="datetime" Nullable="true" />
     <Property Name="Description" Type="longtext" Nullable="true" />
     <Property Name="UserId" Type="int" Nullable="false" />
   </EntityType>
@@ -1571,6 +1572,7 @@
           <Property Name="Price" Type="Double" Nullable="false" />
           <NavigationProperty Name="MaterialStock" Relationship="Model.MaterialInStock" FromRole="Material" ToRole="MaterialStock" />
           <Property Name="Status" Type="String" Nullable="false" DefaultValue="可用" />
+          <Property Name="SafeQuantity" Type="Int32" Nullable="false" DefaultValue="0" />
         </EntityType>
         <Association Name="ClassOfMaterial">
           <End Type="Model.Material" Role="Material" Multiplicity="*" />
@@ -2087,7 +2089,7 @@
           <Property Name="Status" Type="String" Nullable="false" />
           <Property Name="Priority" Type="String" Nullable="false" />
           <Property Name="CreateAt" Type="DateTime" Nullable="false" />
-          <Property Name="FinishedAt" Type="DateTime" Nullable="false" />
+          <Property Name="FinishedAt" Type="DateTime" Nullable="true" />
           <Property Name="Description" Type="String" Nullable="true" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Items" Relationship="Model.PurchaseItemPurchase" FromRole="Purchase" ToRole="PurchaseItem" />
@@ -2536,6 +2538,7 @@
           <ScalarProperty Name="ClassId" ColumnName="ClassId" />
           <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="SafeQuantity" ColumnName="SafeQuantity" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

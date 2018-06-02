@@ -18,6 +18,7 @@ namespace Lplfw.DAL
         public Material()
         {
             this.Status = "可用";
+            this.SafeQuantity = 0;
             this.MaterialStock = new HashSet<MaterialStock>();
         }
     
@@ -28,6 +29,7 @@ namespace Lplfw.DAL
         public int ClassId { get; set; }
         public double Price { get; set; }
         public string Status { get; set; }
+        public int SafeQuantity { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MaterialStock> MaterialStock { get; set; }

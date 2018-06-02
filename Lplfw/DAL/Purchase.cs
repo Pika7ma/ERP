@@ -24,7 +24,7 @@ namespace Lplfw.DAL
         public string Status { get; set; }
         public string Priority { get; set; }
         public System.DateTime CreateAt { get; set; }
-        public System.DateTime FinishedAt { get; set; }
+        public Nullable<System.DateTime> FinishedAt { get; set; }
         public string Description { get; set; }
         public int UserId { get; set; }
     

@@ -204,7 +204,7 @@ namespace Lplfw.UI.Purchase
                 try
                 {
                     _db.PurchaseSet.Add(_purchase);
-                    _db.PurchaseItemSet.AddRange(PurchaseItemView.changetoitems(purchaseitems));
+                    _db.PurchaseItemSet.AddRange(PurchaseItemView.ChangeToItems(purchaseitems));
                     _db.SaveChanges();
 
                 }

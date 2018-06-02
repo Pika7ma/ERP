@@ -36,7 +36,7 @@ namespace Lplfw.UI.Purchase
             using (var _db = new DAL.ModelContainer())
             {
                 Purchase = _db.PurchaseSet.FirstOrDefault(i => i.Id == _id);
-                MyPurchaseItems = PurchaseItemView.GetPurchaseitemsbypid(_id);
+                MyPurchaseItems = PurchaseItemView.GetByPurchaseId(_id);
                 var _users = new List<DAL.User>();
                 _users = _db.UserSet.Select(i => i).ToList();
                 Dispatcher.BeginInvoke((Action)delegate ()
@@ -194,7 +194,7 @@ namespace Lplfw.UI.Purchase
                 });
                 List<PurchaseItem> purchaseItems = _db.PurchaseItemSet.Where(i => i.PurchaseId == Id).ToList();
                 _db.PurchaseItemSet.RemoveRange(purchaseItems);
-                _db.PurchaseItemSet.AddRange(PurchaseItemView.changetoitems(MyPurchaseItems));
+                _db.PurchaseItemSet.AddRange(PurchaseItemView.ChangeToItems(MyPurchaseItems));
                 _db.SaveChanges();
             }
         }

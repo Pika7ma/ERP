@@ -125,12 +125,17 @@
             </TabItem>
             <TabItem Header="采购订单管理">
                 <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
 
-                    <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,0,0.2,0">
+                    <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="2">
                         <Button x:Name="btnShowAll4" Content="显示全部" VerticalAlignment="Stretch" Width="75"  Click="BtnShowAll4Click"/>
                         <Separator/>
                         <Button x:Name="btnNewOrder" Content="新建订单" VerticalAlignment="Stretch" Width="75" Click="BtnCreatePurchaseClick"/>
@@ -142,20 +147,26 @@
                         <Separator/>
                         <ComboBox x:Name="cbSearchPurchaseClass" DisplayMemberPath="Name" SelectedValuePath="ID" HorizontalAlignment="Left" VerticalAlignment="Center" Width="58" Height="23" SelectionChanged="CbbSearchPurchaseClassSelectionChanged"/>
                         <TextBox x:Name="txsearchpurchase" Height="23" TextWrapping="Wrap" VerticalAlignment="Center" Width="145" Margin="10,0,0,0"/>
-                        <DatePicker x:Name="dpsettime" Height="23"  VerticalAlignment="Top" Width="145" Margin="0,12,0,0" RenderTransformOrigin="-0.332,0.67" Visibility="Collapsed"/>
+                        <DatePicker x:Name="dpsettime" Height="23"  VerticalAlignment="Center" Width="145" Margin="10,0,0,0" Visibility="Collapsed"/>
                         <Button x:Name="btSearchpurchaseClass" Content="搜索" Height="23" Margin="10,0,0,0" Width="46" VerticalAlignment="Center" Click="BtnSearchSupplierClassClick"/>
                     </ToolBar>
-                    <DataGrid x:Name="dgPurchases" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="0,35,0.2,-0.4">
+                    <DataGrid x:Name="dgPurchases" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Grid.Row="1" SelectionChanged="DgPurchasesChanged">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="订单ID" Width ="100" Binding="{Binding Id}"/>
-                            <DataGridTextColumn Header="原料名称" Width ="100" Binding="{Binding mName}"/>
-                            <DataGridTextColumn Header="单价" Width ="70" Binding="{Binding Price}"/>
-                            <DataGridTextColumn Header="供货商" Width ="70" Binding="{Binding sName}"/>
-                            <DataGridTextColumn Header="数量" Width ="70" Binding="{Binding Quantity}"/>
                             <DataGridTextColumn Header="状态" Width ="100" Binding="{Binding Status}"/>
+                            <DataGridTextColumn Header="优先级" Width ="70" Binding="{Binding Priority}"/>
                             <DataGridTextColumn Header="创建时间" Width ="150" Binding="{Binding CreateAt}"/>
                             <DataGridTextColumn Header="完成时间" Width ="150" Binding="{Binding FinishedAt}"/>
-                            <DataGridTextColumn Header="负责人" Width ="100" Binding="{Binding uName}"/>
+                            <DataGridTextColumn Header="备注" Width ="100" Binding="{Binding Description}"/>
+                            <DataGridTextColumn Header="负责人" Width ="100" Binding="{Binding Name}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" Width="5"/>
+                    <DataGrid x:Name="dgPurchaseItem" Grid.Column="1" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Margin="5,0,0,0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="原料名称" Width ="100" Binding="{Binding MaterialName}"/>
+                            <DataGridTextColumn Header="数量" Width ="70" Binding="{Binding Quantity}"/>
+                            <DataGridTextColumn Header="单价" Width ="70" Binding="{Binding Price}"/>
+                            <DataGridTextColumn Header="供货商" Width ="70" Binding="{Binding SupplierName}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid >

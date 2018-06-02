@@ -144,8 +144,8 @@ namespace Lplfw.UI.Purchase
                     purchaseItem.SupplierId = materialPriceView.sId;
                     purchaseItem.Price = materialPriceView.Price;
                     purchaseItem.Quantity = Convert.ToInt32(txq.Text);
-                    purchaseItem.mName = materialPriceView.mName;
-                    purchaseItem.sName = materialPriceView.sName;
+                    purchaseItem.MaterialName = materialPriceView.mName;
+                    purchaseItem.SupplierName = materialPriceView.sName;
                     if (getitem != null)
                     {
                         if (getitem(purchaseItem))

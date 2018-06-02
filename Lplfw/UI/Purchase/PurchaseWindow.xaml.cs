@@ -100,7 +100,7 @@ namespace Lplfw.UI.Purchase
         {
             Dispatcher.BeginInvoke((Action)delegate ()
             {
-                dgPurchases.ItemsSource = PurchaseView.Getall();
+                dgPurchases.ItemsSource = PurchaseView.GetAll();
             });
         }
 
@@ -609,11 +609,11 @@ namespace Lplfw.UI.Purchase
             {
                 switch ((int)cbSearchPurchaseClass.SelectedValue)
                 {
-                    case 1: if (txsearchpurchase.Text != "") dgPurchases.ItemsSource = PurchaseView.Getallbyid(Convert.ToInt32(txsearchpurchase.Text)); break;
-                    case 2: if (dpsettime.Text != "") dgPurchases.ItemsSource = PurchaseView.Getallbycreateat(dpsettime.Text); break;
-                    case 3: if (dpsettime.Text != "") dgPurchases.ItemsSource = PurchaseView.Getallbycfinishedat(dpsettime.Text); break;
-                    case 4: if (txsearchpurchase.Text != "") dgPurchases.ItemsSource = PurchaseView.Getallbyuser(txsearchpurchase.Text); break;
-                    case 5: if (txsearchpurchase.Text != "") dgPurchases.ItemsSource = PurchaseView.Getallbysupplier(txsearchpurchase.Text); break;
+                    case 1: if (txsearchpurchase.Text != "") dgPurchases.ItemsSource = PurchaseView.GetAllById(Convert.ToInt32(txsearchpurchase.Text)); break;
+                    case 2: if (dpsettime.Text != "") dgPurchases.ItemsSource = PurchaseView.GetAllByCreateAt(dpsettime.Text); break;
+                    case 3: if (dpsettime.Text != "") dgPurchases.ItemsSource = PurchaseView.GetAllByFinishedat(dpsettime.Text); break;
+                    case 4: if (txsearchpurchase.Text != "") dgPurchases.ItemsSource = PurchaseView.GetAllByUser(txsearchpurchase.Text); break;
+                    case 5: if (txsearchpurchase.Text != "") dgPurchases.ItemsSource = PurchaseView.GetAllBySupplier(txsearchpurchase.Text); break;
                 }
             }
 
@@ -664,5 +664,30 @@ namespace Lplfw.UI.Purchase
 
         }
         #endregion
+
+        private void DgPurchasesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var _item = dgPurchases.SelectedItem as PurchaseView;
+            if (_item == null)
+            {
+                dgPurchaseItem.ItemsSource = null;
+                return;
+            }
+            else
+            {
+                new Thread(new ParameterizedThreadStart(DgPurchasesChangedThread)).Start(_item.Id);
+            }
+        }
+
+        private void DgPurchasesChangedThread(object pid)
+        {
+            var _pid = (int)pid;
+            var _list = PurchaseItemView.GetByPurchaseId(_pid);
+
+            Dispatcher.BeginInvoke((Action) delegate ()
+            {
+                dgPurchaseItem.ItemsSource = _list;
+            });
+        }
     }
 }
