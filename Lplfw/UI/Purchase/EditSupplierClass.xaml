@@ -5,11 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Purchase"
         mc:Ignorable="d"
-        Title="EditSupplierClass" Height="300" Width="300"
-        Topmost="True"
-        ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen"
-        ShowInTaskbar="False">
+        Title="修改供应商" Height="300" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Label Content="名字" HorizontalAlignment="Left" Margin="41,30,0,0" VerticalAlignment="Top"/>
         <Label Content="联系人" HorizontalAlignment="Left" Margin="41,70,0,0" VerticalAlignment="Top"/>

@@ -5,13 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Purchase"
         mc:Ignorable="d"
-        Title="NewPriceClass" Height="300" Width="300"
-        Topmost="True"
-        ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen"
-        ShowInTaskbar="False"
-        Loaded="SetComboboxItem"
-        Closing="ReturnDialogResult">
+        Title="添加报价" Height="300" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        Loaded="SetComboboxItem" Closing="ReturnDialogResult">
     <Grid>
         <Label Content="材料" HorizontalAlignment="Left" Margin="41,30,0,0" VerticalAlignment="Top"/>
         <Label Content="供应商" HorizontalAlignment="Left" Margin="41,70,0,0" VerticalAlignment="Top"/>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Purchase"
         mc:Ignorable="d"
-        Title="NewSupplierClass" Height="300" Width="300"
+        Title="新建采购单" Height="300" Width="300"
         Topmost="True"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"

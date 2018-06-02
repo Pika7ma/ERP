@@ -17,11 +17,18 @@ namespace Lplfw.UI.Purchase
         public PurchaseWindow()
         {
             InitializeComponent();
-            RefreshtvPrice();
-            var _thread = new Thread(new ThreadStart(Rdpthread));
-            _thread.Start();
-            var _thread2 = new Thread(new ThreadStart(Rdsthread));
+            var _thread1 = new Thread(new ThreadStart(Refreshtvpurchase));
+            _thread1.Start();
+            var _thread2 = new Thread(new ThreadStart(Refreshdgmaterialpurchase));
             _thread2.Start();
+            var _thread3 = new Thread(new ThreadStart(RefreshdgPurchases));
+            _thread3.Start();
+            RefreshtvPrice();
+            var _thread4 = new Thread(new ThreadStart(Rdpthread));
+            _thread4.Start();
+            var _thread5 = new Thread(new ThreadStart(Rdsthread));
+            _thread5.Start();
+
         }
 
         private void LoadComponent(object sender, RoutedEventArgs e)
@@ -47,10 +54,34 @@ namespace Lplfw.UI.Purchase
             _sbbs.Add(_contact);
             _sbbs.Add(_location);
             _sbbs.Add(_tel);
+
+
+            List<SearchCombobox> _sbbm = new List<SearchCombobox>();
+            var _material2 = new SearchCombobox("材料", 1);
+            var _supplier2= new SearchCombobox("供应商", 2);
+            var _lownumber = new SearchCombobox("低于线", 3);
+            _sbbm.Add(_material2);
+            _sbbm.Add(_supplier2);
+            _sbbm.Add(_lownumber);
+
+            List<SearchCombobox> _sbbpur = new List<SearchCombobox>();
+            var _id = new SearchCombobox("订单id", 1);
+            var _createat = new SearchCombobox("创建时间", 2);
+            var _finishedat = new SearchCombobox("完成时间", 3);
+            var _user = new SearchCombobox("负责人", 4);
+            var _sup = new SearchCombobox("供货商", 5);
+            _sbbpur.Add(_id);
+            _sbbpur.Add(_createat);
+            _sbbpur.Add(_finishedat);
+            _sbbpur.Add(_user);
+            _sbbpur.Add(_sup);
+
             Dispatcher.BeginInvoke((Action)delegate ()
             {
                 cbbSearchSupplierClass.ItemsSource = _sbbs;
                 cbbSearchPriceClass.ItemsSource = _sbbp;
+                cbSearchMaterialClass.ItemsSource = _sbbm;
+                cbSearchPurchaseClass.ItemsSource = _sbbpur;
             });
         }
 
@@ -71,6 +102,31 @@ namespace Lplfw.UI.Purchase
                 });
             }
         }
+        /// </summary>
+        private void RefreshdgPurchases()
+        {
+            Dispatcher.BeginInvoke((Action)delegate ()
+            {
+                dgPurchases.ItemsSource = PurchaseView.Getall();
+            });
+        }
+
+        private void Refreshdgmaterialpurchase()
+        {
+            Dispatcher.BeginInvoke((Action)delegate ()
+            {
+                dgmaterialpurchase.ItemsSource = MaterialPurchaseView.Getall();
+            });
+        }
+        private void Refreshtvpurchase()
+        {
+            Dispatcher.BeginInvoke((Action)delegate ()
+            {
+                tvpurchase.Items.Clear();
+                MaterialClass.SetTreeFromRoot(ref tvpurchase);
+            });
+        }
+
 
         private void RefreshdgSupplier()
         {
@@ -361,8 +417,15 @@ namespace Lplfw.UI.Purchase
 
         private void DgSupplierMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            int _id = (int)((Supplier)dgSupplier.SelectedItem).Id;
-            new Thread(new ParameterizedThreadStart(Dsthread)).Start(_id);
+            try
+            {
+                int _id = (int)((Supplier)dgSupplier.SelectedItem).Id;
+                new Thread(new ParameterizedThreadStart(Dsthread)).Start(_id);
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         private void Dsthread(object id)
@@ -373,6 +436,234 @@ namespace Lplfw.UI.Purchase
             {
                 dgMaterialinSupplier.ItemsSource = _temp;
             });
+        }
+
+
+
+        /// <summary>
+        /// 一下为材料浏览页面交互函数
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnShowAll_Click(object sender, RoutedEventArgs e)
+        {
+            Refreshdgmaterialpurchase();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btSearchMaterialClass_Click(object sender, RoutedEventArgs e)
+        {
+            if (cbSearchMaterialClass.Text != "" && txsearchMaterial.Text != "")
+            {
+                try
+                {
+                    switch ((int)cbSearchMaterialClass.SelectedValue)
+                    {
+                        case 1: dgmaterialpurchase.ItemsSource = MaterialPurchaseView.Getallbymaterial(txsearchMaterial.Text); break;
+                        case 2: dgmaterialpurchase.ItemsSource = MaterialPurchaseView.Getallbysupplier(txsearchMaterial.Text); break;
+                        case 3: dgmaterialpurchase.ItemsSource = MaterialPurchaseView.Getalllow(Convert.ToInt32(txsearchMaterial.Text)); break;
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("输入有误");
+                }
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnpurchase_click(object sender, RoutedEventArgs e)
+        {
+            var _createpurchase = new NewPurchase();
+            _createpurchase.Show();
+        }
+        /// <summary>
+        /// tree
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tvpurchase_mouseup(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            try
+            {
+                int _id = (int)((TreeViewItem)tvpurchase.SelectedItem).DataContext;
+                var _ml = MaterialClass.GetSubClassMaterials(_id);
+                new Thread(new ParameterizedThreadStart(Tpthread2)).Start(_ml);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ml"></param>
+        private void Tpthread2(object ml)
+        {
+            var _ml = (List<Material>)ml;
+            using (var _db = new DAL.ModelContainer())
+            {
+                var _dg = MaterialPurchaseView.GetbyIdList(_ml);
+                Dispatcher.BeginInvoke((Action)delegate ()
+                {
+                    dgPurchases.ItemsSource = _dg;
+                    dgPurchases.Items.Refresh();
+                });
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+        private void btnCreatepurchase_Click(object sender, RoutedEventArgs e)
+        {
+            NewPurchase _createpurchase = new NewPurchase();
+            _createpurchase.Show();
+        }
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnChangepurchase_Click(object sender, RoutedEventArgs e)
+        {
+            var _item = dgPurchases.SelectedItem as PurchaseView;
+            if (_item == null)
+            {
+                MessageBox.Show("请选择条目");
+                return;
+            }
+            if (_item.Status == "完成")
+            {
+                MessageBox.Show("订单已完成");
+                return;
+            }
+            EditPurchase changepurchase = new EditPurchase(_item.Id);
+            changepurchase.Id = _item.Id;
+            changepurchase.ShowDialog();
+            dgPurchases.Items.Refresh();
+        }
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnDeleteOder_Click(object sender, RoutedEventArgs e)
+        {
+            PurchaseView purchase = (PurchaseView)dgPurchases.SelectedItem;
+            if (purchase == null)
+            {
+                MessageBox.Show("请选择订单");
+
+            }
+            else
+            {
+                using (var _db = new DAL.ModelContainer())
+                {
+                    DAL.Purchase pc = _db.PurchaseSet.First(i => i.Id == purchase.Id);
+                    List<PurchaseItem> purchaseItems = _db.PurchaseItemSet.Where(i => i.PurchaseId == purchase.Id).ToList();
+                    _db.PurchaseItemSet.RemoveRange(purchaseItems);
+                    _db.PurchaseSet.Remove(pc);
+                    _db.SaveChanges();
+
+                }
+                MessageBox.Show("删除成功");
+                dgPurchases.Items.Refresh();
+
+            }
+        }
+        /// <summary>
+        /// showall
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnShowAll4_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshdgPurchases();
+        }
+        /// <summary>
+        /// 自检单
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnNewquality_Click(object sender, RoutedEventArgs e)
+        {
+            var _purchase = (PurchaseView)dgPurchases.SelectedItem;
+            if (_purchase == null)
+            {
+                MessageBox.Show("请选择订单");
+            }
+            else if (_purchase.Status != "完成")
+            {
+                MessageBox.Show("此订单尚未完成");
+            }
+            else
+            {
+                var newquality = new NewPurchaseQuality(_purchase.Id);
+                newquality.Show();
+
+            }
+        }
+
+
+
+
+
+
+        private void btSearchSupplierClass_Click(object sender, RoutedEventArgs e)
+        {
+            if (cbSearchPurchaseClass.Text != "")
+            {
+                switch ((int)cbSearchPurchaseClass.SelectedValue)
+                {
+                    case 1: if (txsearchpurchase.Text != "") dgPurchases.ItemsSource = PurchaseView.Getallbyid(Convert.ToInt32(txsearchpurchase.Text)); break;
+                    case 2: if (dpsettime.Text != "") dgPurchases.ItemsSource = PurchaseView.Getallbycreateat(dpsettime.Text); break;
+                    case 3: if (dpsettime.Text != "") dgPurchases.ItemsSource = PurchaseView.Getallbycfinishedat(dpsettime.Text); break;
+                    case 4: if (txsearchpurchase.Text != "") dgPurchases.ItemsSource = PurchaseView.Getallbyuser(txsearchpurchase.Text); break;
+                    case 5: if (txsearchpurchase.Text != "") dgPurchases.ItemsSource = PurchaseView.Getallbysupplier(txsearchpurchase.Text); break;
+
+                }
+
+            }
+
+        }
+
+
+
+
+        private void cbSearchPurchaseClass_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbSearchPurchaseClass.SelectedIndex == 1 || cbSearchPurchaseClass.SelectedIndex == 2)
+            {
+                txsearchpurchase.Visibility = Visibility.Collapsed;
+                dpsettime.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                txsearchpurchase.Visibility = Visibility.Visible;
+                dpsettime.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void btnShowquality_Click(object sender, RoutedEventArgs e)
+        {
+            var _showquality = new ShowPurchaseQuality();
+            _showquality.Show();
         }
     }
 }

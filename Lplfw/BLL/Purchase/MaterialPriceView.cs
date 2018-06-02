@@ -24,6 +24,17 @@ namespace Lplfw.DAL
             }
         }
 
+
+        public static List<MaterialPriceView> GetMaterialPriceViewbymid(int mid)
+        {
+            using (var _db = new DAL.ModelContainer())
+            {
+                string sql = $"select * from materialpriceview where mId={mid}";
+                return _db.Database.SqlQuery<MaterialPriceView>(sql).ToList();
+            }
+        }
+
+
         public static List<MaterialPriceView> GetbyIdList(List<Material> m)
         {
             var _mpv = new List<MaterialPriceView>();

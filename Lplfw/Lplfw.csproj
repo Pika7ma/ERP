@@ -42,6 +42,9 @@
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="Loya.Dameer">
+      <HintPath>C:\Users\Gigabyte\Downloads\Loya.dameer\Loya.Dameer.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.9.12.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.6.9.12\lib\net40\MySql.Data.dll</HintPath>
     </Reference>
@@ -74,6 +77,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Util.Controls">
+      <HintPath>C:\Users\Gigabyte\Downloads\Loya.dameer\Util.Controls.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -87,6 +93,9 @@
     <Compile Include="BLL\Bom\ExcelReader.cs" />
     <Compile Include="BLL\Bom\MaterialClass.cs" />
     <Compile Include="BLL\Bom\ProductClass.cs" />
+    <Compile Include="BLL\Purchase\MaterialPurchaseView.cs" />
+    <Compile Include="BLL\Purchase\PurchaseItemView.cs" />
+    <Compile Include="BLL\Purchase\PurchaseView.cs" />
     <Compile Include="BLL\ViewModels\MaterialClassViewModel.cs" />
     <Compile Include="BLL\ViewModels\ProductClassViewModel.cs" />
     <Compile Include="BLL\Bom\RecipeView.cs" />
@@ -263,6 +272,9 @@
     <Compile Include="UI\Purchase\EditPriceWithSupplier.xaml.cs">
       <DependentUpon>EditPriceWithSupplier.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Purchase\EditPurchase.xaml.cs">
+      <DependentUpon>EditPurchase.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Purchase\EditSupplierClass.xaml.cs">
       <DependentUpon>EditSupplierClass.xaml</DependentUpon>
     </Compile>
@@ -272,11 +284,23 @@
     <Compile Include="UI\Purchase\NewPriceWithSupplierClass.xaml.cs">
       <DependentUpon>NewPriceWithSupplierClass.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Purchase\NewPurchase.xaml.cs">
+      <DependentUpon>NewPurchase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Purchase\NewPurchaseItem.xaml.cs">
+      <DependentUpon>NewPurchaseItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Purchase\NewPurchaseQuality.xaml.cs">
+      <DependentUpon>NewPurchaseQuality.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Purchase\NewSupplierClass.xaml.cs">
       <DependentUpon>NewSupplierClass.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Purchase\PurchaseWindow.xaml.cs">
       <DependentUpon>PurchaseWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Purchase\ShowPurchaseQuality.xaml.cs">
+      <DependentUpon>ShowPurchaseQuality.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\User\NewUser.xaml.cs">
       <DependentUpon>NewUser.xaml</DependentUpon>
@@ -395,6 +419,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Purchase\EditPurchase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Purchase\EditSupplierClass.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -407,11 +435,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Purchase\NewPurchase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Purchase\NewPurchaseItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Purchase\NewPurchaseQuality.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Purchase\NewSupplierClass.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Purchase\PurchaseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Purchase\ShowPurchaseQuality.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

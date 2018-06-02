@@ -5,11 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Purchase"
         mc:Ignorable="d"
-        Title="EditPriceWithSupplier" Height="300" Width="300"
-        Topmost="True"
-        ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen"
-        ShowInTaskbar="False">
+        Title="修改报价" Height="300" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Label Content="价格" HorizontalAlignment="Left" Margin="41,40,0,0" VerticalAlignment="Top"/>
         <Label Content="起购量" HorizontalAlignment="Left" Margin="41,100,0,0" VerticalAlignment="Top"/>
