@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Produce"
         mc:Ignorable="d"
-        Height="620" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Height="620" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -24,9 +24,9 @@
         </Grid.ColumnDefinitions>
         <Label Content="流水线" Grid.Column="2" Margin="0,0,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
         <Label Content="备注" Grid.Column="2" Margin="0,30,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-        <ComboBox Grid.Column="3" Grid.Row="1" Margin="0,0,0,0"  VerticalAlignment="Top" DisplayMemberPath="Name" SelectedValuePath="Id"/>
-        <TextBox Grid.Column="3" Height="23" Margin="0,30,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <DataGrid x:Name="dgSalesItems" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" Width="564" Grid.ColumnSpan="3" SelectionMode="Single" AutoGenerateColumns="False" Margin="0,0,0,5">
+        <ComboBox x:Name="AssemblyLineCombo" Grid.Column="3" Grid.Row="1" Margin="0,0,0,0"  VerticalAlignment="Top" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+        <TextBox x:Name="descriptionText" Grid.Column="3" Height="23" Margin="0,30,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <DataGrid x:Name="dgSalesItems" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" Width="564" Grid.ColumnSpan="3" SelectionMode="Single" AutoGenerateColumns="False" Margin="0,0,0,5" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="原料名" Binding="{Binding Name}" Width="1*"/>
                 <DataGridTextColumn Header="数量" Binding="{Binding Quantity}" Width="1*"/>
@@ -34,9 +34,9 @@
         </DataGrid>
         <Button Content="新建物料条目" Grid.Column="4" HorizontalAlignment="Left" Margin="60,30,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90" Click="NewItem"/>
         <Button Content="修改物料条目" Grid.Column="4" HorizontalAlignment="Left" Margin="60,70,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90" Click="EditItem"/>
-        <Button Content="删除物料条目" Grid.Column="4" HorizontalAlignment="Left" Margin="60,110,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90"/>
-        <Button Content="确定" Grid.Column="4" HorizontalAlignment="Left" Margin="60,240,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90"/>
-        <Button Content="取消" Grid.Column="4" HorizontalAlignment="Left" Margin="60,280,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90"/>
+        <Button Content="删除物料条目" Grid.Column="4" HorizontalAlignment="Left" Margin="60,110,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90" Click="DeleteItem"/>
+        <Button Content="确定" Grid.Column="4" HorizontalAlignment="Left" Margin="60,240,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90" Click="Sure"/>
+        <Button Content="取消" Grid.Column="4" HorizontalAlignment="Left" Margin="60,280,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90" Click="NotSure"/>
         <TextBlock x:Name="message" Grid.Column="3" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,6,0,0" TextAlignment="Center" Foreground="Red"/>
 
     </Grid>

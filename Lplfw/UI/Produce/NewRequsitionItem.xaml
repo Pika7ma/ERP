@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Produce"
         mc:Ignorable="d"
-        Height="240" Width="300">
+        Height="240" Width="300" WindowStartupLocation="CenterScreen">
     <Grid>
         <Label Content="物料类别" HorizontalAlignment="Left" Margin="40,30,0,0" VerticalAlignment="Top"/>
         <Label Content="物料" HorizontalAlignment="Left" Margin="40,70,0,0" VerticalAlignment="Top"/>
         <Label Content="数量" HorizontalAlignment="Left" Margin="40,110,0,0" VerticalAlignment="Top"/>
-        <ComboBox HorizontalAlignment="Left" Margin="110,30,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox HorizontalAlignment="Left" Margin="110,70,0,0" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="110,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Button Content="确定" HorizontalAlignment="Left" Margin="167,150,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="取消" HorizontalAlignment="Left" Margin="56,150,0,0" VerticalAlignment="Top" Width="75"/>
+        <ComboBox x:Name="cbMaterialClass" HorizontalAlignment="Left" Margin="110,30,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="Name" SelectedValuePath="Id" SelectionChanged="MaterialClassChanged"/>
+        <ComboBox x:Name="cbMaterial" HorizontalAlignment="Left" Margin="110,70,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+        <TextBox x:Name="amountText" HorizontalAlignment="Left" Height="23" Margin="110,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button Content="确定" HorizontalAlignment="Left" Margin="167,150,0,0" VerticalAlignment="Top" Width="75" Click="Confirm"/>
+        <Button Content="取消" HorizontalAlignment="Left" Margin="56,150,0,0" VerticalAlignment="Top" Width="75" Click="Cancel"/>
 
     </Grid>
 </Window>
