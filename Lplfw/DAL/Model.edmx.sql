@@ -1,6 +1,6 @@
 
-
 use erp;
+
 
 
 
@@ -44,7 +44,7 @@ use erp;
 -- -----------------------------------------------------------
 -- Entity Designer DDL Script for MySQL Server 4.1 and higher
 -- -----------------------------------------------------------
--- Date Created: 06/02/2018 19:26:25
+-- Date Created: 06/02/2018 20:07:35
 
 -- Generated from EDMX file: E:\code\csharp\Lplfw\Lplfw\DAL\Model.edmx
 -- Target version: 3.0.0.0
@@ -110,8 +110,6 @@ use erp;
 --    ALTER TABLE `MaterialStockOutItemSet` DROP CONSTRAINT `FK_MaterialStockOutItemMaterial`;
 
 --    ALTER TABLE `MaterialStockOutItemSet` DROP CONSTRAINT `FK_MaterialStockOutItemStockOut`;
-
---    ALTER TABLE `SalesSet` DROP CONSTRAINT `FK_SalesCustomer`;
 
 --    ALTER TABLE `SalesSet` DROP CONSTRAINT `FK_SalesUser`;
 
@@ -188,8 +186,6 @@ SET foreign_key_checks = 0;
     DROP TABLE IF EXISTS `UserSet`;
 
     DROP TABLE IF EXISTS `SupplierSet`;
-
-    DROP TABLE IF EXISTS `CustomerSet`;
 
     DROP TABLE IF EXISTS `StorageSet`;
 
@@ -366,19 +362,6 @@ ALTER TABLE `SupplierSet` ADD PRIMARY KEY (`Id`);
 
 
 
-CREATE TABLE `CustomerSet`(
-	`Id` int NOT NULL AUTO_INCREMENT UNIQUE, 
-	`Name` longtext NOT NULL, 
-	`Contact` longtext NOT NULL, 
-	`Location` longtext NOT NULL, 
-	`Tel` longtext NOT NULL);
-
-ALTER TABLE `CustomerSet` ADD PRIMARY KEY (`Id`);
-
-
-
-
-
 CREATE TABLE `StorageSet`(
 	`Id` int NOT NULL AUTO_INCREMENT UNIQUE, 
 	`Name` longtext NOT NULL, 
@@ -492,7 +475,8 @@ ALTER TABLE `MaterialStockOutItemSet` ADD PRIMARY KEY (`MaterialId`, `StockOutId
 
 CREATE TABLE `SalesSet`(
 	`Id` int NOT NULL AUTO_INCREMENT UNIQUE, 
-	`CustomerId` int NOT NULL, 
+	`Customer` longtext NOT NULL, 
+	`Tel` longtext NOT NULL, 
 	`UserId` int NOT NULL, 
 	`Status` longtext NOT NULL, 
 	`Priority` longtext NOT NULL, 
@@ -1098,24 +1082,6 @@ ADD CONSTRAINT `FK_MaterialStockOutItemStockOut`
 CREATE INDEX `IX_FK_MaterialStockOutItemStockOut`
     ON `MaterialStockOutItemSet`
     (`StockOutId`);
-
-
-
--- Creating foreign key on `CustomerId` in table 'SalesSet'
-
-ALTER TABLE `SalesSet`
-ADD CONSTRAINT `FK_SalesCustomer`
-    FOREIGN KEY (`CustomerId`)
-    REFERENCES `CustomerSet`
-        (`Id`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-
--- Creating non-clustered index for FOREIGN KEY 'FK_SalesCustomer'
-
-CREATE INDEX `IX_FK_SalesCustomer`
-    ON `SalesSet`
-    (`CustomerId`);
 
 
 

@@ -35,7 +35,6 @@ namespace Lplfw.DAL
         public virtual DbSet<UserGroupPrivilegeItem> UserGroupPrivilegeItemSet { get; set; }
         public virtual DbSet<User> UserSet { get; set; }
         public virtual DbSet<Supplier> SupplierSet { get; set; }
-        public virtual DbSet<Customer> CustomerSet { get; set; }
         public virtual DbSet<Storage> StorageSet { get; set; }
         public virtual DbSet<ProductStock> ProductStockSet { get; set; }
         public virtual DbSet<MaterialStock> MaterialStockSet { get; set; }

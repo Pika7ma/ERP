@@ -9,7 +9,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="145"/>
+            <RowDefinition Height="175"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
@@ -23,16 +23,18 @@
             <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
         <Label Content="客户" Grid.Column="2" Margin="0,0,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-        <Label Content="优先级" Grid.Column="2" Margin="0,30,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-        <Label Content="创建时间" Grid.Column="2" Margin="0,60,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-        <Label Content="应付时间" Grid.Column="2" Margin="0,90,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-        <Label Content="备注" Grid.Column="2" Margin="0,120,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-        <ComboBox Grid.Column="3" Grid.Row="1" Margin="0,0,0,0"  VerticalAlignment="Top" DisplayMemberPath="Name" SelectedValuePath="Id"/>
-        <ComboBox Grid.Column="3" Grid.Row="1" Margin="0,30,0,0"  VerticalAlignment="Top" DisplayMemberPath="Name" SelectedValuePath="Id"/>
-        <DatePicker Grid.Column="3" Margin="0,60,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <DatePicker Grid.Column="3" Margin="0,90,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <TextBox Grid.Column="3" Height="23" Margin="0,120,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <DataGrid x:Name="dgSalesItems" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" Width="564" Grid.ColumnSpan="3" SelectionMode="Single" AutoGenerateColumns="False" Margin="0,0,0,5">
+        <Label Content="联系方式" Grid.Column="2" Margin="0,30,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Label Content="优先级" Grid.Column="2" Margin="0,60,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Label Content="创建时间" Grid.Column="2" Margin="0,90,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Label Content="应付时间" Grid.Column="2" Margin="0,120,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Label Content="备注" Grid.Column="2" Margin="0,150,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <TextBox x:Name="tbCustomer" Grid.Column="3" Height="23" Margin="0,0,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox x:Name="tbCustomerTel" Grid.Column="3" Height="23" Margin="0,30,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cbPriority" Grid.Column="3" Grid.Row="1" Margin="0,60,0,0"  VerticalAlignment="Top" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+        <DatePicker x:Name="dpCreated" Grid.Column="3" Margin="0,90,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <DatePicker x:Name="dpRequired" Grid.Column="3" Margin="0,120,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <TextBox x:Name="tbDescription" Grid.Column="3" Height="23" Margin="0,150,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <DataGrid x:Name="dgSalesItems" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" Width="564" Grid.ColumnSpan="3" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" Margin="0,0,0,5">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="品名" Binding="{Binding Name}" Width="150"/>
                 <DataGridTextColumn Header="数量" Binding="{Binding Quantity}" Width="150"/>
@@ -41,9 +43,9 @@
         </DataGrid>
         <Button Content="新建订单条目" Grid.Column="4" HorizontalAlignment="Left" Margin="60,30,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90" Click="NewSalesItem"/>
         <Button Content="修改订单条目" Grid.Column="4" HorizontalAlignment="Left" Margin="60,70,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90" Click="EditSalesItem"/>
-        <Button Content="删除订单条目" Grid.Column="4" HorizontalAlignment="Left" Margin="60,110,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90"/>
-        <Button Content="确定" Grid.Column="4" HorizontalAlignment="Left" Margin="60,240,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90"/>
-        <Button Content="取消" Grid.Column="4" HorizontalAlignment="Left" Margin="60,280,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90"/>
+        <Button Content="删除订单条目" Grid.Column="4" HorizontalAlignment="Left" Margin="60,110,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90" Click="DeleteSalesItem"/>
+        <Button Content="确定" Grid.Column="4" HorizontalAlignment="Left" Margin="60,240,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90" Click="Confirm"/>
+        <Button Content="取消" Grid.Column="4" HorizontalAlignment="Left" Margin="60,280,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90" Click="Cancel"/>
         <TextBlock x:Name="message" Grid.Column="3" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,6,0,0" TextAlignment="Center" Foreground="Red"/>
     </Grid>
 </Window>

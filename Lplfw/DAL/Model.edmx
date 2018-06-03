@@ -16,7 +16,6 @@
     <EntitySet Name="UserGroupPrivilegeItemSet" EntityType="Model.Store.UserGroupPrivilegeItemSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="UserSet" EntityType="Model.Store.UserSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SupplierSet" EntityType="Model.Store.SupplierSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="CustomerSet" EntityType="Model.Store.CustomerSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="StorageSet" EntityType="Model.Store.StorageSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProductStockSet" EntityType="Model.Store.ProductStockSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MaterialStockSet" EntityType="Model.Store.MaterialStockSet" store:Type="Tables" Schema="dbo" />
@@ -143,10 +142,6 @@
     <AssociationSet Name="MaterialStockOutItemStockOut" Association="Model.Store.MaterialStockOutItemStockOut">
       <End Role="MaterialStockOutItem" EntitySet="MaterialStockOutItemSet" />
       <End Role="StockOut" EntitySet="StockOutSet" />
-    </AssociationSet>
-    <AssociationSet Name="SalesCustomer" Association="Model.Store.SalesCustomer">
-      <End Role="Sales" EntitySet="SalesSet" />
-      <End Role="Customer" EntitySet="CustomerSet" />
     </AssociationSet>
     <AssociationSet Name="SalesUser" Association="Model.Store.SalesUser">
       <End Role="Sales" EntitySet="SalesSet" />
@@ -343,16 +338,6 @@
     <Property Name="Location" Type="longtext" Nullable="false" />
     <Property Name="Tel" Type="longtext" Nullable="false" />
   </EntityType>
-  <EntityType Name="CustomerSet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="longtext" Nullable="false" />
-    <Property Name="Contact" Type="longtext" Nullable="false" />
-    <Property Name="Location" Type="longtext" Nullable="false" />
-    <Property Name="Tel" Type="longtext" Nullable="false" />
-  </EntityType>
   <EntityType Name="StorageSet">
     <Key>
       <PropertyRef Name="Id" />
@@ -448,7 +433,8 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="CustomerId" Type="int" Nullable="false" />
+    <Property Name="Customer" Type="longtext" Nullable="false" />
+    <Property Name="Tel" Type="longtext" Nullable="false" />
     <Property Name="UserId" Type="int" Nullable="false" />
     <Property Name="Status" Type="longtext" Nullable="false" />
     <Property Name="Priority" Type="longtext" Nullable="false" />
@@ -918,18 +904,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="SalesCustomer">
-    <End Role="Sales" Type="Model.Store.SalesSet" Multiplicity="*" />
-    <End Role="Customer" Type="Model.Store.CustomerSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Customer">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Sales">
-        <PropertyRef Name="CustomerId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="SalesUser">
     <End Role="Sales" Type="Model.Store.SalesSet" Multiplicity="*" />
     <End Role="User" Type="Model.Store.UserSet" Multiplicity="1" />
@@ -1287,7 +1261,6 @@
             <End Role="UserGroup" EntitySet="UserGroupSet" />
           </AssociationSet>
           <EntitySet Name="SupplierSet" EntityType="Model.Supplier" />
-          <EntitySet Name="CustomerSet" EntityType="Model.Customer" />
           <EntitySet Name="StorageSet" EntityType="Model.Storage" />
           <AssociationSet Name="PrincipalOfStorage" Association="Model.PrincipalOfStorage">
             <End Role="Storage" EntitySet="StorageSet" />
@@ -1366,10 +1339,6 @@
             <End Role="StockOut" EntitySet="StockOutSet" />
           </AssociationSet>
           <EntitySet Name="SalesSet" EntityType="Model.Sales" />
-          <AssociationSet Name="SalesCustomer" Association="Model.SalesCustomer">
-            <End Role="Sales" EntitySet="SalesSet" />
-            <End Role="Customer" EntitySet="CustomerSet" />
-          </AssociationSet>
           <AssociationSet Name="SalesUser" Association="Model.SalesUser">
             <End Role="Sales" EntitySet="SalesSet" />
             <End Role="User" EntitySet="UserSet" />
@@ -1702,17 +1671,6 @@
           <Property Name="Tel" Type="String" Nullable="false" />
           <NavigationProperty Name="MaterialPrices" Relationship="Model.MaterialPriceSupplier" FromRole="Supplier" ToRole="MaterialPrice" />
         </EntityType>
-        <EntityType Name="Customer">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-          <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="Contact" Type="String" Nullable="false" />
-          <Property Name="Location" Type="String" Nullable="false" />
-          <Property Name="Tel" Type="String" Nullable="false" />
-          <NavigationProperty Name="Sales" Relationship="Model.SalesCustomer" FromRole="Customer" ToRole="Sales" />
-        </EntityType>
         <EntityType Name="Storage">
           <Key>
             <PropertyRef Name="Id" />
@@ -2014,7 +1972,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="Customer" Type="String" Nullable="false" />
+          <Property Name="Tel" Type="String" Nullable="false" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="String" Nullable="false" />
           <Property Name="Priority" Type="String" Nullable="false" />
@@ -2023,18 +1982,6 @@
           <Property Name="Description" Type="String" Nullable="true" />
           <NavigationProperty Name="Items" Relationship="Model.SalesItemSales" FromRole="Sales" ToRole="SalesItem" />
         </EntityType>
-        <Association Name="SalesCustomer">
-          <End Type="Model.Sales" Role="Sales" Multiplicity="*" />
-          <End Type="Model.Customer" Role="Customer" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Sales">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="SalesUser">
           <End Type="Model.Sales" Role="Sales" Multiplicity="*" />
           <End Type="Model.User" Role="User" Multiplicity="1" />
@@ -2598,17 +2545,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="CustomerSet">
-      <EntityTypeMapping TypeName="IsTypeOf(Model.Customer)">
-        <MappingFragment StoreEntitySet="CustomerSet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Contact" ColumnName="Contact" />
-          <ScalarProperty Name="Location" ColumnName="Location" />
-          <ScalarProperty Name="Tel" ColumnName="Tel" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="StorageSet">
       <EntityTypeMapping TypeName="IsTypeOf(Model.Storage)">
         <MappingFragment StoreEntitySet="StorageSet">
@@ -2706,7 +2642,8 @@
       <EntityTypeMapping TypeName="IsTypeOf(Model.Sales)">
         <MappingFragment StoreEntitySet="SalesSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="Customer" ColumnName="Customer" />
+          <ScalarProperty Name="Tel" ColumnName="Tel" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Priority" ColumnName="Priority" />

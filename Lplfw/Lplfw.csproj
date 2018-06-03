@@ -107,9 +107,6 @@
     <Compile Include="DAL\AssemblyLine.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Customer.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="DAL\Log.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

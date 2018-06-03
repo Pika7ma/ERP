@@ -21,7 +21,8 @@ namespace Lplfw.DAL
         }
     
         public int Id { get; set; }
-        public int CustomerId { get; set; }
+        public string Customer { get; set; }
+        public string Tel { get; set; }
         public int UserId { get; set; }
         public string Status { get; set; }
         public string Priority { get; set; }
