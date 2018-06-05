@@ -1,7 +1,7 @@
 use erp;
 
 
-/*
+
 -- 产品种类
 insert into productclassset values(0, "类别1", null);
 insert into productclassset values(0, "类别2", null);
@@ -43,4 +43,3 @@ insert into userset values(0, "admin", "ixTfreDyxMU=", "-", 1);
 
 -- 供货商
 insert into supplierset values(0, "南开大学", "王信", "天津市某区某大街", "400-000-0000");
-*/

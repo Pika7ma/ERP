@@ -93,6 +93,19 @@
     <Compile Include="BLL\Bom\ExcelReader.cs" />
     <Compile Include="BLL\Bom\MaterialClass.cs" />
     <Compile Include="BLL\Bom\ProductClass.cs" />
+    <Compile Include="BLL\Inventory\InStorageRecordView.cs" />
+    <Compile Include="BLL\ViewModels\StockInViewModel.cs" />
+    <Compile Include="BLL\ViewModels\StockOutViewModel.cs" />
+    <Compile Include="DAL\DataViews\MaterialStockAllView.cs" />
+    <Compile Include="DAL\DataViews\ProductStockOutItemView.cs" />
+    <Compile Include="DAL\DataViews\ProductStockInItemView.cs" />
+    <Compile Include="DAL\DataViews\MaterialStockOutItemView.cs" />
+    <Compile Include="DAL\DataViews\MaterialStockInItemView.cs" />
+    <Compile Include="DAL\DataViews\MaterialStockView.cs" />
+    <Compile Include="BLL\Inventory\OutStorageRecordView.cs" />
+    <Compile Include="DAL\DataViews\ProductStockAllView.cs" />
+    <Compile Include="DAL\DataViews\ProductStockView.cs" />
+    <Compile Include="BLL\Inventory\Storage.cs" />
     <Compile Include="BLL\Purchase\MaterialPurchaseView.cs" />
     <Compile Include="BLL\Purchase\PurchaseItemView.cs" />
     <Compile Include="BLL\Purchase\PurchaseView.cs" />
@@ -104,9 +117,13 @@
     <Compile Include="BLL\User\Privilege.cs" />
     <Compile Include="BLL\User\User.cs" />
     <Compile Include="BLL\User\UserGroup.cs" />
+    <Compile Include="BLL\ViewModels\StorageViewModel.cs" />
     <Compile Include="DAL\AssemblyLine.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\DataViews\StockInView.cs" />
+    <Compile Include="DAL\DataViews\StockOutView.cs" />
+    <Compile Include="DAL\DataViews\StorageView.cs" />
     <Compile Include="DAL\Log.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -223,6 +240,12 @@
     <Compile Include="UI\Bom\NewClass.xaml.cs">
       <DependentUpon>NewClass.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Inventory\EditLocation.xaml.cs">
+      <DependentUpon>EditLocation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Inventory\EditSafeLocation.xaml.cs">
+      <DependentUpon>EditSafeLocation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Inventory\InventoryWindow.xaml.cs">
       <DependentUpon>InventoryWindow.xaml</DependentUpon>
     </Compile>
@@ -232,8 +255,8 @@
     <Compile Include="UI\Inventory\NewStockItem.xaml.cs">
       <DependentUpon>NewStockItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Inventory\NewStorehouse.xaml.cs">
-      <DependentUpon>NewStorehouse.xaml</DependentUpon>
+    <Compile Include="UI\Inventory\NewStorage.xaml.cs">
+      <DependentUpon>NewStorage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
@@ -328,6 +351,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Inventory\EditLocation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Inventory\EditSafeLocation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Inventory\InventoryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -340,7 +371,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Inventory\NewStorehouse.xaml">
+    <Page Include="UI\Inventory\NewStorage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

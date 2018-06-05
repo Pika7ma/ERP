@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Inventory"
         mc:Ignorable="d"
-        Title="仓库管理" Height="768" Width="1124">
+        Title="仓库管理" Height="768" Width="1124" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        <TabControl>
-            <TabItem Header="仓库管理">
+        <TabControl x:Name="tabPage" SelectionChanged="TabRouter">
+            <TabItem x:Name="tabStorage" Header="仓库管理">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
@@ -22,19 +22,42 @@
                     <ToolBar Height="35" VerticalAlignment="Top" Grid.RowSpan="2">
                         <Button x:Name="btnNewStorage" Content="新建仓库" Width="75" VerticalAlignment="Stretch" Click="NewStorage"/>
                         <Button x:Name="btnEditStorage" Content="编辑仓库" Width="75" VerticalAlignment="Stretch" Click="EditStorage"/>
-                        <Button x:Name="btnDelStorage" Content="删除仓库" Width="75" VerticalAlignment="Stretch"/>
+                        <Button x:Name="btnDelStorage" Content="删除仓库" Width="75" VerticalAlignment="Stretch" Click="DeleteStorage"/>
                     </ToolBar>
-                    <DataGrid x:Name="dgStoreHouse" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                    <DataGrid x:Name="dgStorage" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="仓库名称" Width="1*"/>
-                            <DataGridTextColumn Header="负责人" Width="1*"/>
-                            <DataGridTextColumn Header="位置" Width="1*"/>
-                            <DataGridTextColumn Header="备注" Width="2*"/>
+                            <DataGridTextColumn Header="仓库名称" Width="1*" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="负责人" Width="1*" Binding="{Binding UserName}"/>
+                            <DataGridTextColumn Header="位置" Width="1*"  Binding="{Binding Location}"/>
+                            <DataGridTextColumn Header="备注" Width="2*" Binding="{Binding Description}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem Header="库存管理">
+            <TabItem x:Name="tabSafeQuantity" Header="原料安全库存设置">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ToolBar Height="35" VerticalAlignment="Top" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                        <Button Content="修改安全库存量" Width="100" VerticalAlignment="Stretch" Click="EditSafeQuantity"/>
+                    </ToolBar>
+                    <TreeView x:Name="tvMaterialSafe" Grid.Row="1" SelectedItemChanged="SelectMaterialClass" Grid.Column="0"/>
+                    <DataGrid x:Name="dgMaterialSafe" Grid.Column="2" Grid.Row="1" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="状态" Width ="50" Binding="{Binding Status}" ></DataGridTextColumn>
+                            <DataGridTextColumn Header="名称" Width ="150" Binding="{Binding Name}" ></DataGridTextColumn>
+                            <DataGridTextColumn Header="安全库存量" Width ="150" Binding="{Binding SafeQuantity}" ></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tabInventory" Header="库存管理">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
@@ -42,44 +65,43 @@
                     </Grid.RowDefinitions>
                     <ToolBar Height="35" VerticalAlignment="Top">
                         <Label Content="当前仓库" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
-                        <ComboBox Height="25" Margin="0" VerticalAlignment="Stretch" Width="80"/>
-                        <Button Content="查看全部仓库" Width="100" VerticalAlignment="Stretch"/>
+                        <ComboBox x:Name="cbStorageInventory" Height="25" Margin="0" VerticalAlignment="Stretch" Width="80" SelectionChanged="CbStorageChanged" DisplayMemberPath="Name" SelectedValuePath="Id"/>
                         <Separator/>
                         <Button x:Name="btnNewIn" Content="新建入库" Width="75" VerticalAlignment="Stretch" Click="NewStockIn"/>
                         <Button x:Name="btnNewOut" Content="新建出库" Width="75" VerticalAlignment="Stretch" Click="NewStockOut"/>
+                        <Button Content="修改货位" Width="75" VerticalAlignment="Stretch" Click="EditLocation"/>
                         <Separator/>
-                        <Button Content="成本统计" Width="75" VerticalAlignment="Stretch"/>
-                        <Separator/>
-                        <TextBox x:Name="txtSearchInventory" Text="请输入原料\产品名称" VerticalAlignment="Center" Width="150" Height="25" Margin="5,0,0,0"/>
-                        <Button x:Name="btnSearchInventory" Content="搜索" Width="50" Margin="5,0,0,0"/>
+                        <Button Content="成本统计" Width="75" VerticalAlignment="Stretch" Click="ShowCost"/>
                     </ToolBar>
                     <TabControl Grid.Row="1">
-                        <TabItem Header="原料">
+                        <TabItem x:Name="tabMaterial" Header="原料">
                             <DataGrid x:Name="dgMaterial" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="原料名称" Width ="100"/>
-                                    <DataGridTextColumn Header="仓库" Width ="100"/>
-                                    <DataGridTextColumn Header="数量" Width ="100"/>
-                                    <DataGridTextColumn Header="位置" Width ="100"/>
-                                    <DataGridTextColumn Header="库存成本" Width ="100"/>
+                                    <DataGridTextColumn Header="原料名称" Width ="100" Binding="{Binding MaterialName}"/>
+                                    <DataGridTextColumn Header="仓库" Width ="100" Binding="{Binding StorageName}"/>
+                                    <DataGridTextColumn Header="数量" Width ="100" Binding="{Binding Quantity}"/>
+                                    <DataGridTextColumn Header="货位" Width ="100" Binding="{Binding Location}"/>
+                                    <DataGridTextColumn Header="单价" Width ="100" Binding="{Binding Price}"/>
+                                    <DataGridTextColumn Header="库存成本" Width ="100" Binding="{Binding Cost}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </TabItem>
-                        <TabItem Header="产品">
+                        <TabItem x:Name="tabProduct" Header="产品">
                             <DataGrid x:Name="dgProduct" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="产品名称" Width ="100"/>
-                                    <DataGridTextColumn Header="仓库" Width ="100"/>
-                                    <DataGridTextColumn Header="数量" Width ="100"/>
-                                    <DataGridTextColumn Header="位置" Width ="100"/>
-                                    <DataGridTextColumn Header="库存成本" Width ="100"/>
+                                    <DataGridTextColumn Header="产品名称" Width ="100" Binding="{Binding ProductName}"/>
+                                    <DataGridTextColumn Header="仓库" Width ="100" Binding="{Binding StorageName}"/>
+                                    <DataGridTextColumn Header="数量" Width ="100" Binding="{Binding Quantity}"/>
+                                    <DataGridTextColumn Header="货位" Width ="100" Binding="{Binding Location}"/>
+                                    <DataGridTextColumn Header="单价" Width ="100" Binding="{Binding Price}"/>
+                                    <DataGridTextColumn Header="库存成本" Width ="100" Binding="{Binding Cost}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </TabItem>
                     </TabControl>
                 </Grid>
             </TabItem>
-            <TabItem Header="出入库单据浏览">
+            <TabItem x:Name="tabStock" Header="出入库单据浏览">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
@@ -93,29 +115,28 @@
                     </Grid.ColumnDefinitions>
                     <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="2">
                         <Label Content="当前仓库" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
-                        <ComboBox Height="25" Margin="0" VerticalAlignment="Stretch" Width="80"/>
-                        <Button Content="查看全部仓库" Width="100" VerticalAlignment="Stretch"/>
+                        <ComboBox x:Name="cbStorageStock" Height="25" Margin="0" VerticalAlignment="Stretch" Width="80" DisplayMemberPath="Name" SelectedValuePath="Id" SelectionChanged="CbStorageStockChanged"/>
                     </ToolBar>
                     <TabControl Grid.Row="1" Grid.RowSpan="3">
                         <TabItem Header="入库单">
-                            <DataGrid x:Name="dgStockIn" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                            <DataGrid x:Name="dgStockIn" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionChanged="DgStockInChanged">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="入库单号" Width ="100"/>
-                                    <DataGridTextColumn Header="仓库" Width ="100"/>
-                                    <DataGridTextColumn Header="入库时间" Width ="100"/>
-                                    <DataGridTextColumn Header="负责人" Width ="100"/>
-                                    <DataGridTextColumn Header="备注" Width ="300"/>
+                                    <DataGridTextColumn Header="入库单号" Width ="100" Binding="{Binding Id}"/>
+                                    <DataGridTextColumn Header="仓库" Width ="100" Binding="{Binding StorageName}"/>
+                                    <DataGridTextColumn Header="入库时间" Width ="100" Binding="{Binding Time}"/>
+                                    <DataGridTextColumn Header="负责人" Width ="100" Binding="{Binding UserName}"/>
+                                    <DataGridTextColumn Header="备注" Width ="300" Binding="{Binding Description}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </TabItem>
                         <TabItem Header="出库单">
-                            <DataGrid x:Name="dgStockOut" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                            <DataGrid x:Name="dgStockOut" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionChanged="DgStockOutChanged">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="出库单号" Width ="100"/>
-                                    <DataGridTextColumn Header="仓库" Width ="100"/>
-                                    <DataGridTextColumn Header="入库时间" Width ="100"/>
-                                    <DataGridTextColumn Header="负责人" Width ="100"/>
-                                    <DataGridTextColumn Header="备注" Width ="300"/>
+                                    <DataGridTextColumn Header="出库单号" Width ="100" Binding="{Binding Id}"/>
+                                    <DataGridTextColumn Header="仓库" Width ="100" Binding="{Binding StorageName}"/>
+                                    <DataGridTextColumn Header="出库时间" Width ="100"  Binding="{Binding Time}"/>
+                                    <DataGridTextColumn Header="负责人" Width ="100" Binding="{Binding UserName}"/>
+                                    <DataGridTextColumn Header="备注" Width ="300" Binding="{Binding Description}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </TabItem>
@@ -126,16 +147,16 @@
                     <Label Content="产品条目" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="3" VerticalAlignment="Top"/>
                     <DataGrid x:Name="dgMaterialItems" Grid.Row="2" Grid.Column="1" Margin="5,25,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="原料" Width ="100"/>
-                            <DataGridTextColumn Header="数量" Width ="100"/>
-                            <DataGridTextColumn Header="库存位置" Width ="100"/>
+                            <DataGridTextColumn Header="原料" Width ="100" Binding="{Binding MaterialName}"/>
+                            <DataGridTextColumn Header="数量" Width ="100" Binding="{Binding Quantity}"/>
+                            <DataGridTextColumn Header="库存位置" Width ="100" Binding="{Binding Location}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <DataGrid x:Name="dgProductItems" Grid.Row="3" Grid.Column="1" Margin="5,25,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="原料" Width ="100"/>
-                            <DataGridTextColumn Header="数量" Width ="100"/>
-                            <DataGridTextColumn Header="库存位置" Width ="100"/>
+                            <DataGridTextColumn Header="产品" Width ="100" Binding="{Binding ProductName}"/>
+                            <DataGridTextColumn Header="数量" Width ="100" Binding="{Binding Quantity}"/>
+                            <DataGridTextColumn Header="库存位置" Width ="100" Binding="{Binding Location}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

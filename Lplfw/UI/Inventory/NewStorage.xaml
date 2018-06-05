@@ -1,21 +1,23 @@
-﻿<Window x:Class="Lplfw.UI.Inventory.NewStorehouse"
+﻿<Window x:Class="Lplfw.UI.Inventory.NewStorage"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Inventory"
         mc:Ignorable="d"
-        Height="300" Width="400">
+        Height="300" Width="400" WindowStartupLocation="CenterScreen">
     <Grid>
         <Label Content="仓库名" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,40,0,0"/>
-        <Label Content="负责人" HorizontalAlignment="Left" Margin="80,80,0,0" VerticalAlignment="Top"/>
+        <Label Content="负责人" HorizontalAlignment="Left" Margin="80,80,0,0"  VerticalAlignment="Top"/>
         <Label Content="位置" HorizontalAlignment="Left" Margin="80,120,0,0" VerticalAlignment="Top"/>
         <Label Content="备注" HorizontalAlignment="Left" Margin="80,160,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="txtName" HorizontalAlignment="Left" Height="23" Margin="170,40,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
-        <ComboBox x:Name="cbUser" HorizontalAlignment="Left" Height="23" Margin="170,80,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="cbUser" DisplayMemberPath="Name" SelectedValuePath="Id"  HorizontalAlignment="Left" Height="23" Margin="170,80,0,0" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="txtLocation"  HorizontalAlignment="Left" Height="23" Margin="170,120,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="txtDescription"  HorizontalAlignment="Left" Height="23" Margin="170,160,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
-        <Button Content="确定" HorizontalAlignment="Left" Margin="200,220,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="取消" HorizontalAlignment="Left" Margin="100,220,0,0" VerticalAlignment="Top" Width="75"/>
+        <TextBlock x:Name="txtMessage" TextWrapping="Wrap" VerticalAlignment="Top" Margin="80,199,80,0" TextAlignment="Center" Foreground="Red"/>
+
+        <Button x:Name="btnConfirm" Content="确定" HorizontalAlignment="Left" Margin="200,230,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="取消" HorizontalAlignment="Left" Margin="100,230,0,0" VerticalAlignment="Top" Width="75" Click="Cancel"/>
     </Grid>
 </Window>

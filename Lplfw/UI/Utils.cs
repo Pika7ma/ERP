@@ -9,6 +9,7 @@ namespace Lplfw.UI
         static public DAL.User CurrentUser { set; get; }
         static public MainWindow MainWindow { set; get; }
         static public Window Subwindow { get; set; }
+        static public Object TempObject { get; set; }
 
         static public void OpenMainWindow()
         {

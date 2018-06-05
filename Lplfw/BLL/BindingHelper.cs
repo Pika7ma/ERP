@@ -107,5 +107,22 @@ namespace Lplfw
             control.DisplayMemberPath = display;
             control.SelectedValuePath = selected;
         }
+
+        /// <summary>
+        /// 将DatePicker的SelectedDate属性绑定到指定对象的DateTime属性上
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="obj"></param>
+        /// <param name="property"></param>
+        static public void Binding(this DatePicker control, object obj, string property = null)
+        {
+            var _binding = new Binding();
+            _binding.Source = obj;
+            if (property != null)
+            {
+                _binding.Path = new PropertyPath(property);
+            }
+            control.SetBinding(DatePicker.SelectedDateProperty, _binding);
+        }
     }
 }
