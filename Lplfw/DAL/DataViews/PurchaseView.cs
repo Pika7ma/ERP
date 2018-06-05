@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Lplfw.DAL
 {
-     public class PurchaseView
+    public class PurchaseView
     {
         public int Id { get; set; }
         public String Status { get; set; }

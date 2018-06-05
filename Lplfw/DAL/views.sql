@@ -1,5 +1,6 @@
 use erp;
 
+/*
 -- 产品配方的材料名
 drop view if exists recipeview;
 create view recipeview as
@@ -148,3 +149,29 @@ select productstockoutitemset.*,
 	   productset.Name as ProductName
 from productstockoutitemset join productset
 on productstockoutitemset.ProductId = productset.Id;
+
+-- 物料报价
+drop view if exists materialpriceview;
+create view materialpriceview as
+select materialpriceset.*,
+	   materialset.Name as MaterialName,
+       materialset.ClassId as ClassId,
+	   supplierset.Name as SupplierName
+from (materialpriceset join materialset
+on materialpriceset.MaterialId = materialset.Id) join supplierset
+on materialpriceset.SupplierId = supplierset.Id;
+
+-- 缺料浏览
+drop view if exists materiallackview;
+create view materiallackview as
+select
+	materialset.Id as MaterialId,
+    materialset.ClassId as ClassId,
+    materialset.Name as MaterialName,
+    materialset.SafeQuantity as SafeQuantity,
+    coalesce(materialstockallview.Quantity, 0) as SumQuantity
+from (materialset left join materialstockallview on
+materialset.Id = materialstockallview.MaterialId)
+where materialstockallview.Quantity <= materialset.SafeQuantity or isnull(materialstockallview.Quantity);
+*/
+

@@ -22,6 +22,7 @@ insert into materialclassset values(0, "材料类别1-1", 1);
 -- 原料
 insert into materialset values(0, "圆石", "3x3m", "个", 3, 10, "可用", 0);
 insert into materialset values(0, "橡木", "3x3m", "个", 2, 10, "可用", 0);
+insert into materialset values(0, "白桦木", "3x3m", "个", 2, 10, "可用", 0);
 
 -- 用户
 insert into usergroupset values(0, "管理员");

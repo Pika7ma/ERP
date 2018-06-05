@@ -110,12 +110,12 @@ namespace Lplfw.UI.Purchase
 
         private void GetPrice(object i)
         {
-            var _mid = (int)i;
-            List<MaterialPriceView> _mpv= MaterialPriceView.GetMaterialPriceViewbymid(_mid);
-            Dispatcher.BeginInvoke((Action)delegate ()
-            {
-                cbSupplier.ItemsSource = _mpv;
-            });
+            //var _mid = (int)i;
+            //List<MaterialPriceView> _mpv= MaterialPriceView.GetMaterialPriceViewbymid(_mid);
+            //Dispatcher.BeginInvoke((Action)delegate ()
+            //{
+            //    cbSupplier.ItemsSource = _mpv;
+            //});
         }
 
         /// <summary>
@@ -140,12 +140,12 @@ namespace Lplfw.UI.Purchase
                 {
                     PurchaseItemView purchaseItem = new PurchaseItemView();
                     purchaseItem.PurchaseId = Purchaseid;
-                    purchaseItem.MaterialId = materialPriceView.mId;
-                    purchaseItem.SupplierId = materialPriceView.sId;
+                    purchaseItem.MaterialId = materialPriceView.MaterialId;
+                    purchaseItem.SupplierId = materialPriceView.SupplierId;
                     purchaseItem.Price = materialPriceView.Price;
                     purchaseItem.Quantity = Convert.ToInt32(txq.Text);
-                    purchaseItem.MaterialName = materialPriceView.mName;
-                    purchaseItem.SupplierName = materialPriceView.sName;
+                    purchaseItem.MaterialName = materialPriceView.MaterialName;
+                    purchaseItem.SupplierName = materialPriceView.SupplierName;
                     if (getitem != null)
                     {
                         if (getitem(purchaseItem))

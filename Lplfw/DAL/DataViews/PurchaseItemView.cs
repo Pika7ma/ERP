@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Lplfw.DAL
 {
-     public class PurchaseItemView
-     {
+    public class PurchaseItemView
+    {
         public int PurchaseId { get; set; }
         public int MaterialId { get; set; }
         public int Quantity { get; set; }
@@ -24,15 +24,14 @@ namespace Lplfw.DAL
             }
         }
 
-
         public static DAL.PurchaseItem ChangeToItem(PurchaseItemView purchaseitem)
         {
             DAL.PurchaseItem _purchaseItem = new DAL.PurchaseItem();
-            _purchaseItem.MaterialId =purchaseitem.MaterialId;
-           _purchaseItem.PurchaseId =purchaseitem.PurchaseId;
-            _purchaseItem.SupplierId =purchaseitem.SupplierId;
-            _purchaseItem.Quantity =purchaseitem.Quantity;
-            _purchaseItem.Price =purchaseitem.Price;
+            _purchaseItem.MaterialId = purchaseitem.MaterialId;
+            _purchaseItem.PurchaseId = purchaseitem.PurchaseId;
+            _purchaseItem.SupplierId = purchaseitem.SupplierId;
+            _purchaseItem.Quantity = purchaseitem.Quantity;
+            _purchaseItem.Price = purchaseitem.Price;
             return _purchaseItem;
         }
         public static List<DAL.PurchaseItem> ChangeToItems(List<PurchaseItemView> purchaseitems)
@@ -41,10 +40,8 @@ namespace Lplfw.DAL
             foreach (var i in purchaseitems)
             {
                 purchaseItems.Add(PurchaseItemView.ChangeToItem(i));
-
             }
             return purchaseItems;
-
         }
     }
 }

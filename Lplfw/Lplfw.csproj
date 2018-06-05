@@ -94,8 +94,12 @@
     <Compile Include="BLL\Bom\MaterialClass.cs" />
     <Compile Include="BLL\Bom\ProductClass.cs" />
     <Compile Include="BLL\Inventory\InStorageRecordView.cs" />
+    <Compile Include="BLL\ViewModels\MaterialPriceViewModel.cs" />
     <Compile Include="BLL\ViewModels\StockInViewModel.cs" />
     <Compile Include="BLL\ViewModels\StockOutViewModel.cs" />
+    <Compile Include="BLL\ViewModels\SupplierViewModel.cs" />
+    <Compile Include="DAL\DataViews\MaterialLackView.cs" />
+    <Compile Include="DAL\DataViews\MaterialPriceView.cs" />
     <Compile Include="DAL\DataViews\MaterialStockAllView.cs" />
     <Compile Include="DAL\DataViews\ProductStockOutItemView.cs" />
     <Compile Include="DAL\DataViews\ProductStockInItemView.cs" />
@@ -106,14 +110,9 @@
     <Compile Include="DAL\DataViews\ProductStockAllView.cs" />
     <Compile Include="DAL\DataViews\ProductStockView.cs" />
     <Compile Include="BLL\Inventory\Storage.cs" />
-    <Compile Include="BLL\Purchase\MaterialPurchaseView.cs" />
-    <Compile Include="BLL\Purchase\PurchaseItemView.cs" />
-    <Compile Include="BLL\Purchase\PurchaseView.cs" />
     <Compile Include="BLL\ViewModels\MaterialClassViewModel.cs" />
     <Compile Include="BLL\ViewModels\ProductClassViewModel.cs" />
     <Compile Include="BLL\Bom\RecipeView.cs" />
-    <Compile Include="BLL\Purchase\MaterialPriceView.cs" />
-    <Compile Include="BLL\Purchase\Supplier.cs" />
     <Compile Include="BLL\User\Privilege.cs" />
     <Compile Include="BLL\User\User.cs" />
     <Compile Include="BLL\User\UserGroup.cs" />
@@ -121,6 +120,8 @@
     <Compile Include="DAL\AssemblyLine.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\DataViews\PurchaseItemView.cs" />
+    <Compile Include="DAL\DataViews\PurchaseView.cs" />
     <Compile Include="DAL\DataViews\StockInView.cs" />
     <Compile Include="DAL\DataViews\StockOutView.cs" />
     <Compile Include="DAL\DataViews\StorageView.cs" />
@@ -285,23 +286,11 @@
     <Compile Include="UI\Produce\ProduceWindow.xaml.cs">
       <DependentUpon>ProduceWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Purchase\EditPriceClass.xaml.cs">
-      <DependentUpon>EditPriceClass.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Purchase\EditPriceWithSupplier.xaml.cs">
-      <DependentUpon>EditPriceWithSupplier.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\Purchase\EditPurchase.xaml.cs">
       <DependentUpon>EditPurchase.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Purchase\EditSupplierClass.xaml.cs">
-      <DependentUpon>EditSupplierClass.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Purchase\NewPriceClass.xaml.cs">
-      <DependentUpon>NewPriceClass.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Purchase\NewPriceWithSupplierClass.xaml.cs">
-      <DependentUpon>NewPriceWithSupplierClass.xaml</DependentUpon>
+    <Compile Include="UI\Purchase\NewPrice.xaml.cs">
+      <DependentUpon>NewPrice.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Purchase\NewPurchase.xaml.cs">
       <DependentUpon>NewPurchase.xaml</DependentUpon>
@@ -312,8 +301,8 @@
     <Compile Include="UI\Purchase\NewPurchaseQuality.xaml.cs">
       <DependentUpon>NewPurchaseQuality.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Purchase\NewSupplierClass.xaml.cs">
-      <DependentUpon>NewSupplierClass.xaml</DependentUpon>
+    <Compile Include="UI\Purchase\NewSupplier.xaml.cs">
+      <DependentUpon>NewSupplier.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Purchase\PurchaseWindow.xaml.cs">
       <DependentUpon>PurchaseWindow.xaml</DependentUpon>
@@ -438,27 +427,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Purchase\EditPriceClass.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Purchase\EditPriceWithSupplier.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UI\Purchase\EditPurchase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Purchase\EditSupplierClass.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Purchase\NewPriceClass.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Purchase\NewPriceWithSupplierClass.xaml">
+    <Page Include="UI\Purchase\NewPrice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -474,7 +447,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Purchase\NewSupplierClass.xaml">
+    <Page Include="UI\Purchase\NewSupplier.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
