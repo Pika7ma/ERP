@@ -39,7 +39,7 @@ namespace Lplfw.UI.Purchase
                 }
                 else if (tabPurchase.IsSelected)
                 {
-
+                    RefreshDgPurchase();
                 }
             }
         }
@@ -264,7 +264,11 @@ namespace Lplfw.UI.Purchase
 
         private void RefreshDgPurchaseThread()
         {
-
+            var _list = PurchaseView.GetAll();
+            Dispatcher.BeginInvoke((Action) delegate ()
+            {
+                dgPurchase.ItemsSource = _list;
+            });
         }
 
         private void ShowAllPurchase(object sender, RoutedEventArgs e)
@@ -274,12 +278,50 @@ namespace Lplfw.UI.Purchase
 
         private void NewPurchase(object sender, RoutedEventArgs e)
         {
-
+            var _win = new NewPurchase();
+            var _rtn = _win.ShowDialog();
+            if (_rtn == true)
+            {
+                RefreshDgPurchase();
+            }
         }
 
-        private void EditPurchase(object sender, RoutedEventArgs e)
+        private void CancelPurchase(object sender, RoutedEventArgs e)
         {
+            var _purchase = dgPurchase.SelectedItem as PurchaseView;
+            if (_purchase == null) return;
+            if (_purchase.Status == "处理中") {
+                _purchase.Status = "已取消";
+                dgPurchase.Items.Refresh();
+                using (var _db = new ModelContainer())
+                {
+                    var _item = _db.PurchaseSet.FirstOrDefault(i => i.Id == _purchase.Id);
+                    if (_item == null) return;
+                    _item.Status = "已取消";
+                    _db.SaveChanges();
+                }
+            }
+        }
 
+        private void FinishPurchase(object sender, RoutedEventArgs e)
+        {
+            var _purchase = dgPurchase.SelectedItem as PurchaseView;
+            if (_purchase == null) return;
+            if (_purchase.Status == "处理中")
+            {
+                _purchase.Status = "已完成";
+                var _time = DateTime.Now;
+                _purchase.FinishedAt = _time;
+                dgPurchase.Items.Refresh();
+                using (var _db = new ModelContainer())
+                {
+                    var _item = _db.PurchaseSet.FirstOrDefault(i => i.Id == _purchase.Id);
+                    if (_item == null) return;
+                    _item.Status = "已完成";
+                    _item.FinishedAt = _time;
+                    _db.SaveChanges();
+                }
+            }
         }
 
         private void NewQuanlity(object sender, RoutedEventArgs e)
@@ -294,8 +336,26 @@ namespace Lplfw.UI.Purchase
 
         private void SelectPurchase(object sender, SelectionChangedEventArgs e)
         {
+            var _purchase = dgPurchase.SelectedItem as PurchaseView;
+            if (_purchase == null)
+            {
+                dgPurchaseItem.ItemsSource = null;
+                return;
+            }
+            new Thread(new ParameterizedThreadStart(SelectPurchaseThread)).Start(_purchase.Id);
+        }
 
+        private void SelectPurchaseThread(object id)
+        {
+            var _id = (int)id;
+            var _list = PurchaseItemView.GetByPurchaseId(_id);
+            Dispatcher.BeginInvoke((Action) delegate ()
+            {
+                dgPurchaseItem.ItemsSource = _list;
+            });
         }
         #endregion
+
+
     }
 }

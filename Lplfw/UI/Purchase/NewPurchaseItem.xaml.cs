@@ -1,17 +1,9 @@
 ﻿using Lplfw.DAL;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Lplfw.UI.Purchase
 {
@@ -20,225 +12,117 @@ namespace Lplfw.UI.Purchase
     /// </summary>
     public partial class NewPurchaseItem : Window
     {
-        public delegate bool Getitem(PurchaseItemView purchaseItem);                              //委托，兴建订单时返回条目
-        public delegate bool Changeitem(PurchaseItemView selecteditem, PurchaseItemView changeditem);                      //委托，修改订单条目时使用
-        public Getitem getitem;
-        public Changeitem changeitem;
-        public int Purchaseid;
-        public int MaterialId;
-        public int SupplierId;
+        private PurchaseItemViewModel item;
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="MaterialId"></param>
-        /// <param name="SupplierId"></param>
-        /// <param name="Quantity"></param>
-        /// <param name="Price"></param>
-        public NewPurchaseItem(int MaterialId, int SupplierId, int Quantity, double Price)
-        {
-            this.SupplierId = SupplierId;
-            this.MaterialId = MaterialId;
-            InitializeComponent();
-            var _thread = new Thread(new ThreadStart(Initiwindow1));
-            _thread.Start();
-            cbMaterial.SelectedValue = MaterialId;
-            cbSupplier.SelectedValue = SupplierId;
-            txq.Text = Convert.ToString(Quantity);
-            txp.Text = Convert.ToString(Price);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
         public NewPurchaseItem()
         {
-
             InitializeComponent();
-            var _thread = new Thread(new ThreadStart(Initiwindow2));
-            _thread.Start();
-
+            SetControls();
+            item = new PurchaseItemViewModel();
+            cbMaterial.Binding(item, "CbMaterial");
+            cbSupplier.Binding(item, "CbSupplier");
+            txtQuantity.Binding(item, "TxtQuantity");
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        private void Initiwindow1()
+        private void SetControls()
         {
-            using (var _db = new DAL.ModelContainer())
+            new Thread(new ThreadStart(SetControlsThread)).Start();
+        }
+
+        private void SetControlsThread()
+        {
+            var _list = MaterialClass.GetAllClasses(false);
+            Dispatcher.BeginInvoke((Action)delegate ()
             {
-                List<Material> materials = _db.MaterialSet.Select(i => i).ToList();
-                Dispatcher.BeginInvoke((Action)delegate ()
-                {
-                    cbMaterial.ItemsSource = materials;
-                });
+                cbMaterialClass.ItemsSource = _list;
+            });
+        }
+
+        private void SelectMaterialClass(object sender, SelectionChangedEventArgs e)
+        {
+            var _class = cbMaterialClass.SelectedValue as int?;
+            if (_class == null)
+            {
+                cbMaterial.ItemsSource = null;
+                return;
             }
-
+            cbMaterial.ItemsSource = MaterialClass.GetSubClassMaterials(_class);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        private void Initiwindow2()
+
+        private void SelectMaterial(object sender, SelectionChangedEventArgs e)
         {
-            using (var _db = new DAL.ModelContainer())
+            var _material = cbMaterial.SelectedValue as int?;
+            if (_material == null)
             {
-                List<Material> materials = _db.MaterialSet.Select(i => i).ToList();
-                Dispatcher.BeginInvoke((Action)delegate ()
-                {
-                    cbMaterial.ItemsSource = materials;
-                });
-            }
-        }
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cbMaterial_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (cbMaterial.SelectedValue == null) return;
-            else
-            {
-                var _thread = new Thread(new ParameterizedThreadStart(GetPrice));
-                _thread.Start((int)cbMaterial.SelectedValue);
-               
-            }
-        }
-
-        private void GetPrice(object i)
-        {
-            //var _mid = (int)i;
-            //List<MaterialPriceView> _mpv= MaterialPriceView.GetMaterialPriceViewbymid(_mid);
-            //Dispatcher.BeginInvoke((Action)delegate ()
-            //{
-            //    cbSupplier.ItemsSource = _mpv;
-            //});
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Ok_click(object sender, EventArgs e)
-        {
-            if (txq.Text == "")
-            {
-                MessageBox.Show("请输入数量");
+                cbSupplier.ItemsSource = null;
+                return;
             }
             else
             {
-                MaterialPriceView materialPriceView = (MaterialPriceView)cbSupplier.SelectedItem;
-                if (materialPriceView == null)
+                cbSupplier.ItemsSource = MaterialPriceView.GetBySupplierId((int)_material);
+            }
+        }
+
+        private void SelectSupplier(object sender, SelectionChangedEventArgs e)
+        {
+            var _supplier = cbSupplier.SelectedValue as int?;
+            if (_supplier == null)
+            {
+                txtPrice.Text = null;
+                txtStartQuantity.Text = null;
+                txtMaxQuantity.Text = null;
+                item.StartQuantity = 0;
+                item.MaxQuantity = 0;
+                item.Price = 0;
+                return;
+            }
+            else
+            {
+                var _material = cbMaterial.SelectedValue as int?;
+                using (var _db = new ModelContainer())
                 {
-                    MessageBox.Show("请选择供货商");
-                }
-                else
-                {
-                    PurchaseItemView purchaseItem = new PurchaseItemView();
-                    purchaseItem.PurchaseId = Purchaseid;
-                    purchaseItem.MaterialId = materialPriceView.MaterialId;
-                    purchaseItem.SupplierId = materialPriceView.SupplierId;
-                    purchaseItem.Price = materialPriceView.Price;
-                    purchaseItem.Quantity = Convert.ToInt32(txq.Text);
-                    purchaseItem.MaterialName = materialPriceView.MaterialName;
-                    purchaseItem.SupplierName = materialPriceView.SupplierName;
-                    if (getitem != null)
+                    var _price = _db.MaterialPriceSet.FirstOrDefault(i => i.MaterialId == _material && i.SupplierId == _supplier);
+                    if (_price == null)
                     {
-                        if (getitem(purchaseItem))
-                        {
-                            MessageBox.Show("添加成功");
-                            this.Close();
-                        }
-                        else
-                        {
-                            MessageBox.Show("条目重复");
-                        }
+                        txtPrice.Text = null;
+                        txtStartQuantity.Text = null;
+                        txtMaxQuantity.Text = null;
+                        item.StartQuantity = 0;
+                        item.MaxQuantity = 0;
+                        item.Price = 0;
+                        return;
                     }
                     else
                     {
-                        var selecteditem = new PurchaseItemView();
-                        selecteditem.MaterialId = MaterialId;
-                        selecteditem.SupplierId = SupplierId;
-                        if (changeitem(selecteditem, purchaseItem))
-                        {
-                            MessageBox.Show("修改成功");
-
-                            this.Close();
-                        }
-                        else
-                        {
-                            MessageBox.Show("条目重复");
-                        }
+                        txtPrice.Text = _price.Price.ToString();
+                        txtStartQuantity.Text = _price.StartQuantity.ToString();
+                        txtMaxQuantity.Text = _price.MaxQuantity.ToString();
+                        item.StartQuantity = _price.StartQuantity;
+                        item.MaxQuantity = _price.MaxQuantity;
+                        item.Price = _price.Price;
+                        return;
                     }
-
                 }
             }
-
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void tb_PreviewTextInput(object sender, TextCompositionEventArgs e)
-
+        private void Confirm(object sender, RoutedEventArgs e)
         {
-
-            System.Text.RegularExpressions.Regex re = new System.Text.RegularExpressions.Regex("[^0-9.-]+");
-
-            e.Handled = re.IsMatch(e.Text);
-
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Concel_click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void txq_lostfocus(object sender, RoutedEventArgs e)
-        {
-            var _mprice = (MaterialPriceView)cbSupplier.SelectedItem;
-            if (_mprice == null) return;
+            if (item.CanSubmit)
+            {
+                Utils.TempObject = item.Object;
+                DialogResult = true;
+            }
             else
             {
-                if (txq.Text == "") return;
-                else
-                {
-                    if (Convert.ToInt32(txq.Text) < _mprice.StartQuantity || Convert.ToInt32(txq.Text) > _mprice.MaxQuantity)
-                    {
-                        MessageBox.Show("数量不符合要求,应该在" + _mprice.StartQuantity + "----" + _mprice.MaxQuantity);
-                        txq.Text = "";
-
-                    }
-                }
+                txtMessage.Text = item.TxtCheckMessage;
             }
         }
 
-        private void cbSupplier_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Cancel(object sender, RoutedEventArgs e)
         {
-            MaterialPriceView materialPriceView = (MaterialPriceView)cbSupplier.SelectedItem;
-            if (materialPriceView != null)
-            {
-                txp.Text = materialPriceView.Price.ToString("G");
-            }
+            DialogResult = false;
         }
-
     }
 }
 

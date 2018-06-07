@@ -64,6 +64,14 @@
                                         <Setter Property="SelectedValue" Value="{Binding Mode}" />
                                     </Style>
                                 </DataGridComboBoxColumn.EditingElementStyle>
+                                <DataGridComboBoxColumn.ElementStyle>
+                                    <Style TargetType="ComboBox">
+                                        <Setter Property="ItemsSource" Value="{Binding Path=DataContext.TheModes,ElementName=dgPrivilege}" />
+                                        <Setter Property="DisplayMemberPath" Value="Name" />
+                                        <Setter Property="SelectedValuePath" Value="Name" />
+                                        <Setter Property="SelectedValue" Value="{Binding Mode}" />
+                                    </Style>
+                                </DataGridComboBoxColumn.ElementStyle>
                             </DataGridComboBoxColumn>
                         </DataGrid.Columns>
                     </DataGrid>

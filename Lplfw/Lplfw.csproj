@@ -42,9 +42,6 @@
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="Loya.Dameer">
-      <HintPath>C:\Users\Gigabyte\Downloads\Loya.dameer\Loya.Dameer.dll</HintPath>
-    </Reference>
     <Reference Include="MySql.Data, Version=6.9.12.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.6.9.12\lib\net40\MySql.Data.dll</HintPath>
     </Reference>
@@ -77,9 +74,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Util.Controls">
-      <HintPath>C:\Users\Gigabyte\Downloads\Loya.dameer\Util.Controls.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -91,13 +85,13 @@
     </ApplicationDefinition>
     <Compile Include="BLL\BindingHelper.cs" />
     <Compile Include="BLL\Bom\ExcelReader.cs" />
-    <Compile Include="BLL\Bom\MaterialClass.cs" />
-    <Compile Include="BLL\Bom\ProductClass.cs" />
-    <Compile Include="BLL\Inventory\InStorageRecordView.cs" />
-    <Compile Include="BLL\ViewModels\MaterialPriceViewModel.cs" />
-    <Compile Include="BLL\ViewModels\StockInViewModel.cs" />
-    <Compile Include="BLL\ViewModels\StockOutViewModel.cs" />
-    <Compile Include="BLL\ViewModels\SupplierViewModel.cs" />
+    <Compile Include="DAL\Models\MaterialClass.cs" />
+    <Compile Include="DAL\Models\ProductClass.cs" />
+    <Compile Include="DAL\ViewModels\MaterialPriceViewModel.cs" />
+    <Compile Include="DAL\ViewModels\PurchaseItemViewModel.cs" />
+    <Compile Include="DAL\ViewModels\StockInViewModel.cs" />
+    <Compile Include="DAL\ViewModels\StockOutViewModel.cs" />
+    <Compile Include="DAL\ViewModels\SupplierViewModel.cs" />
     <Compile Include="DAL\DataViews\MaterialLackView.cs" />
     <Compile Include="DAL\DataViews\MaterialPriceView.cs" />
     <Compile Include="DAL\DataViews\MaterialStockAllView.cs" />
@@ -106,17 +100,16 @@
     <Compile Include="DAL\DataViews\MaterialStockOutItemView.cs" />
     <Compile Include="DAL\DataViews\MaterialStockInItemView.cs" />
     <Compile Include="DAL\DataViews\MaterialStockView.cs" />
-    <Compile Include="BLL\Inventory\OutStorageRecordView.cs" />
     <Compile Include="DAL\DataViews\ProductStockAllView.cs" />
     <Compile Include="DAL\DataViews\ProductStockView.cs" />
-    <Compile Include="BLL\Inventory\Storage.cs" />
-    <Compile Include="BLL\ViewModels\MaterialClassViewModel.cs" />
-    <Compile Include="BLL\ViewModels\ProductClassViewModel.cs" />
-    <Compile Include="BLL\Bom\RecipeView.cs" />
-    <Compile Include="BLL\User\Privilege.cs" />
-    <Compile Include="BLL\User\User.cs" />
-    <Compile Include="BLL\User\UserGroup.cs" />
-    <Compile Include="BLL\ViewModels\StorageViewModel.cs" />
+    <Compile Include="DAL\Models\Storage.cs" />
+    <Compile Include="DAL\ViewModels\MaterialClassViewModel.cs" />
+    <Compile Include="DAL\ViewModels\ProductClassViewModel.cs" />
+    <Compile Include="DAL\Models\RecipeView.cs" />
+    <Compile Include="DAL\Models\Privilege.cs" />
+    <Compile Include="DAL\Models\User.cs" />
+    <Compile Include="DAL\Models\UserGroup.cs" />
+    <Compile Include="DAL\ViewModels\StorageViewModel.cs" />
     <Compile Include="DAL\AssemblyLine.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -286,9 +279,6 @@
     <Compile Include="UI\Produce\ProduceWindow.xaml.cs">
       <DependentUpon>ProduceWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Purchase\EditPurchase.xaml.cs">
-      <DependentUpon>EditPurchase.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\Purchase\NewPrice.xaml.cs">
       <DependentUpon>NewPrice.xaml</DependentUpon>
     </Compile>
@@ -424,10 +414,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Produce\ProduceWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Purchase\EditPurchase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

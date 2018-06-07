@@ -6,25 +6,26 @@
          xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         xmlns:local="clr-namespace:Lplfw.UI.Purchase"
         mc:Ignorable="d"
-        Title="新建采购条目" Height="250" Width="300"
+        Title="新建采购条目" Height="350" Width="300"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
-    
+
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="50"/>
-        </Grid.ColumnDefinitions>
-        <Label Content="原料名称" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Grid.Column="1" HorizontalContentAlignment="Center"/>
-        <Label Content="供货商" HorizontalAlignment="Left" Margin="0,60,0,0" VerticalAlignment="Top" Grid.Column="1" HorizontalContentAlignment="Center"/>
-        <Label Content="数  量" HorizontalAlignment="Left" Margin="0,90,0,0" VerticalAlignment="Top" Grid.Column="1" HorizontalContentAlignment="Center"/>
-        <Label Content="价  格" HorizontalAlignment="Left" Margin="0,120,0,0" VerticalAlignment="Top" Grid.Column="1" Width="41" HorizontalContentAlignment="Center"/>
-        <ComboBox x:Name="cbMaterial" DisplayMemberPath="Name" SelectedValuePath="Id" Grid.Column="1" HorizontalAlignment="Left" Margin="74,30,0,0" VerticalAlignment="Top" Width="110" SelectionChanged="cbMaterial_SelectionChanged"  />
-        <ComboBox x:Name="cbSupplier" DisplayMemberPath="sName" SelectedValuePath="sId" Grid.Column="1" HorizontalAlignment="Left" Margin="74,60,0,0" VerticalAlignment="Top" Width="110" SelectionChanged="cbSupplier_SelectionChanged" />
-        <TextBox  x:Name="txq" Grid.Column="1" HorizontalAlignment="Left" Margin="74,95,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="18" Width="110" TextAlignment="Center" LostFocus="txq_lostfocus"  PreviewTextInput="tb_PreviewTextInput" input:InputMethod.IsInputMethodEnabled="False"/>
-        <TextBox x:Name="txp" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="74,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="110" IsEnabled="False"  />
-        <Button Content="确定" Grid.Column="1" HorizontalAlignment="Left" Margin="119,171,0,0" VerticalAlignment="Top" Width="65" Click="Ok_click" />
-        <Button Content="取消" Grid.Column="1" HorizontalAlignment="Left" Margin="10,171,0,0" VerticalAlignment="Top" Width="65" Click="Concel_click"/>
-        <TextBlock x:Name="message" Grid.Column="1" HorizontalAlignment="Left" Margin="10,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" TextAlignment="Center" Foreground="Red"/>
+        <Label Content="原料种类" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top"/>
+        <Label Content="原料" HorizontalAlignment="Left" Margin="30,50,0,0" VerticalAlignment="Top"/>
+        <Label Content="供应商" HorizontalAlignment="Left" Margin="30,80,0,0" VerticalAlignment="Top"/>
+        <Label Content="单价" HorizontalAlignment="Left" Margin="30,110,0,0" VerticalAlignment="Top"/>
+        <Label Content="起购数量" HorizontalAlignment="Left" Margin="30,140,0,0" VerticalAlignment="Top"/>
+        <Label Content="最大数量" HorizontalAlignment="Left" Margin="30,170,0,0" VerticalAlignment="Top"/>
+        <Label Content="购买数量" HorizontalAlignment="Left" Margin="30,200,0,0" VerticalAlignment="Top"/>
+        <Button Content="确定" HorizontalAlignment="Left" Margin="170,280,0,0" VerticalAlignment="Top" Width="75" Click="Confirm"/>
+        <Button Content="取消" HorizontalAlignment="Left" Margin="60,280,0,0" VerticalAlignment="Top" Width="75" Click="Cancel"/>
+        <ComboBox x:Name="cbMaterialClass" HorizontalAlignment="Left" Margin="125,20,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="Name" SelectedValuePath="Id" SelectionChanged="SelectMaterialClass"/>
+        <ComboBox x:Name="cbMaterial" HorizontalAlignment="Left" Margin="125,50,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="Name" SelectedValuePath="Id" SelectionChanged="SelectMaterial"/>
+        <ComboBox x:Name="cbSupplier" HorizontalAlignment="Left" Margin="125,80,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="SupplierName" SelectedValuePath="SupplierId" SelectionChanged="SelectSupplier"/>
+        <TextBox x:Name="txtPrice" HorizontalAlignment="Left" Height="23" Margin="125,110,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+        <TextBlock x:Name="txtStartQuantity" HorizontalAlignment="Left" Margin="125,145,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock x:Name="txtMaxQuantity" HorizontalAlignment="Left" Margin="125,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtQuantity" HorizontalAlignment="Left" Height="23" Margin="125,200,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <TextBlock x:Name="txtMessage" Margin="60,245,60,0" TextWrapping="Wrap" VerticalAlignment="Top" TextAlignment="Center" Foreground="Red"/>
     </Grid>
 </Window>

@@ -34,7 +34,6 @@ namespace Lplfw
         {
             var _binding = new Binding();
             _binding.Source = obj;
-            _binding.Mode = BindingMode.OneWay;
             if (property != null)
             {
                 _binding.Path = new PropertyPath(property);

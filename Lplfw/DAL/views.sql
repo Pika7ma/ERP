@@ -174,4 +174,3 @@ from (materialset left join materialstockallview on
 materialset.Id = materialstockallview.MaterialId)
 where materialstockallview.Quantity <= materialset.SafeQuantity or isnull(materialstockallview.Quantity);
 */
-

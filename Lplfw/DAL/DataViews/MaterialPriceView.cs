@@ -38,5 +38,14 @@ namespace Lplfw.DAL
                 }
             }
         }
+
+        static public List<MaterialPriceView> GetBySupplierId(int index)
+        {
+            using (var _db = new ModelContainer())
+            {
+                var _sql = $"select * from materialpriceview where SupplierId={index}";
+                return _db.Database.SqlQuery<MaterialPriceView>(_sql).ToList();
+            }
+        }
     }
 }

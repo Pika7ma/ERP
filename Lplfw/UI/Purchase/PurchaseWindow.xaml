@@ -121,9 +121,10 @@
                         <Button Content="显示全部" VerticalAlignment="Stretch" Width="75" Click="ShowAllPurchase"/>
                         <Separator/>
                         <Button x:Name="btnNewOrder" Content="新建采购单" VerticalAlignment="Stretch" Width="75" Click="NewPurchase"/>
-                        <Button x:Name="btnEditOrder" Content="修改采购单" VerticalAlignment="Stretch" Width="75" Click="EditPurchase"/>
+                        <Button x:Name="btnCancelOrder" Content="取消采购" VerticalAlignment="Stretch" Width="75" Click="CancelPurchase"/>
+                        <Button x:Name="btnFinishOrder" Content="完成采购" VerticalAlignment="Stretch" Width="75" Click="FinishPurchase"/>
                         <Separator/>
-                        <Button x:Name="btnNewQuality" Content="新建质检结果" VerticalAlignment="Stretch" Width="95" Click="NewQuanlity"/>
+                        <Button x:Name="btnNewQuality" Content="添加质检结果" VerticalAlignment="Stretch" Width="95" Click="NewQuanlity"/>
                         <Button x:Name="btnShowQuality" Content="查看质检结果" VerticalAlignment="Stretch" Width="95" Click="ShowQuality"/>
                     </ToolBar>
                     <DataGrid x:Name="dgPurchase" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Grid.Row="1" SelectionChanged="SelectPurchase">
