@@ -52,6 +52,34 @@ namespace Lplfw.UI.Bom
             }
         }
 
+        private void NewItem(object sender, RoutedEventArgs e)
+        {
+            var _win = new NewRecipeItem();
+            var _rtn = _win.ShowDialog();
+            if (_rtn == true)
+            {
+                var _item = Utils.TempObject as RecipeItem;
+                RecipeItems.Add(_item);
+                dgMaterialItems.Items.Refresh();
+            }
+        }
+
+        private void EditItem(object sender, RoutedEventArgs e)
+        {
+            var _item = dgMaterialItems.SelectedItem as RecipeItem;
+            if (_item == null) return;
+            var _win = new NewRecipeItem(_item);
+            var _rtn = _win.ShowDialog();
+            if (_rtn == true)
+            {
+                var _new = Utils.TempObject as RecipeItem;
+                var _old = RecipeItems.FirstOrDefault(i => i.MaterialId == _new.MaterialId);
+                if (_old == null) return;
+                _old.Quantity = _new.Quantity;
+                dgMaterialItems.Items.Refresh();
+            }
+        }
+
         /// <summary>
         /// 删除选中的配方的行
         /// </summary>
@@ -124,8 +152,6 @@ namespace Lplfw.UI.Bom
                     _db.ProductSet.Add(product);
                     _db.SaveChanges();
 
-                    SortOutRecipeItems();
-
                     for (int _i = 0; _i < RecipeItems.Count; _i++)
                     {
                         RecipeItems[_i].ProductId = product.Id;
@@ -158,8 +184,6 @@ namespace Lplfw.UI.Bom
                     product.Price = double.Parse(txtPrice.Text);
                     var _toDelete = _db.RecipeItemSet.Where(i => i.ProductId == product.Id).ToList();
                     _db.RecipeItemSet.RemoveRange(_toDelete);
-
-                    SortOutRecipeItems();
 
                     for (int _i = 0; _i < RecipeItems.Count; _i++)
                     {

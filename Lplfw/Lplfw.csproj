@@ -89,6 +89,7 @@
     <Compile Include="DAL\Models\ProductClass.cs" />
     <Compile Include="DAL\ViewModels\MaterialPriceViewModel.cs" />
     <Compile Include="DAL\ViewModels\PurchaseItemViewModel.cs" />
+    <Compile Include="DAL\ViewModels\RecipeItemViewModel.cs" />
     <Compile Include="DAL\ViewModels\StockInViewModel.cs" />
     <Compile Include="DAL\ViewModels\StockOutViewModel.cs" />
     <Compile Include="DAL\ViewModels\SupplierViewModel.cs" />
@@ -234,6 +235,9 @@
     <Compile Include="UI\Bom\NewClass.xaml.cs">
       <DependentUpon>NewClass.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Bom\NewRecipeItem.xaml.cs">
+      <DependentUpon>NewRecipeItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Inventory\EditLocation.xaml.cs">
       <DependentUpon>EditLocation.xaml</DependentUpon>
     </Compile>
@@ -327,6 +331,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Bom\NewClass.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Bom\NewRecipeItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

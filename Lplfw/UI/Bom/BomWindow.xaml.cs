@@ -120,7 +120,7 @@ namespace Lplfw.UI.Bom
         private void NewProductThread(object id)
         {
             var _id = id as int?;
-            var _products = ProductClass.GetSubClassProducts((int)_id);
+            var _products = ProductClass.GetSubClassProducts(_id);
             Dispatcher.BeginInvoke((Action)delegate ()
             {
                 dgProduct.ItemsSource = _products;
