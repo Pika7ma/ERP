@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Threading;
+using System.Windows.Controls;
 
 namespace Lplfw.UI.Inventory
 {
@@ -40,6 +41,7 @@ namespace Lplfw.UI.Inventory
             if (isStockIn)
             {
                 stockIn = new StockInViewModel();
+                stockIn.CbStorage = storageId;
                 cbStorage.Binding(stockIn, "CbStorage");
                 dpTime.Binding(stockIn, "DpTime");
                 cbUser.Binding(stockIn, "CbUser");
@@ -52,12 +54,15 @@ namespace Lplfw.UI.Inventory
             else
             {
                 stockOut = new StockOutViewModel();
+                stockOut.CbStorage = storageId;
                 cbStorage.Binding(stockOut, "CbStorage");
                 dpTime.Binding(stockOut, "DpTime");
                 cbUser.Binding(stockOut, "CbUser");
                 txtDescription.Binding(stockOut, "TxtDescription");
                 materialStockOutItems = new List<MaterialStockOutItem>();
                 productStockOutItems = new List<ProductStockOutItem>();
+                dgMaterialItems.ItemsSource = materialStockOutItems;
+                dgProductItems.ItemsSource = productStockOutItems;
             }
             dpTime.SelectedDate = DateTime.Now;
         }
@@ -85,7 +90,7 @@ namespace Lplfw.UI.Inventory
         #region 原料
         private void NewMaterialItem(object sender, RoutedEventArgs e)
         {
-            var _win = new NewStockItem(true, isStockIn);
+            var _win = new NewStockItem(true, isStockIn, storageId);
             var _rtn = _win.ShowDialog();
             if (_rtn == true)
             {
@@ -93,12 +98,11 @@ namespace Lplfw.UI.Inventory
                 {
                     var _item = Utils.TempObject as MaterialStockInItem;
                     Utils.TempObject = null;
-                    var _old = materialStockInItems.FirstOrDefault(i => i.MaterialId == _item.MaterialId);
+                    var _old = materialStockInItems.FirstOrDefault(i => i.MaterialId == _item.MaterialId && i.Location == _item.Location);
                     if (_old == null) materialStockInItems.Add(_item);
                     else
                     {
                         _old.Quantity += _item.Quantity;
-                        _old.Location = $"{_old.Location},{_item.Location}";
                     }
                     dgMaterialItems.Items.Refresh();
                 }
@@ -106,12 +110,11 @@ namespace Lplfw.UI.Inventory
                 {
                     var _item = Utils.TempObject as MaterialStockOutItem;
                     Utils.TempObject = null;
-                    var _old = materialStockOutItems.FirstOrDefault(i => i.MaterialId == _item.MaterialId);
+                    var _old = materialStockOutItems.FirstOrDefault(i => i.MaterialId == _item.MaterialId && i.Location == _item.Location);
                     if (_old == null) materialStockOutItems.Add(_item);
                     else
                     {
                         _old.Quantity += _item.Quantity;
-                        _old.Location = $"{_old.Location},{_item.Location}";
                     }
                     dgMaterialItems.Items.Refresh();
                 }
@@ -124,7 +127,7 @@ namespace Lplfw.UI.Inventory
             {
                 var item = dgMaterialItems.SelectedItem as MaterialStockInItem;
                 if (item == null) return;
-                var _win = new NewStockItem(item, true, isStockIn);
+                var _win = new NewStockItem(item, true, isStockIn, storageId);
                 var _rtn = _win.ShowDialog();
                 if (_rtn == true)
                 {
@@ -132,9 +135,7 @@ namespace Lplfw.UI.Inventory
                     Utils.TempObject = null;
                     var _old = materialStockInItems.FirstOrDefault(i => i.MaterialId == _item.MaterialId);
                     if (_old == null) return;
-                    _old.MaterialId = _item.MaterialId;
                     _old.Quantity = _item.Quantity;
-                    _old.Location = _item.Location;
                     dgMaterialItems.Items.Refresh();
                 }
 
@@ -143,7 +144,7 @@ namespace Lplfw.UI.Inventory
             {
                 var item = dgMaterialItems.SelectedItem as MaterialStockOutItem;
                 if (item == null) return;
-                var _win = new NewStockItem(item, true, isStockIn);
+                var _win = new NewStockItem(item, true, isStockIn, storageId);
                 var _rtn = _win.ShowDialog();
                 if (_rtn == true)
                 {
@@ -151,9 +152,7 @@ namespace Lplfw.UI.Inventory
                     Utils.TempObject = null;
                     var _old = materialStockOutItems.FirstOrDefault(i => i.MaterialId == _item.MaterialId);
                     if (_old == null) return;
-                    _old.MaterialId = _item.MaterialId;
                     _old.Quantity = _item.Quantity;
-                    _old.Location = _item.Location;
                     dgMaterialItems.Items.Refresh();
                 }
             }
@@ -181,7 +180,7 @@ namespace Lplfw.UI.Inventory
         #region 产品
         private void NewProductItem(object sender, RoutedEventArgs e)
         {
-            var _win = new NewStockItem(false, isStockIn);
+            var _win = new NewStockItem(false, isStockIn, storageId);
             var _rtn = _win.ShowDialog();
             if (_rtn == true)
             {
@@ -189,12 +188,11 @@ namespace Lplfw.UI.Inventory
                 {
                     var _item = Utils.TempObject as ProductStockInItem;
                     Utils.TempObject = null;
-                    var _old = productStockInItems.FirstOrDefault(i => i.ProductId == _item.ProductId);
+                    var _old = productStockInItems.FirstOrDefault(i => i.ProductId == _item.ProductId && i.Location == _item.Location);
                     if (_old == null) productStockInItems.Add(_item);
                     else
                     {
                         _old.Quantity += _item.Quantity;
-                        _old.Location = $"{_old.Location},{_item.Location}";
                     }
                     dgProductItems.Items.Refresh();
                 }
@@ -202,12 +200,11 @@ namespace Lplfw.UI.Inventory
                 {
                     var _item = Utils.TempObject as ProductStockOutItem;
                     Utils.TempObject = null;
-                    var _old = productStockOutItems.FirstOrDefault(i => i.ProductId == _item.ProductId);
+                    var _old = productStockOutItems.FirstOrDefault(i => i.ProductId == _item.ProductId && i.Location == _item.Location);
                     if (_old == null) productStockOutItems.Add(_item);
                     else
                     {
                         _old.Quantity += _item.Quantity;
-                        _old.Location = $"{_old.Location},{_item.Location}";
                     }
                     dgProductItems.Items.Refresh();
                 }
@@ -220,7 +217,7 @@ namespace Lplfw.UI.Inventory
             {
                 var item = dgProductItems.SelectedItem as ProductStockInItem;
                 if (item == null) return;
-                var _win = new NewStockItem(item, false, isStockIn);
+                var _win = new NewStockItem(item, false, isStockIn, storageId);
                 var _rtn = _win.ShowDialog();
                 if (_rtn == true)
                 {
@@ -228,18 +225,15 @@ namespace Lplfw.UI.Inventory
                     Utils.TempObject = null;
                     var _old = productStockInItems.FirstOrDefault(i => i.ProductId == _item.ProductId);
                     if (_old == null) return;
-                    _old.ProductId = _item.ProductId;
                     _old.Quantity = _item.Quantity;
-                    _old.Location = _item.Location;
                     dgProductItems.Items.Refresh();
                 }
-
             }
             else
             {
                 var item = dgProductItems.SelectedItem as ProductStockOutItem;
                 if (item == null) return;
-                var _win = new NewStockItem(item, false, isStockIn);
+                var _win = new NewStockItem(item, false, isStockIn, storageId);
                 var _rtn = _win.ShowDialog();
                 if (_rtn == true)
                 {
@@ -247,9 +241,7 @@ namespace Lplfw.UI.Inventory
                     Utils.TempObject = null;
                     var _old = productStockOutItems.FirstOrDefault(i => i.ProductId == _item.ProductId);
                     if (_old == null) return;
-                    _old.ProductId = _item.ProductId;
                     _old.Quantity = _item.Quantity;
-                    _old.Location = _item.Location;
                     dgProductItems.Items.Refresh();
                 }
             }
@@ -281,7 +273,6 @@ namespace Lplfw.UI.Inventory
 
         private void Confirm(object sender, RoutedEventArgs e)
         {
-            //TODO: 入库出库的虚拟库存, 为0时自动删除
             try {
                 if (isStockIn)
                 {
@@ -312,8 +303,6 @@ namespace Lplfw.UI.Inventory
                                 else
                                 {
                                     _stock.Quantity += _item.Quantity;
-                                    var _locationList = new List<string>(_stock.Location.Split(',')).Union(new List<string>(_item.Location.Split(',')));
-                                    _stock.Location = String.Join(",", _locationList.Distinct().ToArray());
                                 }
                             }
                             for (var _j = 0; _j < productStockInItems.Count; _j++)
@@ -321,7 +310,8 @@ namespace Lplfw.UI.Inventory
                                 var _item = productStockInItems[_j];
                                 _item.StockInId = _stockIn.Id;
                                 var _stock = _db.ProductStockSet.FirstOrDefault(i => i.StorageId == _stockIn.StorageId
-                                    && i.ProductId == _item.ProductId);
+                                    && i.ProductId == _item.ProductId
+                                    && i.Location == _item.Location);
                                 if (_stock == null)
                                 {
                                     _db.ProductStockSet.Add(new ProductStock
@@ -335,8 +325,6 @@ namespace Lplfw.UI.Inventory
                                 else
                                 {
                                     _stock.Quantity += _item.Quantity;
-                                    var _locationList = new List<string>(_stock.Location.Split(',')).Union(new List<string>(_item.Location.Split(',')));
-                                    _stock.Location = String.Join(",", _locationList.Distinct().ToArray());
                                 }
                             }
                             _db.MaterialStockInItemSet.AddRange(materialStockInItems);
@@ -365,7 +353,8 @@ namespace Lplfw.UI.Inventory
                                 var _item = materialStockOutItems[_i];
                                 _item.StockOutId = _stockOut.Id;
                                 var _stock = _db.MaterialStockSet.FirstOrDefault(i => i.StorageId == _stockOut.StorageId
-                                    && i.MaterialId == _item.MaterialId);
+                                    && i.MaterialId == _item.MaterialId
+                                    && i.Location == _item.Location);
                                 if (_stock == null)
                                 {
                                     _db.MaterialStockSet.Add(new MaterialStock
@@ -378,9 +367,8 @@ namespace Lplfw.UI.Inventory
                                 }
                                 else
                                 {
-                                    _stock.Quantity += _item.Quantity;
-                                    var _locationList = new List<string>(_stock.Location.Split(',')).Union(new List<string>(_item.Location.Split(',')));
-                                    _stock.Location = String.Join(",", _locationList.Distinct().ToArray());
+                                    _stock.Quantity -= _item.Quantity;
+                                    if (_stock.Quantity == 0) _db.MaterialStockSet.Remove(_stock);
                                 }
                             }
                             for (var _j = 0; _j < productStockOutItems.Count; _j++)
@@ -388,7 +376,8 @@ namespace Lplfw.UI.Inventory
                                 var _item = productStockOutItems[_j];
                                 _item.StockOutId = _stockOut.Id;
                                 var _stock = _db.ProductStockSet.FirstOrDefault(i => i.StorageId == _stockOut.StorageId
-                                    && i.ProductId == _item.ProductId);
+                                    && i.ProductId == _item.ProductId
+                                    && i.Location == _item.Location);
                                 if (_stock == null)
                                 {
                                     _db.ProductStockSet.Add(new ProductStock
@@ -401,9 +390,8 @@ namespace Lplfw.UI.Inventory
                                 }
                                 else
                                 {
-                                    _stock.Quantity += _item.Quantity;
-                                    var _locationList = new List<string>(_stock.Location.Split(',')).Union(new List<string>(_item.Location.Split(',')));
-                                    _stock.Location = String.Join(",", _locationList.Distinct().ToArray());
+                                    _stock.Quantity -= _item.Quantity;
+                                    if (_stock.Quantity == 0) _db.ProductStockSet.Remove(_stock);
                                 }
                             }
                             _db.MaterialStockOutItemSet.AddRange(materialStockOutItems);
@@ -421,6 +409,11 @@ namespace Lplfw.UI.Inventory
             {
                 DialogResult = false;
             }
+        }
+
+        private void ChangeStorage(object sender, SelectionChangedEventArgs e)
+        {
+            storageId = cbStorage.SelectedValue as int?;
         }
     }
 }

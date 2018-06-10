@@ -9,7 +9,7 @@ namespace Lplfw.DAL
         public int StockInId { get; set; }
         public int MaterialId { get; set; }
         public int Quantity { get; set; }
-        public string Location { get; set; }
+        public int Location { get; set; }
         public string MaterialName { get; set; }
 
         static public List<MaterialStockInItemView> GetById(int index)

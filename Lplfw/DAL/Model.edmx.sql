@@ -1,5 +1,5 @@
-
 use erp;
+
 
 
 
@@ -44,7 +44,7 @@ use erp;
 -- -----------------------------------------------------------
 -- Entity Designer DDL Script for MySQL Server 4.1 and higher
 -- -----------------------------------------------------------
--- Date Created: 06/02/2018 20:07:35
+-- Date Created: 06/10/2018 22:06:55
 
 -- Generated from EDMX file: E:\code\csharp\Lplfw\Lplfw\DAL\Model.edmx
 -- Target version: 3.0.0.0
@@ -367,7 +367,7 @@ CREATE TABLE `StorageSet`(
 	`Name` longtext NOT NULL, 
 	`UserId` int NOT NULL, 
 	`Location` longtext NOT NULL, 
-	`Description` longtext NOT NULL);
+	`Description` longtext);
 
 ALTER TABLE `StorageSet` ADD PRIMARY KEY (`Id`);
 
@@ -379,9 +379,9 @@ CREATE TABLE `ProductStockSet`(
 	`StorageId` int NOT NULL, 
 	`ProductId` int NOT NULL, 
 	`Quantity` int NOT NULL, 
-	`Location` longtext NOT NULL);
+	`Location` int NOT NULL);
 
-ALTER TABLE `ProductStockSet` ADD PRIMARY KEY (`StorageId`, `ProductId`);
+ALTER TABLE `ProductStockSet` ADD PRIMARY KEY (`StorageId`, `ProductId`, `Location`);
 
 
 
@@ -391,9 +391,9 @@ CREATE TABLE `MaterialStockSet`(
 	`MaterialId` int NOT NULL, 
 	`StorageId` int NOT NULL, 
 	`Quantity` int NOT NULL, 
-	`Location` longtext NOT NULL);
+	`Location` int NOT NULL);
 
-ALTER TABLE `MaterialStockSet` ADD PRIMARY KEY (`MaterialId`, `StorageId`);
+ALTER TABLE `MaterialStockSet` ADD PRIMARY KEY (`MaterialId`, `StorageId`, `Location`);
 
 
 
@@ -429,9 +429,9 @@ CREATE TABLE `ProductStockInItemSet`(
 	`ProductId` int NOT NULL, 
 	`StockInId` int NOT NULL, 
 	`Quantity` int NOT NULL, 
-	`Location` longtext NOT NULL);
+	`Location` int NOT NULL);
 
-ALTER TABLE `ProductStockInItemSet` ADD PRIMARY KEY (`StockInId`, `ProductId`);
+ALTER TABLE `ProductStockInItemSet` ADD PRIMARY KEY (`StockInId`, `ProductId`, `Location`);
 
 
 
@@ -441,9 +441,9 @@ CREATE TABLE `MaterialStockInItemSet`(
 	`StockInId` int NOT NULL, 
 	`MaterialId` int NOT NULL, 
 	`Quantity` int NOT NULL, 
-	`Location` longtext NOT NULL);
+	`Location` int NOT NULL);
 
-ALTER TABLE `MaterialStockInItemSet` ADD PRIMARY KEY (`StockInId`, `MaterialId`);
+ALTER TABLE `MaterialStockInItemSet` ADD PRIMARY KEY (`StockInId`, `MaterialId`, `Location`);
 
 
 
@@ -453,9 +453,9 @@ CREATE TABLE `ProductStockOutItemSet`(
 	`ProductId` int NOT NULL, 
 	`StockOutId` int NOT NULL, 
 	`Quantity` int NOT NULL, 
-	`Location` longtext NOT NULL);
+	`Location` int NOT NULL);
 
-ALTER TABLE `ProductStockOutItemSet` ADD PRIMARY KEY (`ProductId`, `StockOutId`);
+ALTER TABLE `ProductStockOutItemSet` ADD PRIMARY KEY (`ProductId`, `StockOutId`, `Location`);
 
 
 
@@ -465,9 +465,9 @@ CREATE TABLE `MaterialStockOutItemSet`(
 	`MaterialId` int NOT NULL, 
 	`StockOutId` int NOT NULL, 
 	`Quantity` int NOT NULL, 
-	`Location` longtext NOT NULL);
+	`Location` int NOT NULL);
 
-ALTER TABLE `MaterialStockOutItemSet` ADD PRIMARY KEY (`MaterialId`, `StockOutId`);
+ALTER TABLE `MaterialStockOutItemSet` ADD PRIMARY KEY (`MaterialId`, `StockOutId`, `Location`);
 
 
 
@@ -574,9 +574,10 @@ CREATE TABLE `RequisitionItemSet`(
 	`RequisitionId` int NOT NULL, 
 	`MaterialId` int NOT NULL, 
 	`StorageId` int NOT NULL, 
-	`Quantity` int NOT NULL);
+	`Quantity` int NOT NULL, 
+	`Location` int NOT NULL);
 
-ALTER TABLE `RequisitionItemSet` ADD PRIMARY KEY (`MaterialId`, `StorageId`, `RequisitionId`);
+ALTER TABLE `RequisitionItemSet` ADD PRIMARY KEY (`MaterialId`, `StorageId`, `RequisitionId`, `Location`);
 
 
 
@@ -601,9 +602,10 @@ CREATE TABLE `ReturnItemSet`(
 	`ReturnId` int NOT NULL, 
 	`MaterialId` int NOT NULL, 
 	`StorageId` int NOT NULL, 
-	`Quantity` int NOT NULL);
+	`Quantity` int NOT NULL, 
+	`Location` int NOT NULL);
 
-ALTER TABLE `ReturnItemSet` ADD PRIMARY KEY (`ReturnId`, `MaterialId`, `StorageId`);
+ALTER TABLE `ReturnItemSet` ADD PRIMARY KEY (`ReturnId`, `MaterialId`, `StorageId`, `Location`);
 
 
 
@@ -1280,14 +1282,21 @@ CREATE INDEX `IX_FK_RequisitionItemRequisition`
 
 
 
--- Creating foreign key on `MaterialId`, `StorageId` in table 'RequisitionItemSet'
+-- Creating foreign key on `MaterialId`, `StorageId`, `Location` in table 'RequisitionItemSet'
 
 ALTER TABLE `RequisitionItemSet`
 ADD CONSTRAINT `FK_RequisitionItemMaterialStock`
-    FOREIGN KEY (`MaterialId`, `StorageId`)
+    FOREIGN KEY (`MaterialId`, `StorageId`, `Location`)
     REFERENCES `MaterialStockSet`
-        (`MaterialId`, `StorageId`)
+        (`MaterialId`, `StorageId`, `Location`)
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_RequisitionItemMaterialStock'
+
+CREATE INDEX `IX_FK_RequisitionItemMaterialStock`
+    ON `RequisitionItemSet`
+    (`MaterialId`, `StorageId`, `Location`);
 
 
 
@@ -1338,13 +1347,13 @@ ADD CONSTRAINT `FK_ReturnItemReturn`
 
 
 
--- Creating foreign key on `MaterialId`, `StorageId` in table 'ReturnItemSet'
+-- Creating foreign key on `MaterialId`, `StorageId`, `Location` in table 'ReturnItemSet'
 
 ALTER TABLE `ReturnItemSet`
 ADD CONSTRAINT `FK_ReturnItemMaterialStock`
-    FOREIGN KEY (`MaterialId`, `StorageId`)
+    FOREIGN KEY (`MaterialId`, `StorageId`, `Location`)
     REFERENCES `MaterialStockSet`
-        (`MaterialId`, `StorageId`)
+        (`MaterialId`, `StorageId`, `Location`)
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
@@ -1352,7 +1361,7 @@ ADD CONSTRAINT `FK_ReturnItemMaterialStock`
 
 CREATE INDEX `IX_FK_ReturnItemMaterialStock`
     ON `ReturnItemSet`
-    (`MaterialId`, `StorageId`);
+    (`MaterialId`, `StorageId`, `Location`);
 
 
 

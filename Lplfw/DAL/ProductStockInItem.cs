@@ -17,6 +17,6 @@ namespace Lplfw.DAL
         public int ProductId { get; set; }
         public int StockInId { get; set; }
         public int Quantity { get; set; }
-        public string Location { get; set; }
+        public int Location { get; set; }
     }
 }

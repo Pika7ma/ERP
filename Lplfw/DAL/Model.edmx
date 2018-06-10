@@ -346,27 +346,29 @@
     <Property Name="Name" Type="longtext" Nullable="false" />
     <Property Name="UserId" Type="int" Nullable="false" />
     <Property Name="Location" Type="longtext" Nullable="false" />
-    <Property Name="Description" Type="longtext" Nullable="false" />
+    <Property Name="Description" Type="longtext" Nullable="true" />
   </EntityType>
   <EntityType Name="ProductStockSet">
     <Key>
       <PropertyRef Name="StorageId" />
       <PropertyRef Name="ProductId" />
+      <PropertyRef Name="Location" />
     </Key>
     <Property Name="StorageId" Type="int" Nullable="false" />
     <Property Name="ProductId" Type="int" Nullable="false" />
     <Property Name="Quantity" Type="int" Nullable="false" />
-    <Property Name="Location" Type="longtext" Nullable="false" />
+    <Property Name="Location" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="MaterialStockSet">
     <Key>
       <PropertyRef Name="MaterialId" />
       <PropertyRef Name="StorageId" />
+      <PropertyRef Name="Location" />
     </Key>
     <Property Name="MaterialId" Type="int" Nullable="false" />
     <Property Name="StorageId" Type="int" Nullable="false" />
     <Property Name="Quantity" Type="int" Nullable="false" />
-    <Property Name="Location" Type="longtext" Nullable="false" />
+    <Property Name="Location" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="StockInSet">
     <Key>
@@ -392,41 +394,45 @@
     <Key>
       <PropertyRef Name="StockInId" />
       <PropertyRef Name="ProductId" />
+      <PropertyRef Name="Location" />
     </Key>
     <Property Name="ProductId" Type="int" Nullable="false" />
     <Property Name="StockInId" Type="int" Nullable="false" />
     <Property Name="Quantity" Type="int" Nullable="false" />
-    <Property Name="Location" Type="longtext" Nullable="false" />
+    <Property Name="Location" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="MaterialStockInItemSet">
     <Key>
       <PropertyRef Name="StockInId" />
       <PropertyRef Name="MaterialId" />
+      <PropertyRef Name="Location" />
     </Key>
     <Property Name="StockInId" Type="int" Nullable="false" />
     <Property Name="MaterialId" Type="int" Nullable="false" />
     <Property Name="Quantity" Type="int" Nullable="false" />
-    <Property Name="Location" Type="longtext" Nullable="false" />
+    <Property Name="Location" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProductStockOutItemSet">
     <Key>
       <PropertyRef Name="ProductId" />
       <PropertyRef Name="StockOutId" />
+      <PropertyRef Name="Location" />
     </Key>
     <Property Name="ProductId" Type="int" Nullable="false" />
     <Property Name="StockOutId" Type="int" Nullable="false" />
     <Property Name="Quantity" Type="int" Nullable="false" />
-    <Property Name="Location" Type="longtext" Nullable="false" />
+    <Property Name="Location" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="MaterialStockOutItemSet">
     <Key>
       <PropertyRef Name="MaterialId" />
       <PropertyRef Name="StockOutId" />
+      <PropertyRef Name="Location" />
     </Key>
     <Property Name="MaterialId" Type="int" Nullable="false" />
     <Property Name="StockOutId" Type="int" Nullable="false" />
     <Property Name="Quantity" Type="int" Nullable="false" />
-    <Property Name="Location" Type="longtext" Nullable="false" />
+    <Property Name="Location" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SalesSet">
     <Key>
@@ -513,11 +519,13 @@
       <PropertyRef Name="MaterialId" />
       <PropertyRef Name="StorageId" />
       <PropertyRef Name="RequisitionId" />
+      <PropertyRef Name="Location" />
     </Key>
     <Property Name="RequisitionId" Type="int" Nullable="false" />
     <Property Name="MaterialId" Type="int" Nullable="false" />
     <Property Name="StorageId" Type="int" Nullable="false" />
     <Property Name="Quantity" Type="int" Nullable="false" />
+    <Property Name="Location" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ReturnSet">
     <Key>
@@ -536,11 +544,13 @@
       <PropertyRef Name="ReturnId" />
       <PropertyRef Name="MaterialId" />
       <PropertyRef Name="StorageId" />
+      <PropertyRef Name="Location" />
     </Key>
     <Property Name="ReturnId" Type="int" Nullable="false" />
     <Property Name="MaterialId" Type="int" Nullable="false" />
     <Property Name="StorageId" Type="int" Nullable="false" />
     <Property Name="Quantity" Type="int" Nullable="false" />
+    <Property Name="Location" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProductionSet">
     <Key>
@@ -1057,10 +1067,12 @@
       <Principal Role="MaterialStock">
         <PropertyRef Name="MaterialId" />
         <PropertyRef Name="StorageId" />
+        <PropertyRef Name="Location" />
       </Principal>
       <Dependent Role="RequisitionItem">
         <PropertyRef Name="MaterialId" />
         <PropertyRef Name="StorageId" />
+        <PropertyRef Name="Location" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1107,10 +1119,12 @@
       <Principal Role="MaterialStock">
         <PropertyRef Name="MaterialId" />
         <PropertyRef Name="StorageId" />
+        <PropertyRef Name="Location" />
       </Principal>
       <Dependent Role="ReturnItem">
         <PropertyRef Name="MaterialId" />
         <PropertyRef Name="StorageId" />
+        <PropertyRef Name="Location" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1681,7 +1695,7 @@
           <NavigationProperty Name="ProductStock" Relationship="Model.StockInStorage" FromRole="Storage" ToRole="ProductStock" />
           <NavigationProperty Name="MaterialStock" Relationship="Model.MaterialOfStorage" FromRole="Storage" ToRole="MaterialStock" />
           <Property Name="Location" Type="String" Nullable="false" />
-          <Property Name="Description" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="true" />
         </EntityType>
         <Association Name="PrincipalOfStorage">
           <End Type="Model.Storage" Role="Storage" Multiplicity="*" />
@@ -1699,11 +1713,12 @@
           <Key>
             <PropertyRef Name="StorageId" />
             <PropertyRef Name="ProductId" />
+            <PropertyRef Name="Location" />
           </Key>
           <Property Name="StorageId" Type="Int32" Nullable="false" />
           <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="Location" Type="String" Nullable="false" />
+          <Property Name="Location" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="StockInStorage">
           <End Type="Model.ProductStock" Role="ProductStock" Multiplicity="*" />
@@ -1733,11 +1748,12 @@
           <Key>
             <PropertyRef Name="MaterialId" />
             <PropertyRef Name="StorageId" />
+            <PropertyRef Name="Location" />
           </Key>
           <Property Name="MaterialId" Type="Int32" Nullable="false" />
           <Property Name="StorageId" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="Location" Type="String" Nullable="false" />
+          <Property Name="Location" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="MaterialInStock">
           <End Type="Model.MaterialStock" Role="MaterialStock" Multiplicity="*" />
@@ -1835,11 +1851,12 @@
           <Key>
             <PropertyRef Name="StockInId" />
             <PropertyRef Name="ProductId" />
+            <PropertyRef Name="Location" />
           </Key>
           <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="StockInId" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="Location" Type="String" Nullable="false" />
+          <Property Name="Location" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="ProductStockInItemStockIn">
           <End Type="Model.ProductStockInItem" Role="ProductStockInItem" Multiplicity="*" />
@@ -1869,11 +1886,12 @@
           <Key>
             <PropertyRef Name="StockInId" />
             <PropertyRef Name="MaterialId" />
+            <PropertyRef Name="Location" />
           </Key>
           <Property Name="StockInId" Type="Int32" Nullable="false" />
           <Property Name="MaterialId" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="Location" Type="String" Nullable="false" />
+          <Property Name="Location" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="MaterialStockInItemStockIn">
           <End Type="Model.MaterialStockInItem" Role="MaterialStockInItem" Multiplicity="*" />
@@ -1903,11 +1921,12 @@
           <Key>
             <PropertyRef Name="ProductId" />
             <PropertyRef Name="StockOutId" />
+            <PropertyRef Name="Location" />
           </Key>
           <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="StockOutId" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="Location" Type="String" Nullable="false" />
+          <Property Name="Location" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="ProductStockOutItemProduct">
           <End Type="Model.ProductStockOutItem" Role="ProductStockOutItem" Multiplicity="*" />
@@ -1937,11 +1956,12 @@
           <Key>
             <PropertyRef Name="MaterialId" />
             <PropertyRef Name="StockOutId" />
+            <PropertyRef Name="Location" />
           </Key>
           <Property Name="MaterialId" Type="Int32" Nullable="false" />
           <Property Name="StockOutId" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="Location" Type="String" Nullable="false" />
+          <Property Name="Location" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="MaterialStockOutItemMaterial">
           <End Type="Model.MaterialStockOutItem" Role="MaterialStockOutItem" Multiplicity="*" />
@@ -2189,11 +2209,13 @@
             <PropertyRef Name="MaterialId" />
             <PropertyRef Name="StorageId" />
             <PropertyRef Name="RequisitionId" />
+            <PropertyRef Name="Location" />
           </Key>
           <Property Name="RequisitionId" Type="Int32" Nullable="false" />
           <Property Name="MaterialId" Type="Int32" Nullable="false" />
           <Property Name="StorageId" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Location" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="RequisitionItemRequisition">
           <End Type="Model.RequisitionItem" Role="RequisitionItem" Multiplicity="*" />
@@ -2214,10 +2236,12 @@
             <Principal Role="MaterialStock">
               <PropertyRef Name="MaterialId" />
               <PropertyRef Name="StorageId" />
+              <PropertyRef Name="Location" />
             </Principal>
             <Dependent Role="RequisitionItem">
               <PropertyRef Name="MaterialId" />
               <PropertyRef Name="StorageId" />
+              <PropertyRef Name="Location" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2263,11 +2287,13 @@
             <PropertyRef Name="ReturnId" />
             <PropertyRef Name="MaterialId" />
             <PropertyRef Name="StorageId" />
+            <PropertyRef Name="Location" />
           </Key>
           <Property Name="ReturnId" Type="Int32" Nullable="false" />
           <Property Name="MaterialId" Type="Int32" Nullable="false" />
           <Property Name="StorageId" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Location" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="ReturnItemReturn">
           <End Type="Model.ReturnItem" Role="ReturnItem" Multiplicity="*" />
@@ -2288,10 +2314,12 @@
             <Principal Role="MaterialStock">
               <PropertyRef Name="MaterialId" />
               <PropertyRef Name="StorageId" />
+              <PropertyRef Name="Location" />
             </Principal>
             <Dependent Role="ReturnItem">
               <PropertyRef Name="MaterialId" />
               <PropertyRef Name="StorageId" />
+              <PropertyRef Name="Location" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2561,8 +2589,8 @@
         <MappingFragment StoreEntitySet="ProductStockSet">
           <ScalarProperty Name="StorageId" ColumnName="StorageId" />
           <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -2571,8 +2599,8 @@
         <MappingFragment StoreEntitySet="MaterialStockSet">
           <ScalarProperty Name="MaterialId" ColumnName="MaterialId" />
           <ScalarProperty Name="StorageId" ColumnName="StorageId" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -2603,8 +2631,8 @@
         <MappingFragment StoreEntitySet="ProductStockInItemSet">
           <ScalarProperty Name="StockInId" ColumnName="StockInId" />
           <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -2613,8 +2641,8 @@
         <MappingFragment StoreEntitySet="MaterialStockInItemSet">
           <ScalarProperty Name="StockInId" ColumnName="StockInId" />
           <ScalarProperty Name="MaterialId" ColumnName="MaterialId" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -2623,8 +2651,8 @@
         <MappingFragment StoreEntitySet="ProductStockOutItemSet">
           <ScalarProperty Name="ProductId" ColumnName="ProductId" />
           <ScalarProperty Name="StockOutId" ColumnName="StockOutId" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -2633,8 +2661,8 @@
         <MappingFragment StoreEntitySet="MaterialStockOutItemSet">
           <ScalarProperty Name="MaterialId" ColumnName="MaterialId" />
           <ScalarProperty Name="StockOutId" ColumnName="StockOutId" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -2727,6 +2755,7 @@
           <ScalarProperty Name="MaterialId" ColumnName="MaterialId" />
           <ScalarProperty Name="StorageId" ColumnName="StorageId" />
           <ScalarProperty Name="RequisitionId" ColumnName="RequisitionId" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
           <ScalarProperty Name="Quantity" ColumnName="Quantity" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -2750,6 +2779,7 @@
           <ScalarProperty Name="ReturnId" ColumnName="ReturnId" />
           <ScalarProperty Name="MaterialId" ColumnName="MaterialId" />
           <ScalarProperty Name="StorageId" ColumnName="StorageId" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
           <ScalarProperty Name="Quantity" ColumnName="Quantity" />
         </MappingFragment>
       </EntityTypeMapping>

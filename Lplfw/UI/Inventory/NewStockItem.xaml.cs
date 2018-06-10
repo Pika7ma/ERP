@@ -13,34 +13,72 @@ namespace Lplfw.UI.Inventory
     /// </summary>
     public partial class NewStockItem : Window
     {
+        private int? storageId;
         private bool isNew;
         private bool isMaterial;
         private bool isIn;
         private object obj;
+        private enum TYPE { NewMaterialIn, NewMaterialOut, NewProductIn, NewProductOut, EditMaterialIn, EditMaterialOut, EditProductIn, EditProductOut };
+        private TYPE type;
+        private int storageQuantity = 0;
 
-        public NewStockItem(bool isMaterial, bool isIn)
+        public NewStockItem(bool isMaterial, bool isIn, int? storageId)
         {
             InitializeComponent();
             Title = "新建条目";
             isNew = true;
             this.isMaterial = isMaterial;
             this.isIn = isIn;
+            this.storageId = storageId;
+            SetType();
             SetControls();
         }
 
-        public NewStockItem(Object edit, bool isMaterial, bool isIn)
+        public NewStockItem(Object edit, bool isMaterial, bool isIn, int? storageId)
         {
             InitializeComponent();
             Title = "修改条目";
             isNew = false;
             this.isMaterial = isMaterial;
             this.isIn = isIn;
+            this.storageId = storageId;
             obj = edit;
+            SetType();
             SetControls();
         }
 
-        private void SetControls()
+        #region 根据情况初始化窗口
+        private void SetType()
         {
+            if (isNew)
+            {
+                if (isMaterial)
+                {
+                    if (isIn) type = TYPE.NewMaterialIn;
+                    else type = TYPE.NewMaterialOut;
+                }
+                else
+                {
+                    if (isIn) type = TYPE.NewProductIn;
+                    else type = TYPE.NewProductOut;
+                }
+            }
+            else
+            {
+                if (isMaterial)
+                {
+                    if (isIn) type = TYPE.EditMaterialIn;
+                    else type = TYPE.EditMaterialOut;
+                }
+                else
+                {
+                    if (isIn) type = TYPE.EditProductIn;
+                    else type = TYPE.EditProductOut;
+                }
+            }
+        }
+
+        private void SetItemsSourceMaterialOrProduct() {
             if (isMaterial)
             {
                 cbClass.ItemsSource = MaterialClass.GetAllClasses(false);
@@ -51,67 +89,96 @@ namespace Lplfw.UI.Inventory
                 cbClass.ItemsSource = ProductClass.GetAllClasses(false);
                 btnConfirm.Click += SubmitProductItem;
             }
-            if (!isNew)
+        }
+
+        private void SetItemsSourceInOrOut()
+        {
+            if (!isIn)
             {
-                using (var _db = new ModelContainer())
+                lblStorage.Visibility = Visibility.Visible;
+                txtLocation.Visibility = Visibility.Hidden;
+                cbLocation.Visibility = Visibility.Visible;
+                txtStorage.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void SetControls()
+        {
+            SetItemsSourceMaterialOrProduct();
+            SetItemsSourceInOrOut();
+
+            using (var _db = new ModelContainer())
+            {
+                switch (type)
                 {
-                    if (isMaterial)
-                    {
-                        int? _id;
-                        string _quantity;
-                        string _location;
-                        if (isIn)
+                    case TYPE.EditMaterialIn:
                         {
                             var _obj = obj as MaterialStockInItem;
-                            _id = _obj.MaterialId;
-                            _quantity = _obj.Quantity.ToString();
-                            _location = _obj.Location;
+                            var _id = _obj.MaterialId;
+                            var _material = _db.MaterialSet.FirstOrDefault(i => i.Id == _id);
+                            if (_material == null) return;
+                            cbClass.SelectedValue = _material.ClassId;
+                            cbName.ItemsSource = _db.MaterialSet.Where(i => i.ClassId == _material.ClassId).ToList();
+                            cbName.SelectedValue = _material.Id;
+                            txtQuantity.Text = _obj.Quantity.ToString();
+                            txtLocation.Text = _obj.Location.ToString();
                         }
-                        else
+                        break;
+                    case TYPE.EditMaterialOut:
                         {
                             var _obj = obj as MaterialStockOutItem;
-                            _id = _obj.MaterialId;
-                            _quantity = _obj.Quantity.ToString();
-                            _location = _obj.Location;
+                            var _id = _obj.MaterialId;
+                            var _material = _db.MaterialSet.FirstOrDefault(i => i.Id == _id);
+                            if (_material == null) return;
+                            cbClass.SelectedValue = _material.ClassId;
+                            cbName.ItemsSource = _db.MaterialSet.Where(i => i.ClassId == _material.ClassId).ToList();
+                            cbName.SelectedValue = _material.Id;
+                            txtQuantity.Text = _obj.Quantity.ToString();
+                            var _stockItems = _db.MaterialStockSet.Where(i => i.StorageId == storageId && i.MaterialId == _id).ToList();
+                            cbLocation.ItemsSource = _stockItems;
+                            cbLocation.SelectedValue = _obj.Location;
+                            var _stockItem = _stockItems.FirstOrDefault(i => i.Location == _obj.Location);
+                            storageQuantity = _stockItem.Quantity;
+                            txtStorage.Text = _stockItem.Quantity.ToString();
                         }
-                        var _material = _db.MaterialSet.FirstOrDefault(i => i.Id == _id);
-                        if (_material == null) return;
-                        cbClass.SelectedValue = _material.ClassId;
-                        cbName.ItemsSource = _db.MaterialSet.Where(i => i.ClassId == _material.ClassId).ToList();
-                        cbName.SelectedValue = _material.Id;
-                        txtQuantity.Text = _quantity;
-                        txtLocation.Text = _location;
-                    }
-                    else
-                    {
-                        int? _id;
-                        string _quantity;
-                        string _location;
-                        if (isIn)
+                        break;
+                    case TYPE.EditProductIn:
                         {
                             var _obj = obj as ProductStockInItem;
-                            _id = _obj.ProductId;
-                            _quantity = _obj.Quantity.ToString();
-                            _location = _obj.Location;
+                            var _id = _obj.ProductId;
+                            var _product = _db.ProductSet.FirstOrDefault(i => i.Id == _id);
+                            if (_product == null) return;
+                            cbClass.SelectedValue = _product.ClassId;
+                            cbName.ItemsSource = _db.ProductSet.Where(i => i.ClassId == _product.ClassId).ToList();
+                            cbName.SelectedValue = _product.Id;
+                            txtQuantity.Text = _obj.Quantity.ToString();
+                            txtLocation.Text = _obj.Location.ToString();
                         }
-                        else
+                        break;
+                    case TYPE.EditProductOut:
                         {
-                            var _obj = obj as ProductStockOutItem;
-                            _id = _obj.ProductId;
-                            _quantity = _obj.Quantity.ToString();
-                            _location = _obj.Location;
+                            var _obj = obj as ProductStockInItem;
+                            var _id = _obj.ProductId;
+                            var _product = _db.ProductSet.FirstOrDefault(i => i.Id == _id);
+                            if (_product == null) return;
+                            cbClass.SelectedValue = _product.ClassId;
+                            cbName.ItemsSource = _db.ProductSet.Where(i => i.ClassId == _product.ClassId).ToList();
+                            cbName.SelectedValue = _product.Id;
+                            txtQuantity.Text = _obj.Quantity.ToString();
+                            var _stockItems = _db.ProductStockSet.Where(i => i.StorageId == storageId && i.ProductId == _id).ToList();
+                            cbLocation.ItemsSource = _stockItems;
+                            cbLocation.SelectedValue = _obj.Location;
+                            var _stockItem = _stockItems.FirstOrDefault(i => i.Location == _obj.Location);
+                            storageQuantity = _stockItem.Quantity;
+                            txtStorage.Text = _stockItem.Quantity.ToString();
                         }
-                        var _product = _db.ProductSet.FirstOrDefault(i => i.Id == _id);
-                        if (_product == null) return;
-                        cbClass.SelectedValue = _product.ClassId;
-                        cbName.ItemsSource = _db.ProductSet.Where(i => i.ClassId == _product.ClassId).ToList();
-                        cbName.SelectedValue = _product.Id;
-                        txtQuantity.Text = _quantity;
-                        txtLocation.Text = _location;
-                    }
+                        break;
+                    default:
+                        break;
                 }
             }
         }
+        #endregion
 
         private void Cancel(object sender, RoutedEventArgs e)
         {
@@ -126,15 +193,30 @@ namespace Lplfw.UI.Inventory
                 txtMessage.Text = "请选择原料或产品";
                 return false;
             }
+            if (isIn && int.TryParse(txtLocation.Text, out int _locationInt) == false)
+            {
+                txtMessage.Text = "请输入正确的货位";
+                return false;
+            }
+            var _location = cbLocation.SelectedValue as int?;
+            if (!isIn && (_location == null || _location == 0))
+            {
+                txtMessage.Text = "请选择正确的货位";
+                return false;
+            }
             if (int.TryParse(txtQuantity.Text, out int _quantity) == false)
             {
                 txtMessage.Text = "请输入正确的数量";
                 return false;
             }
-            var _location = txtLocation.Text;
-            if (_location == null || _location == "")
+            else if (_quantity == 0)
             {
-                txtMessage.Text = "请输入正确的货位";
+                txtMessage.Text = "请输入正确的数量";
+                return false;
+            }
+            else if (!isIn && _quantity > storageQuantity)
+            {
+                txtMessage.Text = "出库量大于实际库存量";
                 return false;
             }
             return true;
@@ -148,7 +230,7 @@ namespace Lplfw.UI.Inventory
                 {
                     MaterialId = (int)cbName.SelectedValue,
                     Quantity = int.Parse(txtQuantity.Text),
-                    Location = txtLocation.Text
+                    Location = int.Parse(txtLocation.Text)
                 };
                 Utils.TempObject = _item;
             }
@@ -158,7 +240,7 @@ namespace Lplfw.UI.Inventory
                 {
                     MaterialId = (int)cbName.SelectedValue,
                     Quantity = int.Parse(txtQuantity.Text),
-                    Location = txtLocation.Text
+                    Location = (int)cbLocation.SelectedValue
                 };
                 Utils.TempObject = _item;
             }
@@ -173,7 +255,7 @@ namespace Lplfw.UI.Inventory
                 {
                     ProductId = (int)cbName.SelectedValue,
                     Quantity = int.Parse(txtQuantity.Text),
-                    Location = txtLocation.Text
+                    Location = int.Parse(txtLocation.Text)
                 };
                 Utils.TempObject = _item;
             }
@@ -183,7 +265,7 @@ namespace Lplfw.UI.Inventory
                 {
                     ProductId = (int)cbName.SelectedValue,
                     Quantity = int.Parse(txtQuantity.Text),
-                    Location = txtLocation.Text
+                    Location = (int)cbLocation.SelectedValue
                 };
                 Utils.TempObject = _item;
             }
@@ -194,12 +276,53 @@ namespace Lplfw.UI.Inventory
         {
             var _class = cbClass.SelectedValue as int?;
             if (_class == null) return;
-            using (var _db = new ModelContainer())
+            if (isMaterial) cbName.ItemsSource = MaterialClass.GetSubClassMaterials(_class);
+            else cbName.ItemsSource = ProductClass.GetSubClassProducts(_class);
+        }
+
+        private void ChangeName(object sender, SelectionChangedEventArgs e)
+        {
+            if (isMaterial)
             {
-                if (isMaterial)
-                    cbName.ItemsSource = _db.MaterialSet.Where(i => i.ClassId == _class).ToList();
-                else
-                    cbName.ItemsSource = _db.ProductSet.Where(i => i.ClassId == _class).ToList();
+                var _id = cbName.SelectedValue as int?;
+                if (_id == null) return;
+                using (var _db = new ModelContainer())
+                {
+                    var _locations = _db.MaterialStockSet.Where(i => i.StorageId == storageId && i.MaterialId == _id).ToList();
+                    cbLocation.ItemsSource = _locations;
+                }
+            }
+            else
+            {
+                var _id = cbName.SelectedItem as int?;
+                if (_id == null) return;
+                using (var _db = new ModelContainer())
+                {
+                    var _locations = _db.ProductStockSet.Where(i => i.StorageId == storageId && i.ProductId == _id).ToList();
+                    cbLocation.ItemsSource = _locations;
+                }
+            }
+        }
+
+        private void SelectLocation(object sender, SelectionChangedEventArgs e)
+        {
+            var _id = cbLocation.SelectedValue as int?;
+            if (_id == null) return;
+            if (isMaterial)
+            {
+                var _locations = cbLocation.ItemsSource as List<MaterialStock>;
+                var _storage = _locations.FirstOrDefault(i => i.Location == _id);
+                if (_storage == null) return;
+                storageQuantity = _storage.Quantity;
+                txtStorage.Text = storageQuantity.ToString();
+            }
+            else
+            {
+                var _locations = cbLocation.ItemsSource as List<ProductStock>;
+                var _storage = _locations.FirstOrDefault(i => i.Location == _id);
+                if (_storage == null) return;
+                storageQuantity = _storage.Quantity;
+                txtStorage.Text = storageQuantity.ToString();
             }
         }
     }

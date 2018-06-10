@@ -85,40 +85,9 @@
     </ApplicationDefinition>
     <Compile Include="BLL\BindingHelper.cs" />
     <Compile Include="BLL\Bom\ExcelReader.cs" />
-    <Compile Include="DAL\Models\MaterialClass.cs" />
-    <Compile Include="DAL\Models\ProductClass.cs" />
-    <Compile Include="DAL\ViewModels\MaterialPriceViewModel.cs" />
-    <Compile Include="DAL\ViewModels\PurchaseItemViewModel.cs" />
-    <Compile Include="DAL\ViewModels\RecipeItemViewModel.cs" />
-    <Compile Include="DAL\ViewModels\StockInViewModel.cs" />
-    <Compile Include="DAL\ViewModels\StockOutViewModel.cs" />
-    <Compile Include="DAL\ViewModels\SupplierViewModel.cs" />
-    <Compile Include="DAL\DataViews\MaterialLackView.cs" />
-    <Compile Include="DAL\DataViews\MaterialPriceView.cs" />
-    <Compile Include="DAL\DataViews\MaterialStockAllView.cs" />
-    <Compile Include="DAL\DataViews\ProductStockOutItemView.cs" />
-    <Compile Include="DAL\DataViews\ProductStockInItemView.cs" />
-    <Compile Include="DAL\DataViews\MaterialStockOutItemView.cs" />
-    <Compile Include="DAL\DataViews\MaterialStockInItemView.cs" />
-    <Compile Include="DAL\DataViews\MaterialStockView.cs" />
-    <Compile Include="DAL\DataViews\ProductStockAllView.cs" />
-    <Compile Include="DAL\DataViews\ProductStockView.cs" />
-    <Compile Include="DAL\Models\Storage.cs" />
-    <Compile Include="DAL\ViewModels\MaterialClassViewModel.cs" />
-    <Compile Include="DAL\ViewModels\ProductClassViewModel.cs" />
-    <Compile Include="DAL\Models\RecipeView.cs" />
-    <Compile Include="DAL\Models\Privilege.cs" />
-    <Compile Include="DAL\Models\User.cs" />
-    <Compile Include="DAL\Models\UserGroup.cs" />
-    <Compile Include="DAL\ViewModels\StorageViewModel.cs" />
     <Compile Include="DAL\AssemblyLine.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\DataViews\PurchaseItemView.cs" />
-    <Compile Include="DAL\DataViews\PurchaseView.cs" />
-    <Compile Include="DAL\DataViews\StockInView.cs" />
-    <Compile Include="DAL\DataViews\StockOutView.cs" />
-    <Compile Include="DAL\DataViews\StorageView.cs" />
     <Compile Include="DAL\Log.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -140,11 +109,8 @@
     <Compile Include="DAL\MaterialStockOutItem.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Model1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model.edmx</DependentUpon>
-    </Compile>
+    <Compile Include="DAL\Models\MaterialClass.cs" />
+    <Compile Include="DAL\Models\ProductClass.cs" />
     <Compile Include="DAL\Privilege.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -220,6 +186,40 @@
     <Compile Include="DAL\UserGroupPrivilegeItem.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\ViewModels\MaterialPriceViewModel.cs" />
+    <Compile Include="DAL\ViewModels\PurchaseItemViewModel.cs" />
+    <Compile Include="DAL\ViewModels\RecipeItemViewModel.cs" />
+    <Compile Include="DAL\ViewModels\StockInViewModel.cs" />
+    <Compile Include="DAL\ViewModels\StockOutViewModel.cs" />
+    <Compile Include="DAL\ViewModels\SupplierViewModel.cs" />
+    <Compile Include="DAL\DataViews\MaterialLackView.cs" />
+    <Compile Include="DAL\DataViews\MaterialPriceView.cs" />
+    <Compile Include="DAL\DataViews\MaterialStockAllView.cs" />
+    <Compile Include="DAL\DataViews\ProductStockOutItemView.cs" />
+    <Compile Include="DAL\DataViews\ProductStockInItemView.cs" />
+    <Compile Include="DAL\DataViews\MaterialStockOutItemView.cs" />
+    <Compile Include="DAL\DataViews\MaterialStockInItemView.cs" />
+    <Compile Include="DAL\DataViews\MaterialStockView.cs" />
+    <Compile Include="DAL\DataViews\ProductStockAllView.cs" />
+    <Compile Include="DAL\DataViews\ProductStockView.cs" />
+    <Compile Include="DAL\Models\Storage.cs" />
+    <Compile Include="DAL\ViewModels\MaterialClassViewModel.cs" />
+    <Compile Include="DAL\ViewModels\ProductClassViewModel.cs" />
+    <Compile Include="DAL\Models\RecipeView.cs" />
+    <Compile Include="DAL\Models\Privilege.cs" />
+    <Compile Include="DAL\Models\User.cs" />
+    <Compile Include="DAL\Models\UserGroup.cs" />
+    <Compile Include="DAL\ViewModels\StorageViewModel.cs" />
+    <Compile Include="DAL\DataViews\PurchaseItemView.cs" />
+    <Compile Include="DAL\DataViews\PurchaseView.cs" />
+    <Compile Include="DAL\DataViews\StockInView.cs" />
+    <Compile Include="DAL\DataViews\StockOutView.cs" />
+    <Compile Include="DAL\DataViews\StorageView.cs" />
+    <Compile Include="DAL\Model1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.edmx</DependentUpon>
+    </Compile>
     <Compile Include="UI\Bom\BomWindow.xaml.cs">
       <DependentUpon>BomWindow.xaml</DependentUpon>
     </Compile>
@@ -238,11 +238,8 @@
     <Compile Include="UI\Bom\NewRecipeItem.xaml.cs">
       <DependentUpon>NewRecipeItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Inventory\EditLocation.xaml.cs">
-      <DependentUpon>EditLocation.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Inventory\EditSafeLocation.xaml.cs">
-      <DependentUpon>EditSafeLocation.xaml</DependentUpon>
+    <Compile Include="UI\Inventory\EditSafeQuantity.xaml.cs">
+      <DependentUpon>EditSafeQuantity.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Inventory\InventoryWindow.xaml.cs">
       <DependentUpon>InventoryWindow.xaml</DependentUpon>
@@ -338,11 +335,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Inventory\EditLocation.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Inventory\EditSafeLocation.xaml">
+    <Page Include="UI\Inventory\EditSafeQuantity.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

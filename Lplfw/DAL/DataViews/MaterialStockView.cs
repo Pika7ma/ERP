@@ -8,7 +8,7 @@ namespace Lplfw.DAL
         public int MaterialId { get; set; }
         public int StorageId { get; set; }
         public int Quantity { get; set; }
-        public string Location { get; set; }
+        public int Location { get; set; }
         public string MaterialName { get; set; }
         public string StorageName { get; set; }
         public double Price { get; set; }

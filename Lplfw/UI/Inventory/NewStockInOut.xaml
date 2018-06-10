@@ -26,7 +26,7 @@
         <Label Content="入库时间" Grid.Column="2" Margin="0,30,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
         <Label Content="负责人" Grid.Column="2" Margin="0,60,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
         <Label Content="备注" Grid.Column="2" Margin="0,90,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-        <ComboBox x:Name="cbStorage" Grid.Column="3" Grid.Row="1" Margin="0,0,0,0"  VerticalAlignment="Top" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+        <ComboBox x:Name="cbStorage" Grid.Column="3" Grid.Row="1" Margin="0,0,0,0"  VerticalAlignment="Top" DisplayMemberPath="Name" SelectedValuePath="Id" SelectionChanged="ChangeStorage"/>
         <DatePicker x:Name="dpTime" Grid.Column="3" Margin="0,30,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <ComboBox x:Name="cbUser" Grid.Column="3" Grid.Row="1" Margin="0,60,0,0"  VerticalAlignment="Top" DisplayMemberPath="Name" SelectedValuePath="Id"/>
         <TextBox x:Name="txtDescription" Grid.Column="3" Height="23" Margin="0,90,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>

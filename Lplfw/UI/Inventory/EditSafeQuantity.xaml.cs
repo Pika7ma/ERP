@@ -17,11 +17,11 @@ namespace Lplfw.UI.Inventory
     /// <summary>
     /// EditSafeLocation.xaml 的交互逻辑
     /// </summary>
-    public partial class EditSafeLocation : Window
+    public partial class EditSafeQuantity : Window
     {
         private int id;
 
-        public EditSafeLocation(Material material)
+        public EditSafeQuantity(Material material)
         {
             InitializeComponent();
             id = material.Id;

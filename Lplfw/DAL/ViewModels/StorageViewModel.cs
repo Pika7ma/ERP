@@ -90,7 +90,6 @@ namespace Lplfw.DAL
                 if (obj.UserId == 0) return false;
                 if (obj.Name == null) return false;
                 if (obj.Location == null) return false;
-                if (obj.Description == null) return false;
                 return true;
             }
         }
@@ -102,7 +101,6 @@ namespace Lplfw.DAL
                 if (obj.UserId == 0) return "请选择负责人";
                 if (obj.Name == null) return "请填写仓库名";
                 if (obj.Location == null) return "请填写仓库位置";
-                if (obj.Description == null) return "请填写备注信息";
                 return null;
             }
         }

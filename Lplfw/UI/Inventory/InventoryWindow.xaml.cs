@@ -17,6 +17,8 @@ namespace Lplfw.UI.Inventory
         public InventoryWindow()
         {
             InitializeComponent();
+            var _thread = new Thread(new ThreadStart(Refresh));
+            _thread.Start();
         }
 
         #region 仓库管理
@@ -126,7 +128,7 @@ namespace Lplfw.UI.Inventory
             if (_id == 0)
             {
                 var _list = MaterialStockAllView.Get();
-                Dispatcher.BeginInvoke((Action) delegate ()
+                Dispatcher.BeginInvoke((Action)delegate ()
                 {
                     dgMaterial.ItemsSource = _list;
                 });
@@ -192,36 +194,6 @@ namespace Lplfw.UI.Inventory
             }
         }
 
-        private void EditLocation(object sender, RoutedEventArgs e)
-        {
-            if (tabMaterial.IsSelected)
-            {
-                if (dgMaterial.SelectedItem is MaterialStockView _material)
-                {
-                    var _win = new EditLocation(_material);
-                    var _rtn = _win.ShowDialog();
-                    if (_rtn == true)
-                    {
-                        _material.Location = Utils.TempObject as string;
-                        dgMaterial.Items.Refresh();
-                    }
-                }
-            }
-            else if (tabProduct.IsSelected)
-            {
-                if (dgProduct.SelectedItem is ProductStockView _product)
-                {
-                    var _win = new EditLocation(_product);
-                    var _rtn = _win.ShowDialog();
-                    if (_rtn == true)
-                    {
-                        _product.Location = Utils.TempObject as string;
-                        dgProduct.Items.Refresh();
-                    }
-                }
-            }
-        }
-
         private void ShowCost(object sender, RoutedEventArgs e)
         {
             double _sum = 0;
@@ -266,7 +238,9 @@ namespace Lplfw.UI.Inventory
             var _currentCost = currentCost as string;
             double _ssum = 0, _psum = 0;
             var _materials = MaterialStockAllView.Get();
+            if (_materials == null) return;
             var _products = ProductStockAllView.Get();
+            if (_products == null) return;
             for (var _i = 0; _i < _materials.Count; _i++)
             {
                 _ssum += _materials[_i].Cost;
@@ -275,9 +249,9 @@ namespace Lplfw.UI.Inventory
             {
                 _psum += _products[_i].Cost;
             }
-            Dispatcher.BeginInvoke((Action) delegate ()
+            Dispatcher.BeginInvoke((Action)delegate ()
             {
-                MessageBox.Show($"总库存成本为{_ssum+_psum}\n总原料成本为{_ssum}\n总产品成本为{_psum}\n当前页面显示项目成本为{_currentCost}", "成本统计");
+                MessageBox.Show($"总库存成本为{_ssum + _psum}\n总原料成本为{_ssum}\n总产品成本为{_psum}\n当前页面显示项目成本为{_currentCost}", "成本统计");
             });
 
         }
@@ -358,6 +332,36 @@ namespace Lplfw.UI.Inventory
 
         #endregion
 
+        #region 权限控制
+        private void Refresh()
+        {
+            using (var _db = new ModelContainer())
+            {
+                var _temp = _db.UserGroupPrivilegeItemSet.First(i => i.PrivilegeId == 2 && i.UserGroupId == Utils.CurrentUser.UserGroupId);
+                if (_temp.Mode == "只读")
+                {
+                    Dispatcher.BeginInvoke((Action)delegate ()
+                    {
+                        OnlyRead();
+                    });
+                }
+            }
+        }
+        /// <summary>
+        /// 只读
+        /// </summary>
+        private void OnlyRead()
+        {
+            btnNewStorage.Visibility = Visibility.Hidden;
+            btnEditStorage.Visibility = Visibility.Hidden;
+            btnDelStorage.Visibility = Visibility.Hidden;
+            btnNewIn.Visibility = Visibility.Hidden;
+            btnNewOut.Visibility = Visibility.Hidden;
+            btnEditSafety.Visibility = Visibility.Hidden;
+        }
+
+        #endregion
+
         private void TabRouter(object sender, SelectionChangedEventArgs e)
         {
             if (e.Source is TabControl _e)
@@ -406,7 +410,7 @@ namespace Lplfw.UI.Inventory
         {
             if (dgMaterialSafe.SelectedItem is Material _material)
             {
-                var _win = new EditSafeLocation(_material);
+                var _win = new EditSafeQuantity(_material);
                 var _rtn = _win.ShowDialog();
                 if (_rtn == true)
                 {

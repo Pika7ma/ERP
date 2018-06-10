@@ -45,7 +45,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <ToolBar Height="35" VerticalAlignment="Top" Grid.RowSpan="2" Grid.ColumnSpan="2">
-                        <Button Content="修改安全库存量" Width="100" VerticalAlignment="Stretch" Click="EditSafeQuantity"/>
+                        <Button x:Name="btnEditSafety" Content="修改安全库存量" Width="100" VerticalAlignment="Stretch" Click="EditSafeQuantity"/>
                     </ToolBar>
                     <TreeView x:Name="tvMaterialSafe" Grid.Row="1" SelectedItemChanged="SelectMaterialClass" Grid.Column="0"/>
                     <DataGrid x:Name="dgMaterialSafe" Grid.Column="2" Grid.Row="1" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
@@ -69,7 +69,6 @@
                         <Separator/>
                         <Button x:Name="btnNewIn" Content="新建入库" Width="75" VerticalAlignment="Stretch" Click="NewStockIn"/>
                         <Button x:Name="btnNewOut" Content="新建出库" Width="75" VerticalAlignment="Stretch" Click="NewStockOut"/>
-                        <Button Content="修改货位" Width="75" VerticalAlignment="Stretch" Click="EditLocation"/>
                         <Separator/>
                         <Button Content="成本统计" Width="75" VerticalAlignment="Stretch" Click="ShowCost"/>
                     </ToolBar>
@@ -79,8 +78,8 @@
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="原料名称" Width ="100" Binding="{Binding MaterialName}"/>
                                     <DataGridTextColumn Header="仓库" Width ="100" Binding="{Binding StorageName}"/>
-                                    <DataGridTextColumn Header="数量" Width ="100" Binding="{Binding Quantity}"/>
                                     <DataGridTextColumn Header="货位" Width ="100" Binding="{Binding Location}"/>
+                                    <DataGridTextColumn Header="数量" Width ="100" Binding="{Binding Quantity}"/>
                                     <DataGridTextColumn Header="单价" Width ="100" Binding="{Binding Price}"/>
                                     <DataGridTextColumn Header="库存成本" Width ="100" Binding="{Binding Cost}"/>
                                 </DataGrid.Columns>
@@ -91,8 +90,8 @@
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="产品名称" Width ="100" Binding="{Binding ProductName}"/>
                                     <DataGridTextColumn Header="仓库" Width ="100" Binding="{Binding StorageName}"/>
-                                    <DataGridTextColumn Header="数量" Width ="100" Binding="{Binding Quantity}"/>
                                     <DataGridTextColumn Header="货位" Width ="100" Binding="{Binding Location}"/>
+                                    <DataGridTextColumn Header="数量" Width ="100" Binding="{Binding Quantity}"/>
                                     <DataGridTextColumn Header="单价" Width ="100" Binding="{Binding Price}"/>
                                     <DataGridTextColumn Header="库存成本" Width ="100" Binding="{Binding Cost}"/>
                                 </DataGrid.Columns>

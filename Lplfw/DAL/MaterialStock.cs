@@ -17,6 +17,6 @@ namespace Lplfw.DAL
         public int MaterialId { get; set; }
         public int StorageId { get; set; }
         public int Quantity { get; set; }
-        public string Location { get; set; }
+        public int Location { get; set; }
     }
 }
