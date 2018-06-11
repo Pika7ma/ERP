@@ -173,6 +173,47 @@ select
 from (materialset left join materialstockallview on
 materialset.Id = materialstockallview.MaterialId)
 where materialstockallview.Quantity <= materialset.SafeQuantity or isnull(materialstockallview.Quantity);
+
+-- 订单
+drop view if exists salesview;
+create view salesview as
+select
+	salesset.*,
+    userset.Name as UserName
+from salesset join userset on
+salesset.UserId = userset.Id;
+
+-- 订单条目
+drop view if exists salesitemview;
+create view salesitemview as
+select
+	salesitemset.*,
+    productset.Name as ProductName
+from salesitemset join productset on
+salesitemset.ProductId = productset.Id;
 */
 
-select * from materialstockallview;
+drop procedure if exists getrequsitionfromsales;
+delimiter //
+create procedure getrequsitionfromsales(in id int)
+begin
+
+select
+    recipeitemset.MaterialId,
+    sum(ProductQuantity *recipeitemset.Quantity) as MaterialQuantity
+from
+	(select
+		ProductId,
+		Quantity as ProductQuantity
+	from salesitemset
+	where salesitemset.SalesId = id) as sales
+join recipeitemset
+on sales.ProductId = recipeitemset.ProductId
+group by MaterialId;
+
+end;
+//
+delimiter ;
+
+
+call getrequsitionfromsales(1);

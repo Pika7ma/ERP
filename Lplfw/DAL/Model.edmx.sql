@@ -44,7 +44,7 @@ use erp;
 -- -----------------------------------------------------------
 -- Entity Designer DDL Script for MySQL Server 4.1 and higher
 -- -----------------------------------------------------------
--- Date Created: 06/10/2018 22:06:55
+-- Date Created: 06/11/2018 15:44:07
 
 -- Generated from EDMX file: E:\code\csharp\Lplfw\Lplfw\DAL\Model.edmx
 -- Target version: 3.0.0.0
@@ -151,10 +151,6 @@ use erp;
 
 --    ALTER TABLE `ProductionSet` DROP CONSTRAINT `FK_ProductionAssemblyLine`;
 
---    ALTER TABLE `PurchaseQualitySet` DROP CONSTRAINT `FK_PurchaseQualityPurchase`;
-
---    ALTER TABLE `PurchaseQualitySet` DROP CONSTRAINT `FK_PurchaseQualityUser`;
-
 --    ALTER TABLE `ProductionQualitySet` DROP CONSTRAINT `FK_ProductionQualityProduction`;
 
 --    ALTER TABLE `ProductionQualitySet` DROP CONSTRAINT `FK_ProductionQualityUser`;
@@ -226,8 +222,6 @@ SET foreign_key_checks = 0;
     DROP TABLE IF EXISTS `ReturnItemSet`;
 
     DROP TABLE IF EXISTS `ProductionSet`;
-
-    DROP TABLE IF EXISTS `PurchaseQualitySet`;
 
     DROP TABLE IF EXISTS `ProductionQualitySet`;
 
@@ -475,12 +469,14 @@ ALTER TABLE `MaterialStockOutItemSet` ADD PRIMARY KEY (`MaterialId`, `StockOutId
 
 CREATE TABLE `SalesSet`(
 	`Id` int NOT NULL AUTO_INCREMENT UNIQUE, 
+	`Code` longtext NOT NULL, 
 	`Customer` longtext NOT NULL, 
 	`Tel` longtext NOT NULL, 
 	`UserId` int NOT NULL, 
 	`Status` longtext NOT NULL, 
 	`Priority` longtext NOT NULL, 
 	`CreateAt` datetime NOT NULL, 
+	`DueTime` datetime NOT NULL, 
 	`FinishedAt` datetime, 
 	`Description` longtext);
 
@@ -623,20 +619,6 @@ CREATE TABLE `ProductionSet`(
 	`Description` longtext);
 
 ALTER TABLE `ProductionSet` ADD PRIMARY KEY (`Id`);
-
-
-
-
-
-CREATE TABLE `PurchaseQualitySet`(
-	`Id` int NOT NULL AUTO_INCREMENT UNIQUE, 
-	`PurchaseId` int NOT NULL, 
-	`UserId` int NOT NULL, 
-	`Result` longtext NOT NULL, 
-	`Time` datetime NOT NULL, 
-	`Description` longtext);
-
-ALTER TABLE `PurchaseQualitySet` ADD PRIMARY KEY (`Id`);
 
 
 
@@ -1416,42 +1398,6 @@ ADD CONSTRAINT `FK_ProductionAssemblyLine`
 CREATE INDEX `IX_FK_ProductionAssemblyLine`
     ON `ProductionSet`
     (`AssemblyLineId`);
-
-
-
--- Creating foreign key on `PurchaseId` in table 'PurchaseQualitySet'
-
-ALTER TABLE `PurchaseQualitySet`
-ADD CONSTRAINT `FK_PurchaseQualityPurchase`
-    FOREIGN KEY (`PurchaseId`)
-    REFERENCES `PurchaseSet`
-        (`Id`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-
--- Creating non-clustered index for FOREIGN KEY 'FK_PurchaseQualityPurchase'
-
-CREATE INDEX `IX_FK_PurchaseQualityPurchase`
-    ON `PurchaseQualitySet`
-    (`PurchaseId`);
-
-
-
--- Creating foreign key on `UserId` in table 'PurchaseQualitySet'
-
-ALTER TABLE `PurchaseQualitySet`
-ADD CONSTRAINT `FK_PurchaseQualityUser`
-    FOREIGN KEY (`UserId`)
-    REFERENCES `UserSet`
-        (`Id`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-
--- Creating non-clustered index for FOREIGN KEY 'FK_PurchaseQualityUser'
-
-CREATE INDEX `IX_FK_PurchaseQualityUser`
-    ON `PurchaseQualitySet`
-    (`UserId`);
 
 
 

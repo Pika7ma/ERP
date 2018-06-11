@@ -55,7 +55,6 @@ namespace Lplfw.DAL
         public virtual DbSet<Return> ReturnSet { get; set; }
         public virtual DbSet<ReturnItem> ReturnItemSet { get; set; }
         public virtual DbSet<Production> ProductionSet { get; set; }
-        public virtual DbSet<PurchaseQuality> PurchaseQualitySet { get; set; }
         public virtual DbSet<ProductionQuality> ProductionQualitySet { get; set; }
         public virtual DbSet<Log> LogSet { get; set; }
     }

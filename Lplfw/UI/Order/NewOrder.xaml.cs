@@ -1,16 +1,9 @@
-﻿using System;
+﻿using Lplfw.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Lplfw.DAL;
 
 namespace Lplfw.UI.Order
 {
@@ -19,143 +12,102 @@ namespace Lplfw.UI.Order
     /// </summary>
     public partial class NewOrder : Window
     {
-        public Dictionary<string, MyProduct> productslist { get; set; }
+        public List<Product> Products { get; set; }
+        private SalesViewModel sales;
+        private List<Utils.KeyValue> PriorityList = new List<Utils.KeyValue>
+        {
+            new Utils.KeyValue { ID = 0, Name= "普通" },
+            new Utils.KeyValue { ID = 0, Name= "高" },
+        };
+
         public NewOrder()
         {
             InitializeComponent();
-            productslist = new Dictionary<string, MyProduct>();
-            cbPriority.ItemsSource = PriorityFields;
+            sales = new SalesViewModel(Utils.CurrentUser.Id);
+            SetControls();
         }
-        static public List<Utils.KeyValue> PriorityFields = new List<Utils.KeyValue>
+
+        private void SetControls()
         {
-            new Utils.KeyValue { ID=0, Name="低" },
-            new Utils.KeyValue { ID=1, Name="中" },
-            new Utils.KeyValue { ID=2, Name="高" },
-        };
-        /// <summary>
-        /// 绑定新建订单条目，增加订单中的商品，如果重复增加则均以后一次为准
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+            DataContext = this;
+            txtCode.Binding(sales, "TxtCode");
+            txtCustomer.Binding(sales, "TxtCustomer");
+            txtTel.Binding(sales, "TxtTel");
+            txtDescription.Binding(sales, "TxtDescription");
+            cbPriority.Binding(sales, "CbPriority");
+            dpDueTime.Binding(sales, "DpDueTime");
+            dgSalesItems.ItemsSource = sales.Items;
+            cbPriority.ItemsSource = PriorityList;
+            cbPriority.SelectedIndex = 0;
+            new Thread(new ThreadStart(SetControlsThread)).Start();
+        }
+
+        private void SetControlsThread()
+        {
+            using (var _db = new ModelContainer())
+            {
+                Products = _db.ProductSet.ToList();
+            }
+        }
+
         private void NewSalesItem(object sender, RoutedEventArgs e)
         {
-            var _win = new NewOrderItem(isNew: true);
+            var _win = new NewOrderItem();
             var _rtn = _win.ShowDialog();
-            if (_rtn == false)
+            if (_rtn == true)
             {
-                var newproduct = _win.newproduct;
-                if (_win.result)
-                {
-                    if (productslist.ContainsKey(newproduct.Name))
-                    {
-                        productslist[newproduct.Name].Price = newproduct.Price;
-                        productslist[newproduct.Name].Quantity = newproduct.Quantity;
-                    }
-                    else
-                    {
-                        productslist.Add(newproduct.Name, newproduct);
-                    }
-                    dgSalesItems.ItemsSource = productslist.Values.ToList();
-                }
+                var _item = Utils.TempObject as SalesItem;
+                if (_item == null) return;
+                Utils.TempObject = null;
+                sales.AddItem(_item);
+                dgSalesItems.Items.Refresh();
             }
         }
-        /// <summary>
-        /// 绑定“修改订单条目”，会自动在窗口显示相关信息
-        /// ！！！不允许修改商品类和商品名
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
         private void EditSalesItem(object sender, RoutedEventArgs e)
         {
-            if (dgSalesItems.SelectedItems.Count > 0)
+            var _item = dgSalesItems.SelectedItem as SalesItem;
+            if (_item == null) return;
+            var _win = new NewOrderItem(_item);
+            var _rtn = _win.ShowDialog();
+            if (_rtn == true)
             {
-                var _win = new NewOrderItem(isNew: false);
-                _win.cbClass.IsReadOnly = true;
-                _win.cbName.IsReadOnly = true;
-                _win.newproduct = (MyProduct)dgSalesItems.SelectedItems[0];
-                _win.CheckProduct();
-                var _rtn = _win.ShowDialog();
-                if (_rtn == false && _win.result)
-                {
-                    productslist[_win.newproduct.Name].Price = _win.newproduct.Price;
-                    productslist[_win.newproduct.Name].Quantity = _win.newproduct.Quantity;
-                }
-                dgSalesItems.ItemsSource = productslist.Values.ToList();
+                var _new = Utils.TempObject as SalesItem;
+                if (_new == null) return;
+                Utils.TempObject = null;
+                if(sales.EditItem(_new)) dgSalesItems.Items.Refresh();
             }
         }
-        /// <summary>
-        /// 绑定“删除订单条目”
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
         private void DeleteSalesItem(object sender, RoutedEventArgs e)
         {
-            if (dgSalesItems.SelectedItems.Count > 0)
-            {
-                var selecteditem = (MyProduct)dgSalesItems.SelectedItems[0];
-                productslist.Remove(selecteditem.Name);
-                dgSalesItems.ItemsSource = productslist.Values.ToList();
-            }
+            var _item = dgSalesItems.SelectedItem as SalesItem;
+            if (_item == null) return;
+            if (sales.DeleteItem(_item)) dgSalesItems.Items.Refresh();
         }
-        /// <summary>
-        /// 绑定“确认”按钮
-        /// 将订单信息插入数据库，目前设定user为默认值,时间默认为开始日期的0点，和结束日期的24点
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
         private void Confirm(object sender, RoutedEventArgs e)
         {
-            var cp1 = tbCustomer.Text;
-            var cp2 = cbPriority.Text;
-            var tp2 = tbCustomerTel.Text;
-            var dp1 = dpCreated.Text;
-            var dp2 = dpRequired.Text;
-            var tp = tbDescription.Text;
-            var dg = dgSalesItems.Items.Count;
-            if (cp1 != "" && cp2 != "" && dp1 != "" && dp2 != "" && tp != "" && dg > 0 && tp2 != "")
+            if (sales.CanSubmit)
             {
-                dp1 += " 00:00:00";
-                dp2 += " 23:59:59";
-                var _created = Convert.ToDateTime(dp1);
-                var _required = Convert.ToDateTime(dp2);
-                using (var db = new ModelContainer())
-                {
-                    var _newsale = new Sales();
-                    _newsale.UserId = Utils.CurrentUser.Id;
-                    _newsale.Tel = tp2;
-                    _newsale.Customer = cp1;
-                    _newsale.Status = "未完成";
-                    _newsale.Priority = cp2;
-                    _newsale.CreateAt = _created;
-                    _newsale.FinishedAt = _required;
-                    _newsale.Description = tp;
-                    db.SalesSet.Add(_newsale);
-                    db.SaveChanges();
-                    foreach (MyProduct _item in dgSalesItems.Items)
-                    {
-                        var _newitem = new SalesItem();
-                        _newitem.Price = _item.Price;
-                        _newitem.Quantity = _item.Quantity;
-                        _newitem.SalesId = _newsale.Id;
-                        // 为什么要这么写...简直在逗我
-                        _newitem.ProductId = db.ProductSet.Where(i => i.Name == _item.Name).First().Id;
-                        db.SalesItemSet.Add(_newitem);
-                    }
-                    db.SaveChanges();
+                var _rtn = sales.CreateNew();
+                if (_rtn == true) {
+                    MessageBox.Show("创建订单成功");
+                    DialogResult = true;
                 }
-                Close();
+                else
+                {
+                    MessageBox.Show("创建订单失败");
+                }
+            } else
+            {
+                txtMessage.Text = sales.TxtCheckMessage;
             }
         }
 
         private void Cancel(object sender, RoutedEventArgs e)
         {
-            Close();
+            DialogResult = false;
         }
-    }
-    public class MyProduct
-    {
-        public string Name { get; set; }
-        public int Quantity { get; set; }
-        public double Price { get; set; }
     }
 }

@@ -96,9 +96,6 @@
         <AssociationConnector Association="Model.ProductionProduct" />
         <AssociationConnector Association="Model.ProductionRequisition" />
         <AssociationConnector Association="Model.ProductionAssemblyLine" />
-        <EntityTypeShape EntityType="Model.PurchaseQuality" Width="1.5" PointX="5.875" PointY="23.25" FillColor="DimGray" />
-        <AssociationConnector Association="Model.PurchaseQualityPurchase" />
-        <AssociationConnector Association="Model.PurchaseQualityUser" />
         <EntityTypeShape EntityType="Model.ProductionQuality" Width="1.5" PointX="23.875" PointY="9.375" FillColor="DimGray" />
         <AssociationConnector Association="Model.ProductionQualityProduction" />
         <AssociationConnector Association="Model.ProductionQualityUser" />

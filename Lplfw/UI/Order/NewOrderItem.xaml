@@ -7,18 +7,18 @@
         mc:Ignorable="d"
         Height="300" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
-        <Label Content="产品类别" HorizontalAlignment="Left" Margin="40,30,0,0" VerticalAlignment="Top"/>
-        <Label Content="品名" HorizontalAlignment="Left" Margin="40,70,0,0" VerticalAlignment="Top"/>
-        <Label Content="数量" HorizontalAlignment="Left" Margin="40,110,0,0" VerticalAlignment="Top"/>
-        <Label Content="原价" HorizontalAlignment="Left" Margin="40,150,0,0" VerticalAlignment="Top"/>
-        <Label Content="售价" HorizontalAlignment="Left" Margin="40,190,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="cbClass" SelectionChanged="GetProductName" DisplayMemberPath="Name" SelectedValuePath="Id" HorizontalAlignment="Left" Margin="110,30,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox x:Name="cbName" SelectionChanged="GetOriginPrice" DisplayMemberPath="Name" SelectedValuePath="Id" HorizontalAlignment="Left" Margin="110,70,0,0" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="tbNumber" HorizontalAlignment="Left" Height="23" Margin="110,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBlock x:Name="tbOriginPrice" HorizontalAlignment="Left" Height="17" Margin="110,156,0,0" TextWrapping="Wrap" Text="设置显示原价" VerticalAlignment="Top" TextAlignment="Center" Width="120"/>
-        <TextBox x:Name="tbPrice" HorizontalAlignment="Left" Height="23" Margin="110,190,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Button Content="确定" Click="SetNewProduct" HorizontalAlignment="Left" Margin="167,232,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="取消" Click="Cancel" HorizontalAlignment="Left" Margin="56,232,0,0" VerticalAlignment="Top" Width="75"/>
-
+        <Label Content="产品类别" HorizontalAlignment="Left" Margin="40,14,0,0" VerticalAlignment="Top"/>
+        <Label Content="品名" HorizontalAlignment="Left" Margin="40,54,0,0" VerticalAlignment="Top"/>
+        <Label Content="数量" HorizontalAlignment="Left" Margin="40,94,0,0" VerticalAlignment="Top"/>
+        <Label Content="原价" HorizontalAlignment="Left" Margin="40,134,0,0" VerticalAlignment="Top"/>
+        <Label Content="售价" HorizontalAlignment="Left" Margin="40,174,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cbClass" SelectionChanged="SelectProductClass" DisplayMemberPath="Name" SelectedValuePath="Id" HorizontalAlignment="Left" Margin="110,14,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="cbProduct" SelectionChanged="SelectProduct" DisplayMemberPath="Name" SelectedValuePath="Id" HorizontalAlignment="Left" Margin="110,54,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtQuantity" HorizontalAlignment="Left" Height="23" Margin="110,94,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBlock x:Name="txtOriginPrice" HorizontalAlignment="Left" Height="17" Margin="110,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextAlignment="Center" Width="120"/>
+        <TextBox x:Name="txtPrice" HorizontalAlignment="Left" Height="23" Margin="110,174,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="btnConfirm" Content="确定" HorizontalAlignment="Left" Margin="167,234,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="取消" Click="Cancel" HorizontalAlignment="Left" Margin="56,234,0,0" VerticalAlignment="Top" Width="75"/>
+        <TextBlock x:Name="txtMessage" TextWrapping="Wrap" VerticalAlignment="Top" Margin="40,204,40,0" TextAlignment="Center" Foreground="Red" Height="17"/>
     </Grid>
 </Window>

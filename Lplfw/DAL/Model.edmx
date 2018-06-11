@@ -36,7 +36,6 @@
     <EntitySet Name="ReturnSet" EntityType="Model.Store.ReturnSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ReturnItemSet" EntityType="Model.Store.ReturnItemSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProductionSet" EntityType="Model.Store.ProductionSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="PurchaseQualitySet" EntityType="Model.Store.PurchaseQualitySet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProductionQualitySet" EntityType="Model.Store.ProductionQualitySet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LogSet" EntityType="Model.Store.LogSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="ProductClassNesting" Association="Model.Store.ProductClassNesting">
@@ -222,14 +221,6 @@
     <AssociationSet Name="ProductionAssemblyLine" Association="Model.Store.ProductionAssemblyLine">
       <End Role="Production" EntitySet="ProductionSet" />
       <End Role="AssemblyLine" EntitySet="AssemblyLineSet" />
-    </AssociationSet>
-    <AssociationSet Name="PurchaseQualityPurchase" Association="Model.Store.PurchaseQualityPurchase">
-      <End Role="PurchaseQuality" EntitySet="PurchaseQualitySet" />
-      <End Role="Purchase" EntitySet="PurchaseSet" />
-    </AssociationSet>
-    <AssociationSet Name="PurchaseQualityUser" Association="Model.Store.PurchaseQualityUser">
-      <End Role="PurchaseQuality" EntitySet="PurchaseQualitySet" />
-      <End Role="User" EntitySet="UserSet" />
     </AssociationSet>
     <AssociationSet Name="ProductionQualityProduction" Association="Model.Store.ProductionQualityProduction">
       <End Role="ProductionQuality" EntitySet="ProductionQualitySet" />
@@ -439,12 +430,14 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="longtext" Nullable="false" />
     <Property Name="Customer" Type="longtext" Nullable="false" />
     <Property Name="Tel" Type="longtext" Nullable="false" />
     <Property Name="UserId" Type="int" Nullable="false" />
     <Property Name="Status" Type="longtext" Nullable="false" />
     <Property Name="Priority" Type="longtext" Nullable="false" />
     <Property Name="CreateAt" Type="datetime" Nullable="false" />
+    <Property Name="DueTime" Type="datetime" Nullable="false" />
     <Property Name="FinishedAt" Type="datetime" Nullable="true" />
     <Property Name="Description" Type="longtext" Nullable="true" />
   </EntityType>
@@ -564,17 +557,6 @@
     <Property Name="StartAt" Type="datetime" Nullable="false" />
     <Property Name="ThinkFinishedAt" Type="datetime" Nullable="false" />
     <Property Name="FinishedAt" Type="datetime" Nullable="true" />
-    <Property Name="Description" Type="longtext" Nullable="true" />
-  </EntityType>
-  <EntityType Name="PurchaseQualitySet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="PurchaseId" Type="int" Nullable="false" />
-    <Property Name="UserId" Type="int" Nullable="false" />
-    <Property Name="Result" Type="longtext" Nullable="false" />
-    <Property Name="Time" Type="datetime" Nullable="false" />
     <Property Name="Description" Type="longtext" Nullable="true" />
   </EntityType>
   <EntityType Name="ProductionQualitySet">
@@ -1164,30 +1146,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="PurchaseQualityPurchase">
-    <End Role="PurchaseQuality" Type="Model.Store.PurchaseQualitySet" Multiplicity="*" />
-    <End Role="Purchase" Type="Model.Store.PurchaseSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Purchase">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="PurchaseQuality">
-        <PropertyRef Name="PurchaseId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="PurchaseQualityUser">
-    <End Role="PurchaseQuality" Type="Model.Store.PurchaseQualitySet" Multiplicity="*" />
-    <End Role="User" Type="Model.Store.UserSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="PurchaseQuality">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="ProductionQualityProduction">
     <End Role="ProductionQuality" Type="Model.Store.ProductionQualitySet" Multiplicity="*" />
     <End Role="Production" Type="Model.Store.ProductionSet" Multiplicity="1" />
@@ -1442,15 +1400,6 @@
           <AssociationSet Name="ProductionAssemblyLine" Association="Model.ProductionAssemblyLine">
             <End Role="Production" EntitySet="ProductionSet" />
             <End Role="AssemblyLine" EntitySet="AssemblyLineSet" />
-          </AssociationSet>
-          <EntitySet Name="PurchaseQualitySet" EntityType="Model.PurchaseQuality" />
-          <AssociationSet Name="PurchaseQualityPurchase" Association="Model.PurchaseQualityPurchase">
-            <End Role="PurchaseQuality" EntitySet="PurchaseQualitySet" />
-            <End Role="Purchase" EntitySet="PurchaseSet" />
-          </AssociationSet>
-          <AssociationSet Name="PurchaseQualityUser" Association="Model.PurchaseQualityUser">
-            <End Role="PurchaseQuality" EntitySet="PurchaseQualitySet" />
-            <End Role="User" EntitySet="UserSet" />
           </AssociationSet>
           <EntitySet Name="ProductionQualitySet" EntityType="Model.ProductionQuality" />
           <AssociationSet Name="ProductionQualityProduction" Association="Model.ProductionQualityProduction">
@@ -1992,12 +1941,14 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Code" Type="String" Nullable="false" />
           <Property Name="Customer" Type="String" Nullable="false" />
           <Property Name="Tel" Type="String" Nullable="false" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="String" Nullable="false" />
           <Property Name="Priority" Type="String" Nullable="false" />
           <Property Name="CreateAt" Type="DateTime" Nullable="false" />
+          <Property Name="DueTime" Type="DateTime" Nullable="false" />
           <Property Name="FinishedAt" Type="DateTime" Nullable="true" />
           <Property Name="Description" Type="String" Nullable="true" />
           <NavigationProperty Name="Items" Relationship="Model.SalesItemSales" FromRole="Sales" ToRole="SalesItem" />
@@ -2373,41 +2324,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="PurchaseQuality">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-          <Property Name="PurchaseId" Type="Int32" Nullable="false" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="Result" Type="String" Nullable="false" />
-          <Property Name="Time" Type="DateTime" Nullable="false" />
-          <Property Name="Description" Type="String" Nullable="true" />
-        </EntityType>
-        <Association Name="PurchaseQualityPurchase">
-          <End Type="Model.PurchaseQuality" Role="PurchaseQuality" Multiplicity="*" />
-          <End Type="Model.Purchase" Role="Purchase" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="Purchase">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PurchaseQuality">
-              <PropertyRef Name="PurchaseId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="PurchaseQualityUser">
-          <End Type="Model.PurchaseQuality" Role="PurchaseQuality" Multiplicity="*" />
-          <End Type="Model.User" Role="User" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PurchaseQuality">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ProductionQuality">
           <Key>
             <PropertyRef Name="Id" />
@@ -2670,12 +2586,14 @@
       <EntityTypeMapping TypeName="IsTypeOf(Model.Sales)">
         <MappingFragment StoreEntitySet="SalesSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="Customer" ColumnName="Customer" />
           <ScalarProperty Name="Tel" ColumnName="Tel" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Priority" ColumnName="Priority" />
           <ScalarProperty Name="CreateAt" ColumnName="CreateAt" />
+          <ScalarProperty Name="DueTime" ColumnName="DueTime" />
           <ScalarProperty Name="FinishedAt" ColumnName="FinishedAt" />
           <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>
@@ -2795,18 +2713,6 @@
           <ScalarProperty Name="StartAt" ColumnName="StartAt" />
           <ScalarProperty Name="ThinkFinishedAt" ColumnName="ThinkFinishedAt" />
           <ScalarProperty Name="FinishedAt" ColumnName="FinishedAt" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="PurchaseQualitySet">
-      <EntityTypeMapping TypeName="IsTypeOf(Model.PurchaseQuality)">
-        <MappingFragment StoreEntitySet="PurchaseQualitySet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="PurchaseId" ColumnName="PurchaseId" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="Result" ColumnName="Result" />
-          <ScalarProperty Name="Time" ColumnName="Time" />
           <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>
       </EntityTypeMapping>

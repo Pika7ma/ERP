@@ -88,6 +88,8 @@
     <Compile Include="DAL\AssemblyLine.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\DataViews\SalesItemView.cs" />
+    <Compile Include="DAL\DataViews\SalesView.cs" />
     <Compile Include="DAL\Log.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -141,9 +143,6 @@
     <Compile Include="DAL\PurchaseItem.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\PurchaseQuality.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="DAL\RecipeItem.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -189,6 +188,8 @@
     <Compile Include="DAL\ViewModels\MaterialPriceViewModel.cs" />
     <Compile Include="DAL\ViewModels\PurchaseItemViewModel.cs" />
     <Compile Include="DAL\ViewModels\RecipeItemViewModel.cs" />
+    <Compile Include="DAL\ViewModels\SalesItemViewModel.cs" />
+    <Compile Include="DAL\ViewModels\SalesViewModel.cs" />
     <Compile Include="DAL\ViewModels\StockInViewModel.cs" />
     <Compile Include="DAL\ViewModels\StockOutViewModel.cs" />
     <Compile Include="DAL\ViewModels\SupplierViewModel.cs" />
@@ -289,17 +290,11 @@
     <Compile Include="UI\Purchase\NewPurchaseItem.xaml.cs">
       <DependentUpon>NewPurchaseItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Purchase\NewPurchaseQuality.xaml.cs">
-      <DependentUpon>NewPurchaseQuality.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\Purchase\NewSupplier.xaml.cs">
       <DependentUpon>NewSupplier.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Purchase\PurchaseWindow.xaml.cs">
       <DependentUpon>PurchaseWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Purchase\ShowPurchaseQuality.xaml.cs">
-      <DependentUpon>ShowPurchaseQuality.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\User\NewUser.xaml.cs">
       <DependentUpon>NewUser.xaml</DependentUpon>
@@ -430,19 +425,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Purchase\NewPurchaseQuality.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UI\Purchase\NewSupplier.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Purchase\PurchaseWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Purchase\ShowPurchaseQuality.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

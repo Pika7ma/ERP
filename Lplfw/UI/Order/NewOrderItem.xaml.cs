@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Lplfw.DAL;
 using System.Threading;
 
@@ -20,147 +12,107 @@ namespace Lplfw.UI.Order
     /// </summary>
     public partial class NewOrderItem : Window
     {
-        public MyProduct newproduct { get; set; }
-        public bool result { get; set; }
-        public bool isEdit { get; set; }
-        public NewOrderItem(bool isNew)
+        private SalesItemViewModel item;
+        private bool isNew;
+
+        public NewOrderItem()
         {
             InitializeComponent();
-            newproduct = new MyProduct();
-            result = false;
-            if (isNew)
-            {
-                Title = "新建订单项目";
-                isEdit = false;
-            }
-            else
-            {
-                Title = "修改订单项目";
-                isEdit = true;
-            }
-            using (var db = new ModelContainer())
-            {
-                cbClass.ItemsSource = db.ProductClassSet.ToList();
-            }
+            Title = "新建订单项目";
+            item = new SalesItemViewModel();
+            isNew = true;
+            SetControls();
+            btnConfirm.Click += SubmitNewItem;
         }
-        /// <summary>
-        /// 当启用修改订单项目时，设置初始值
-        /// </summary>
-        public void CheckProduct()
+
+        public NewOrderItem(SalesItem item)
         {
-            using (var db = new ModelContainer())
-            {
-                var _classid = db.ProductSet.Where(i => i.Name == newproduct.Name).FirstOrDefault().ClassId;
-                cbClass.ItemsSource = db.ProductClassSet.Where(i => i.Id == _classid).ToList();
-                cbClass.SelectedValue = _classid;
-                cbName.ItemsSource = db.ProductSet.Where(i => i.Name == newproduct.Name).ToList();
-                cbName.SelectedValue = db.ProductSet.Where(i => i.Name == newproduct.Name).FirstOrDefault().Id;
-                tbNumber.Text = newproduct.Quantity.ToString();
-                tbPrice.Text = newproduct.Price.ToString();
-                tbOriginPrice.Text = db.ProductSet.Where(i => i.Name == newproduct.Name).FirstOrDefault().Price.ToString();
-            }
+            InitializeComponent();
+            Title = "编辑订单项目";
+            this.item = new SalesItemViewModel(item);
+            isNew = false;
+            SetControls();
+            btnConfirm.Click += SubmitEditItem;
         }
-        /// <summary>
-        /// 当选中产品类时，显示该类下所有产品
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void GetProductName(object sender, SelectionChangedEventArgs e)
+
+        private void SetControls()
         {
-            if (!isEdit)
+            if (!isNew)
             {
-                tbOriginPrice.Text = "";
-                var mythread = new Thread(new ParameterizedThreadStart(GetProductNameAction));
-                mythread.Start(1);
-            }
-            else
-            {
-                isEdit = false;
-            }
-        }
-        /// <summary>
-        /// 显示所有产品的具体操作
-        /// </summary>
-        /// <param name="id"></param>
-        private void GetProductNameAction(object id)
-        {
-            string name = "";
-            this.cbClass.Dispatcher.Invoke(new Action(
-                delegate
+                var _id = item.Object.ProductId;
+                using (var _db = new ModelContainer())
                 {
-                    name = cbClass.Text;
-                }));
-            List<Product> mylist = new List<Product>();
-            using (var db = new ModelContainer())
-            {
-                var _classid = db.ProductClassSet.Where(i => i.Name == name).FirstOrDefault().Id;
-                mylist = db.ProductSet.Where(i => i.ClassId == _classid).ToList();
-            }
-            this.cbName.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    cbName.ItemsSource = mylist;
-                }));
-        }
-        /// <summary>
-        /// 选中产品时获取其原价
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void GetOriginPrice(object sender, SelectionChangedEventArgs e)
-        {
-            var mythread = new Thread(new ParameterizedThreadStart(GetOriginPriceAction));
-            mythread.Start(1);
-        }
-        /// <summary>
-        /// 获取产品原价的具体操作
-        /// </summary>
-        /// <param name="id"></param>
-        private void GetOriginPriceAction(object id)
-        {
-            string name = "";
-            this.cbName.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    name = cbName.Text;
-                }));
-            if (name != "")
-            {
-                string mystring = "";
-                using (var db = new ModelContainer())
-                {
-                    mystring = db.ProductSet.Where(i => i.Name == name).FirstOrDefault().Price.ToString();
+                    var _product = _db.ProductSet.FirstOrDefault(i => i.Id == _id);
+                    if (_product == null) return;
+                    var _classes = _db.ProductClassSet.ToList();
+                    cbClass.ItemsSource = _classes;
+                    cbClass.SelectedValue = _product.ClassId;
+                    var _products = _db.ProductSet.Where(i => i.ClassId == _product.ClassId).ToList();
+                    cbProduct.ItemsSource = _products;
+                    cbProduct.SelectedValue = _product.Id;
+                    txtOriginPrice.Text = _product.Price.ToString();
                 }
-                this.tbOriginPrice.Dispatcher.Invoke(new Action(
-                    delegate
-                    {
-                        tbOriginPrice.Text = mystring;
-                    }));
+                cbClass.IsEnabled = false;
+                cbProduct.IsEnabled = false;
+            }
+            cbProduct.Binding(item, "CbProduct");
+            txtPrice.Binding(item, "TxtPrice");
+            txtQuantity.Binding(item, "TxtQuantity");
+            new Thread(new ThreadStart(SetControlsThread)).Start();
+        }
+
+        private void SetControlsThread()
+        {
+            var _classes = ProductClass.GetAllClasses(false);
+            Dispatcher.BeginInvoke((Action)delegate ()
+            {
+                cbClass.ItemsSource = _classes;
+            });
+        }
+
+        private void SelectProductClass(object sender, SelectionChangedEventArgs e)
+        {
+            var _id = cbClass.SelectedValue as int?;
+            if (_id == null) return;
+            var _products = ProductClass.GetSubClassProducts(_id);
+            cbProduct.ItemsSource = _products;
+        }
+
+        private void SelectProduct(object sender, SelectionChangedEventArgs e)
+        {
+            var _product = cbProduct.SelectedItem as Product;
+            if (_product == null) return;
+            txtOriginPrice.Text = _product.Price.ToString();
+        }
+
+        private void SubmitNewItem(object sender, RoutedEventArgs e)
+        {
+            if (item.CanSubmit) {
+                Utils.TempObject = item.Object;
+                DialogResult = true;
+            }
+            else
+            {
+                txtMessage.Text = item.TxtCheckMessage;
             }
         }
-        /// <summary>
-        /// 绑定“确定”按钮，将订单项信息传输给父窗口
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SetNewProduct(object sender, RoutedEventArgs e)
+
+        private void SubmitEditItem(object sender, RoutedEventArgs e)
         {
-            if (cbClass.Text != "" && cbName.Text != "" && tbNumber.Text != "" && tbPrice.Text != "")
+            if (item.CanSubmit)
             {
-                MyProduct _newproduct = new MyProduct();
-                _newproduct.Name = cbName.Text;
-                _newproduct.Quantity = Convert.ToInt32(tbNumber.Text);
-                _newproduct.Price = Convert.ToDouble(tbPrice.Text);
-                newproduct = _newproduct;
-                result = true;
-                isEdit = true;
-                this.Close();
+                Utils.TempObject = item.Object;
+                DialogResult = true;
+            }
+            else
+            {
+                txtMessage.Text = item.TxtCheckMessage;
             }
         }
 
         private void Cancel(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            DialogResult = false;
         }
     }
 }
