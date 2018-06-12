@@ -12,23 +12,15 @@ namespace Lplfw.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Return
+    public partial class VirtualUse
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Return()
+        public VirtualUse()
         {
-            this.Items = new HashSet<ReturnItem>();
+            this.Quantity = 0;
         }
     
-        public int Id { get; set; }
-        public string Status { get; set; }
-        public System.DateTime CreateAt { get; set; }
-        public Nullable<System.DateTime> FinishedAt { get; set; }
-        public string Description { get; set; }
-        public int RequisitionId { get; set; }
-        public int UserId { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ReturnItem> Items { get; set; }
+        public int MaterialId { get; set; }
+        public int Quantity { get; set; }
     }
 }

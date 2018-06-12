@@ -12,27 +12,37 @@ namespace Lplfw.DAL
         public string MaterialName { get; set; }
         public int SafeQuantity { get; set; }
         public int SumQuantity { get; set; }
+        public int VirtualUsage { get; set; }
+        public int VirtualQuantity { get; set; }
 
         static public List<MaterialLackView> GetByClassId(int? index)
         {
             using (var _db = new ModelContainer())
             {
-                if (index == 0 || index == null)
+                try
                 {
-                    var _sql = $"select * from materiallackview";
-                    return _db.Database.SqlQuery<MaterialLackView>(_sql).ToList();
-                }
-                else
-                {
-                    var _classes = MaterialClass.GetSubClassIndexs((int)index);
-                    var _lists = new List<MaterialLackView>();
-                    foreach (var _classId in _classes)
+                    if (index == 0 || index == null)
                     {
-                        var _sql = $"select * from materiallackview where ClassId={_classId}";
-                        _lists.AddRange(_db.Database.SqlQuery<MaterialLackView>(_sql).ToList());
+                        var _sql = $"select * from materiallackview where VirtualQuantity<=SafeQuantity";
+                        return _db.Database.SqlQuery<MaterialLackView>(_sql).ToList();
                     }
-                    return _lists;
+                    else
+                    {
+                        var _classes = MaterialClass.GetSubClassIndexs((int)index);
+                        var _lists = new List<MaterialLackView>();
+                        foreach (var _classId in _classes)
+                        {
+                            var _sql = $"select * from materiallackview where VirtualQuantity<=SafeQuantity and ClassId={_classId}";
+                            _lists.AddRange(_db.Database.SqlQuery<MaterialLackView>(_sql).ToList());
+                        }
+                        return _lists;
+                    }
                 }
+                catch (Exception)
+                {
+                    return null;
+                }
+                
             }
         }
     }

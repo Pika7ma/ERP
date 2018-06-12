@@ -114,6 +114,30 @@ namespace Lplfw.UI.Order
             dgSalesItem.ItemsSource = SalesItemView.GetById(_item.Id);
         }
 
+        private void GenerateRequsition(object sender, RoutedEventArgs e)
+        {
+            var _item = dgSales.SelectedItem as SalesView;
+            if (_item == null) return;
+            if (_item.RequsitionStatus == true)
+            {
+                MessageBox.Show("该订单已生成领料单", null, MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                var _win = new GenerateRequsition(_item.Id);
+                var _rtn = _win.ShowDialog();
+                if (_rtn == true)
+                {
+                    _item.RequsitionStatus = true;
+                    MessageBox.Show("物料分解成功");
+                }
+                else
+                {
+                    MessageBox.Show("物料分解失败");
+                }
+            }
+        }
+
         #region 权限控制
         private void Refresh()
         {
@@ -138,9 +162,12 @@ namespace Lplfw.UI.Order
             btnFinishSales.Visibility = Visibility.Hidden;
             btnCancelSales.Visibility = Visibility.Hidden;
             btnDelaySales.Visibility = Visibility.Hidden;
+            btnGenerateRequsition.Visibility = Visibility.Hidden;
         }
 
         #endregion
+
+
     }
 
     static public class SalesStatus

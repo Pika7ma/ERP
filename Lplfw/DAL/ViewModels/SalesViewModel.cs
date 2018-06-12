@@ -19,7 +19,8 @@ namespace Lplfw.DAL
                 Status = "处理中",
                 CreateAt = _now,
                 DueTime = _now,
-                FinishedAt = null
+                FinishedAt = null,
+                RequsitionStatus = false
             };
             items = new List<SalesItem>();
         }

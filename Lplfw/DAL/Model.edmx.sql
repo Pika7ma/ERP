@@ -44,7 +44,7 @@ use erp;
 -- -----------------------------------------------------------
 -- Entity Designer DDL Script for MySQL Server 4.1 and higher
 -- -----------------------------------------------------------
--- Date Created: 06/11/2018 15:44:07
+-- Date Created: 06/12/2018 21:47:51
 
 -- Generated from EDMX file: E:\code\csharp\Lplfw\Lplfw\DAL\Model.edmx
 -- Target version: 3.0.0.0
@@ -127,35 +127,17 @@ use erp;
 
 --    ALTER TABLE `PurchaseItemSet` DROP CONSTRAINT `FK_PurchaseItemMaterialPrice`;
 
---    ALTER TABLE `AssemblyLineSet` DROP CONSTRAINT `FK_AssemblyLineUser`;
-
---    ALTER TABLE `RequisitionSet` DROP CONSTRAINT `FK_RequisitionAssemblyLine`;
-
 --    ALTER TABLE `RequisitionSet` DROP CONSTRAINT `FK_RequisitionUser`;
 
 --    ALTER TABLE `RequisitionItemSet` DROP CONSTRAINT `FK_RequisitionItemRequisition`;
 
---    ALTER TABLE `RequisitionItemSet` DROP CONSTRAINT `FK_RequisitionItemMaterialStock`;
-
---    ALTER TABLE `ReturnSet` DROP CONSTRAINT `FK_ReturnRequisition`;
-
---    ALTER TABLE `ReturnSet` DROP CONSTRAINT `FK_ReturnUser`;
-
---    ALTER TABLE `ReturnItemSet` DROP CONSTRAINT `FK_ReturnItemReturn`;
-
---    ALTER TABLE `ReturnItemSet` DROP CONSTRAINT `FK_ReturnItemMaterialStock`;
-
 --    ALTER TABLE `ProductionSet` DROP CONSTRAINT `FK_ProductionProduct`;
 
---    ALTER TABLE `ProductionSet` DROP CONSTRAINT `FK_ProductionRequisition`;
+--    ALTER TABLE `RequisitionSet` DROP CONSTRAINT `FK_RequisitionSales`;
 
---    ALTER TABLE `ProductionSet` DROP CONSTRAINT `FK_ProductionAssemblyLine`;
+--    ALTER TABLE `ProductionSet` DROP CONSTRAINT `FK_ProductionUser`;
 
---    ALTER TABLE `ProductionQualitySet` DROP CONSTRAINT `FK_ProductionQualityProduction`;
-
---    ALTER TABLE `ProductionQualitySet` DROP CONSTRAINT `FK_ProductionQualityUser`;
-
---    ALTER TABLE `LogSet` DROP CONSTRAINT `FK_LogUser`;
+--    ALTER TABLE `VirtualUseSet` DROP CONSTRAINT `FK_VirtualUseMaterial`;
 
 
 -- --------------------------------------------------
@@ -211,21 +193,13 @@ SET foreign_key_checks = 0;
 
     DROP TABLE IF EXISTS `MaterialPriceSet`;
 
-    DROP TABLE IF EXISTS `AssemblyLineSet`;
-
     DROP TABLE IF EXISTS `RequisitionSet`;
 
     DROP TABLE IF EXISTS `RequisitionItemSet`;
 
-    DROP TABLE IF EXISTS `ReturnSet`;
-
-    DROP TABLE IF EXISTS `ReturnItemSet`;
-
     DROP TABLE IF EXISTS `ProductionSet`;
 
-    DROP TABLE IF EXISTS `ProductionQualitySet`;
-
-    DROP TABLE IF EXISTS `LogSet`;
+    DROP TABLE IF EXISTS `VirtualUseSet`;
 
 SET foreign_key_checks = 1;
 
@@ -478,7 +452,8 @@ CREATE TABLE `SalesSet`(
 	`CreateAt` datetime NOT NULL, 
 	`DueTime` datetime NOT NULL, 
 	`FinishedAt` datetime, 
-	`Description` longtext);
+	`Description` longtext, 
+	`RequsitionStatus` bool NOT NULL);
 
 ALTER TABLE `SalesSet` ADD PRIMARY KEY (`Id`);
 
@@ -539,26 +514,15 @@ ALTER TABLE `MaterialPriceSet` ADD PRIMARY KEY (`MaterialId`, `SupplierId`);
 
 
 
-CREATE TABLE `AssemblyLineSet`(
-	`Id` int NOT NULL AUTO_INCREMENT UNIQUE, 
-	`Name` longtext NOT NULL, 
-	`Location` longtext NOT NULL, 
-	`UserId` int NOT NULL);
-
-ALTER TABLE `AssemblyLineSet` ADD PRIMARY KEY (`Id`);
-
-
-
-
-
 CREATE TABLE `RequisitionSet`(
 	`Id` int NOT NULL AUTO_INCREMENT UNIQUE, 
+	`Code` longtext NOT NULL, 
 	`Status` longtext NOT NULL, 
 	`CreateAt` datetime NOT NULL, 
 	`FinishedAt` datetime, 
 	`Description` longtext, 
-	`AssemblyLineId` int NOT NULL, 
-	`UserId` int NOT NULL);
+	`UserId` int NOT NULL, 
+	`SalesId` int);
 
 ALTER TABLE `RequisitionSet` ADD PRIMARY KEY (`Id`);
 
@@ -569,39 +533,9 @@ ALTER TABLE `RequisitionSet` ADD PRIMARY KEY (`Id`);
 CREATE TABLE `RequisitionItemSet`(
 	`RequisitionId` int NOT NULL, 
 	`MaterialId` int NOT NULL, 
-	`StorageId` int NOT NULL, 
-	`Quantity` int NOT NULL, 
-	`Location` int NOT NULL);
+	`Quantity` int NOT NULL);
 
-ALTER TABLE `RequisitionItemSet` ADD PRIMARY KEY (`MaterialId`, `StorageId`, `RequisitionId`, `Location`);
-
-
-
-
-
-CREATE TABLE `ReturnSet`(
-	`Id` int NOT NULL AUTO_INCREMENT UNIQUE, 
-	`Status` longtext NOT NULL, 
-	`CreateAt` datetime NOT NULL, 
-	`FinishedAt` datetime, 
-	`Description` longtext, 
-	`RequisitionId` int NOT NULL, 
-	`UserId` int NOT NULL);
-
-ALTER TABLE `ReturnSet` ADD PRIMARY KEY (`Id`);
-
-
-
-
-
-CREATE TABLE `ReturnItemSet`(
-	`ReturnId` int NOT NULL, 
-	`MaterialId` int NOT NULL, 
-	`StorageId` int NOT NULL, 
-	`Quantity` int NOT NULL, 
-	`Location` int NOT NULL);
-
-ALTER TABLE `ReturnItemSet` ADD PRIMARY KEY (`ReturnId`, `MaterialId`, `StorageId`, `Location`);
+ALTER TABLE `RequisitionItemSet` ADD PRIMARY KEY (`MaterialId`, `RequisitionId`);
 
 
 
@@ -609,14 +543,14 @@ ALTER TABLE `ReturnItemSet` ADD PRIMARY KEY (`ReturnId`, `MaterialId`, `StorageI
 
 CREATE TABLE `ProductionSet`(
 	`Id` int NOT NULL AUTO_INCREMENT UNIQUE, 
+	`Code` longtext NOT NULL, 
 	`ProductId` int NOT NULL, 
-	`RequisitionId` int NOT NULL, 
-	`AssemblyLineId` int NOT NULL, 
 	`Status` longtext NOT NULL, 
 	`StartAt` datetime NOT NULL, 
 	`ThinkFinishedAt` datetime NOT NULL, 
 	`FinishedAt` datetime, 
-	`Description` longtext);
+	`Description` longtext, 
+	`UserId` int NOT NULL);
 
 ALTER TABLE `ProductionSet` ADD PRIMARY KEY (`Id`);
 
@@ -624,27 +558,11 @@ ALTER TABLE `ProductionSet` ADD PRIMARY KEY (`Id`);
 
 
 
-CREATE TABLE `ProductionQualitySet`(
-	`Id` int NOT NULL AUTO_INCREMENT UNIQUE, 
-	`ProductionId` int NOT NULL, 
-	`Result` longtext NOT NULL, 
-	`Time` datetime NOT NULL, 
-	`UserId` int NOT NULL, 
-	`Description` longtext);
+CREATE TABLE `VirtualUseSet`(
+	`MaterialId` int NOT NULL, 
+	`Quantity` int NOT NULL);
 
-ALTER TABLE `ProductionQualitySet` ADD PRIMARY KEY (`Id`);
-
-
-
-
-
-CREATE TABLE `LogSet`(
-	`UserId` int NOT NULL, 
-	`Time` datetime NOT NULL, 
-	`Operation` longtext NOT NULL, 
-	`Description` longtext);
-
-ALTER TABLE `LogSet` ADD PRIMARY KEY (`UserId`, `Time`);
+ALTER TABLE `VirtualUseSet` ADD PRIMARY KEY (`MaterialId`);
 
 
 
@@ -1192,42 +1110,6 @@ CREATE INDEX `IX_FK_PurchaseItemMaterialPrice`
 
 
 
--- Creating foreign key on `UserId` in table 'AssemblyLineSet'
-
-ALTER TABLE `AssemblyLineSet`
-ADD CONSTRAINT `FK_AssemblyLineUser`
-    FOREIGN KEY (`UserId`)
-    REFERENCES `UserSet`
-        (`Id`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-
--- Creating non-clustered index for FOREIGN KEY 'FK_AssemblyLineUser'
-
-CREATE INDEX `IX_FK_AssemblyLineUser`
-    ON `AssemblyLineSet`
-    (`UserId`);
-
-
-
--- Creating foreign key on `AssemblyLineId` in table 'RequisitionSet'
-
-ALTER TABLE `RequisitionSet`
-ADD CONSTRAINT `FK_RequisitionAssemblyLine`
-    FOREIGN KEY (`AssemblyLineId`)
-    REFERENCES `AssemblyLineSet`
-        (`Id`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-
--- Creating non-clustered index for FOREIGN KEY 'FK_RequisitionAssemblyLine'
-
-CREATE INDEX `IX_FK_RequisitionAssemblyLine`
-    ON `RequisitionSet`
-    (`AssemblyLineId`);
-
-
-
 -- Creating foreign key on `UserId` in table 'RequisitionSet'
 
 ALTER TABLE `RequisitionSet`
@@ -1264,89 +1146,6 @@ CREATE INDEX `IX_FK_RequisitionItemRequisition`
 
 
 
--- Creating foreign key on `MaterialId`, `StorageId`, `Location` in table 'RequisitionItemSet'
-
-ALTER TABLE `RequisitionItemSet`
-ADD CONSTRAINT `FK_RequisitionItemMaterialStock`
-    FOREIGN KEY (`MaterialId`, `StorageId`, `Location`)
-    REFERENCES `MaterialStockSet`
-        (`MaterialId`, `StorageId`, `Location`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-
--- Creating non-clustered index for FOREIGN KEY 'FK_RequisitionItemMaterialStock'
-
-CREATE INDEX `IX_FK_RequisitionItemMaterialStock`
-    ON `RequisitionItemSet`
-    (`MaterialId`, `StorageId`, `Location`);
-
-
-
--- Creating foreign key on `RequisitionId` in table 'ReturnSet'
-
-ALTER TABLE `ReturnSet`
-ADD CONSTRAINT `FK_ReturnRequisition`
-    FOREIGN KEY (`RequisitionId`)
-    REFERENCES `RequisitionSet`
-        (`Id`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ReturnRequisition'
-
-CREATE INDEX `IX_FK_ReturnRequisition`
-    ON `ReturnSet`
-    (`RequisitionId`);
-
-
-
--- Creating foreign key on `UserId` in table 'ReturnSet'
-
-ALTER TABLE `ReturnSet`
-ADD CONSTRAINT `FK_ReturnUser`
-    FOREIGN KEY (`UserId`)
-    REFERENCES `UserSet`
-        (`Id`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ReturnUser'
-
-CREATE INDEX `IX_FK_ReturnUser`
-    ON `ReturnSet`
-    (`UserId`);
-
-
-
--- Creating foreign key on `ReturnId` in table 'ReturnItemSet'
-
-ALTER TABLE `ReturnItemSet`
-ADD CONSTRAINT `FK_ReturnItemReturn`
-    FOREIGN KEY (`ReturnId`)
-    REFERENCES `ReturnSet`
-        (`Id`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-
-
--- Creating foreign key on `MaterialId`, `StorageId`, `Location` in table 'ReturnItemSet'
-
-ALTER TABLE `ReturnItemSet`
-ADD CONSTRAINT `FK_ReturnItemMaterialStock`
-    FOREIGN KEY (`MaterialId`, `StorageId`, `Location`)
-    REFERENCES `MaterialStockSet`
-        (`MaterialId`, `StorageId`, `Location`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ReturnItemMaterialStock'
-
-CREATE INDEX `IX_FK_ReturnItemMaterialStock`
-    ON `ReturnItemSet`
-    (`MaterialId`, `StorageId`, `Location`);
-
-
-
 -- Creating foreign key on `ProductId` in table 'ProductionSet'
 
 ALTER TABLE `ProductionSet`
@@ -1365,86 +1164,39 @@ CREATE INDEX `IX_FK_ProductionProduct`
 
 
 
--- Creating foreign key on `RequisitionId` in table 'ProductionSet'
+-- Creating foreign key on `SalesId` in table 'RequisitionSet'
+
+ALTER TABLE `RequisitionSet`
+ADD CONSTRAINT `FK_RequisitionSales`
+    FOREIGN KEY (`SalesId`)
+    REFERENCES `SalesSet`
+        (`Id`)
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_RequisitionSales'
+
+CREATE INDEX `IX_FK_RequisitionSales`
+    ON `RequisitionSet`
+    (`SalesId`);
+
+
+
+-- Creating foreign key on `UserId` in table 'ProductionSet'
 
 ALTER TABLE `ProductionSet`
-ADD CONSTRAINT `FK_ProductionRequisition`
-    FOREIGN KEY (`RequisitionId`)
-    REFERENCES `RequisitionSet`
-        (`Id`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ProductionRequisition'
-
-CREATE INDEX `IX_FK_ProductionRequisition`
-    ON `ProductionSet`
-    (`RequisitionId`);
-
-
-
--- Creating foreign key on `AssemblyLineId` in table 'ProductionSet'
-
-ALTER TABLE `ProductionSet`
-ADD CONSTRAINT `FK_ProductionAssemblyLine`
-    FOREIGN KEY (`AssemblyLineId`)
-    REFERENCES `AssemblyLineSet`
-        (`Id`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ProductionAssemblyLine'
-
-CREATE INDEX `IX_FK_ProductionAssemblyLine`
-    ON `ProductionSet`
-    (`AssemblyLineId`);
-
-
-
--- Creating foreign key on `ProductionId` in table 'ProductionQualitySet'
-
-ALTER TABLE `ProductionQualitySet`
-ADD CONSTRAINT `FK_ProductionQualityProduction`
-    FOREIGN KEY (`ProductionId`)
-    REFERENCES `ProductionSet`
-        (`Id`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ProductionQualityProduction'
-
-CREATE INDEX `IX_FK_ProductionQualityProduction`
-    ON `ProductionQualitySet`
-    (`ProductionId`);
-
-
-
--- Creating foreign key on `UserId` in table 'ProductionQualitySet'
-
-ALTER TABLE `ProductionQualitySet`
-ADD CONSTRAINT `FK_ProductionQualityUser`
+ADD CONSTRAINT `FK_ProductionUser`
     FOREIGN KEY (`UserId`)
     REFERENCES `UserSet`
         (`Id`)
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
--- Creating non-clustered index for FOREIGN KEY 'FK_ProductionQualityUser'
+-- Creating non-clustered index for FOREIGN KEY 'FK_ProductionUser'
 
-CREATE INDEX `IX_FK_ProductionQualityUser`
-    ON `ProductionQualitySet`
+CREATE INDEX `IX_FK_ProductionUser`
+    ON `ProductionSet`
     (`UserId`);
-
-
-
--- Creating foreign key on `UserId` in table 'LogSet'
-
-ALTER TABLE `LogSet`
-ADD CONSTRAINT `FK_LogUser`
-    FOREIGN KEY (`UserId`)
-    REFERENCES `UserSet`
-        (`Id`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
 

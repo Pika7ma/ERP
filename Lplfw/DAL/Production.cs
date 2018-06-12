@@ -15,13 +15,13 @@ namespace Lplfw.DAL
     public partial class Production
     {
         public int Id { get; set; }
+        public string Code { get; set; }
         public int ProductId { get; set; }
-        public int RequisitionId { get; set; }
-        public int AssemblyLineId { get; set; }
         public string Status { get; set; }
         public System.DateTime StartAt { get; set; }
         public System.DateTime ThinkFinishedAt { get; set; }
         public Nullable<System.DateTime> FinishedAt { get; set; }
         public string Description { get; set; }
+        public int UserId { get; set; }
     }
 }

@@ -49,13 +49,9 @@ namespace Lplfw.DAL
         public virtual DbSet<Purchase> PurchaseSet { get; set; }
         public virtual DbSet<PurchaseItem> PurchaseItemSet { get; set; }
         public virtual DbSet<MaterialPrice> MaterialPriceSet { get; set; }
-        public virtual DbSet<AssemblyLine> AssemblyLineSet { get; set; }
         public virtual DbSet<Requisition> RequisitionSet { get; set; }
         public virtual DbSet<RequisitionItem> RequisitionItemSet { get; set; }
-        public virtual DbSet<Return> ReturnSet { get; set; }
-        public virtual DbSet<ReturnItem> ReturnItemSet { get; set; }
         public virtual DbSet<Production> ProductionSet { get; set; }
-        public virtual DbSet<ProductionQuality> ProductionQualitySet { get; set; }
-        public virtual DbSet<Log> LogSet { get; set; }
+        public virtual DbSet<VirtualUse> VirtualUseSet { get; set; }
     }
 }

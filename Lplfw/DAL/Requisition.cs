@@ -14,21 +14,13 @@ namespace Lplfw.DAL
     
     public partial class Requisition
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Requisition()
-        {
-            this.Items = new HashSet<RequisitionItem>();
-        }
-    
         public int Id { get; set; }
+        public string Code { get; set; }
         public string Status { get; set; }
         public System.DateTime CreateAt { get; set; }
         public Nullable<System.DateTime> FinishedAt { get; set; }
         public string Description { get; set; }
-        public int AssemblyLineId { get; set; }
         public int UserId { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RequisitionItem> Items { get; set; }
+        public Nullable<int> SalesId { get; set; }
     }
 }

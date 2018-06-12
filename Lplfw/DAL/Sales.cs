@@ -31,6 +31,7 @@ namespace Lplfw.DAL
         public System.DateTime DueTime { get; set; }
         public Nullable<System.DateTime> FinishedAt { get; set; }
         public string Description { get; set; }
+        public bool RequsitionStatus { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesItem> Items { get; set; }

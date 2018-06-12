@@ -12,7 +12,7 @@ namespace Lplfw.DAL
         public double Price { get; set; }
         public double Cost { get; set; }
 
-        static public List<MaterialStockAllView> Get()
+        static public List<MaterialStockAllView> GetAll()
         {
             try
             {

@@ -14,10 +14,11 @@ namespace Lplfw.DAL
         public int UserId { get; set; }
         public string Status { get; set; }
         public string Priority { get; set; }
-        public System.DateTime CreateAt { get; set; }
-        public System.DateTime DueTime { get; set; }
-        public Nullable<System.DateTime> FinishedAt { get; set; }
+        public DateTime CreateAt { get; set; }
+        public DateTime DueTime { get; set; }
+        public DateTime? FinishedAt { get; set; }
         public string Description { get; set; }
+        public bool RequsitionStatus { get; set; }
         public string UserName { get; set; }
 
         public static List<SalesView> GetAll()

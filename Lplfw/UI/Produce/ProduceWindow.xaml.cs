@@ -17,934 +17,245 @@ namespace Lplfw.UI.Produce
         public ProduceWindow()
         {
             InitializeComponent();
-            cbSearchRequisition.ItemsSource = RequisitionFields;
-            cbSearchRequisition.SelectedValue = 0;
-            cbSearchReturn.ItemsSource = RequisitionFields;
-            cbSearchReturn.SelectedValue = 0;
-            cbSearchProduction.ItemsSource = ProductionFields;
-            cbSearchProduction.SelectedValue = 0;
-            cbSearchQuality.ItemsSource = QualityFields;
-            cbSearchQuality.SelectedValue = 0;
-            ShowUnreceivedOrder();
+            new Thread(new ThreadStart(Refresh)).Start();
         }
 
-        static public List<Utils.KeyValue> RequisitionFields = new List<Utils.KeyValue>
+        private void TabRouter(object sender, SelectionChangedEventArgs e)
         {
-            new Utils.KeyValue { ID=0, Name="领料单号" },
-            new Utils.KeyValue { ID=1, Name="流水线" },
-            new Utils.KeyValue { ID=2, Name="状态" },
-            new Utils.KeyValue { ID=3, Name="创建时间" },
-            new Utils.KeyValue { ID=4, Name="完成时间" },
-            new Utils.KeyValue { ID=5, Name="负责人" },
-            new Utils.KeyValue { ID=6, Name="备注" }
-        };
-
-        static public List<Utils.KeyValue> ProductionFields = new List<Utils.KeyValue>
-        {
-            new Utils.KeyValue { ID=0, Name="生产记录号" },
-            new Utils.KeyValue { ID=1, Name="产品" },
-            new Utils.KeyValue { ID=2, Name="流水线" },
-            new Utils.KeyValue { ID=3, Name="领料单" },
-            new Utils.KeyValue { ID=4, Name="状态" },
-            new Utils.KeyValue { ID=5, Name="开始时间" },
-            new Utils.KeyValue { ID=6, Name="预计结束时间" },
-            new Utils.KeyValue { ID=7, Name="结束时间" },
-            new Utils.KeyValue { ID=8, Name="负责人" },
-            new Utils.KeyValue { ID=9, Name="备注" }
-        };
-
-        static public List<Utils.KeyValue> QualityFields = new List<Utils.KeyValue>
-        {
-            new Utils.KeyValue { ID=0, Name="生产记录号" },
-            new Utils.KeyValue { ID=1, Name="检查时间" },
-            new Utils.KeyValue { ID=2, Name="负责人" },
-            new Utils.KeyValue { ID=3, Name="备注" }
-        };
-        /// <summary>
-        /// 物料确认界面待处理领料单显示相关信息
-        /// </summary>
-        public void ShowUnreceivedOrder()
-        {
-            var list = new List<Lplfw.UI.Produce.RequistionProduce>();
-            using (var db = new ModelContainer())
+            if (e.Source is TabControl)
             {
-                var _unreceivedreqlist = db.RequisitionSet.ToList();
-                foreach (var _order in _unreceivedreqlist)
+                if (tabConfirm.IsSelected)
                 {
-                    if (_order.Status == "unreceived")
+                    RefreshDgToDoRequsition();
+                }
+                else if (tabRequisition.IsSelected)
+                {
+                    RefreshDgRequisition();
+                }
+                else if (tabProduce.IsSelected)
+                {
+                    RefreshDgProduction();
+                }
+            }
+        }
+
+        #region 物料确认
+        private void RefreshDgToDoRequsition()
+        {
+            new Thread(new ThreadStart(RefreshDgToDoRequsitionThread)).Start();
+        }
+
+        private void RefreshDgToDoRequsitionThread()
+        {
+            var _list = RequisitionView.GetUnfinished();
+            Dispatcher.BeginInvoke((Action)delegate ()
+            {
+                dgToDoRequsitions.ItemsSource = _list;
+            });
+        }
+
+        private void SelectToDoRequisition(object sender, SelectionChangedEventArgs e)
+        {
+            var _item = dgToDoRequsitions.SelectedItem as RequisitionView;
+            if (_item == null)
+            {
+                dgToDoItems.ItemsSource = null;
+                dgToDoStocks.ItemsSource = null;
+                return;
+            }
+            SetToDoStock(_item.Id);
+        }
+
+        private void SetToDoStock(int index)
+        {
+            var _stocks = RequisitionStockProcedure.GetById(index);
+            var _items = RequisitionItemView.GetById(index);
+            dgToDoItems.ItemsSource = _items;
+            for (var _i = 0; _i < _items.Count; _i++)
+            {
+                var _stock = _stocks.FirstOrDefault(i => i.MaterialId == _items[_i].MaterialId);
+                if (_stock != null)
+                {
+                    _stock.Quantity -= _items[_i].Quantity;
+                }
+            }
+            dgToDoStocks.ItemsSource = _stocks;
+        }
+
+        private bool CheckStock()
+        {
+            var _list = dgToDoStocks.ItemsSource as List<RequisitionStockProcedure>;
+            for (var _i = 0; _i < _list.Count; _i++)
+            {
+                if (_list[_i].Quantity < 0) return false;
+            }
+            return true;
+        }
+
+        private void SubmitRequsition(object sender, RoutedEventArgs e)
+        {
+            var _requisition = dgToDoRequsitions.SelectedItem as RequisitionView;
+            if (_requisition == null) return;
+            if (_requisition.Status != "处理中") return;
+            if (CheckStock())
+            {
+                try
+                {
+                    using (var _db = new ModelContainer())
                     {
-                        var _myorder = new RequistionProduce();
-                        _myorder.Id = _order.Id;
-                        _myorder.AssemblyLineId = _order.AssemblyLineId;
-                        _myorder.Status = _order.Status;
-                        _myorder.CreatedAt = _order.CreateAt.ToString();
-                        _myorder.FinishedAt = _order.FinishedAt.ToString();
-                        _myorder.UserId = _order.UserId;
-                        _myorder.Description = _order.Description;
-                        list.Add(_myorder);
+                        var _item = _db.RequisitionSet.FirstOrDefault(i => i.Id == _requisition.Id);
+                        _item.Status = "领料中";
+                        VirtualUse.AddFromRequisition(_requisition.Id);
+                        _db.SaveChanges();
                     }
+                    RefreshDgToDoRequsition();
+                    MessageBox.Show("已请求领料!");
                 }
-            }
-            this.orderGrid.Dispatcher.Invoke(new Action(
-                delegate
+                catch (Exception)
                 {
-                    orderGrid.ItemsSource = null;
-                    orderGrid.ItemsSource = list;
+                    MessageBox.Show("请求领料失败", null, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                ));
-        }
-
-        private void NewRequisition(object sender, RoutedEventArgs e)
-        {
-            var _win = new NewRequsition(isRequsition: true) { type = true };
-            var _rtn = _win.ShowDialog();
-            if (_rtn == true)
+            }
+            else
             {
-
+                MessageBox.Show("库存不足!无法领料", null, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
-        private void NewReturn(object sender, RoutedEventArgs e)
-        {
-            var _win = new NewRequsition(isRequsition: false) { type = false };
-            var _rtn = _win.ShowDialog();
-            if (_rtn == true)
+        private void ConfirmRequsition(object sender, RoutedEventArgs e) {
+            var _requisition = dgToDoRequsitions.SelectedItem as RequisitionView;
+            if (_requisition == null) return;
+            if (_requisition.Status != "领料中") return;
+            try
             {
+                using (var _db = new ModelContainer())
+                {
+                    var _item = _db.RequisitionSet.FirstOrDefault(i => i.Id == _requisition.Id);
+                    _item.Status = "已完成";
+                    _item.FinishedAt = DateTime.Now;
+                    _db.SaveChanges();
 
+                    VirtualUse.RemoveFromRequisition(_requisition.Id);
+                }
+                RefreshDgToDoRequsition();
+                MessageBox.Show("已完成领料!");
             }
+            catch (Exception)
+            {
+                MessageBox.Show("完成领料失败", null, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        #endregion
+
+        #region 物料单管理
+        private void RefreshDgRequisition()
+        {
+            new Thread(new ThreadStart(RefreshDgRequisitionThread)).Start();
+        }
+
+        private void RefreshDgRequisitionThread()
+        {
+            var _list = RequisitionView.GetAll();
+            Dispatcher.BeginInvoke((Action)delegate ()
+            {
+                dgRequisition.ItemsSource = _list;
+            });
+        }
+
+        private void ShowAllRequistion(object sender, RoutedEventArgs e)
+        {
+            RefreshDgRequisition();
+        }
+
+        private void SelectRequsition(object sender, SelectionChangedEventArgs e)
+        {
+            var _item = dgRequisition.SelectedItem as RequisitionView;
+            if (_item == null)
+            {
+                dgRequisitionItems.ItemsSource = null;
+                return;
+            }
+            dgRequisitionItems.ItemsSource = RequisitionItemView.GetById(_item.Id);
+        }
+
+        #endregion
+
+        #region 生产管理
+        private void RefreshDgProduction()
+        {
+            new Thread(new ThreadStart(RefreshDgProductionThread)).Start();
+        }
+
+        private void RefreshDgProductionThread()
+        {
+            var _list = ProductionView.GetAll();
+            Dispatcher.BeginInvoke((Action)delegate ()
+            {
+                dgProduction.ItemsSource = _list;
+            });
+        }
+
+        private void ShowAllProdution(object sender, RoutedEventArgs e)
+        {
+            RefreshDgProduction();
         }
 
         private void NewProduction(object sender, RoutedEventArgs e)
         {
             var _win = new NewProduction();
             var _rtn = _win.ShowDialog();
-            if (_rtn == true)
+            if (_rtn == true) {
+                MessageBox.Show("新建生产记录成功");
+                RefreshDgProduction();
+            }
+            else
             {
-
+                MessageBox.Show("新建生产记录失败");
             }
         }
 
-        private void NewQuality(object sender, RoutedEventArgs e)
-        {
-            var _win = new NewQuality();
-            var _rtn = _win.ShowDialog();
-            if (_rtn == true)
-            {
-
-            }
-        }
-        /// <summary>
-        /// 单击物料确认界面待处理领料单中任意一行，需求清单虚拟库存显示相关信息
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void orderGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-            var mythread = new Thread(new ParameterizedThreadStart(orderGrid_SelectionChanged));
-            mythread.Start(1);
-        }
-        private void orderGrid_SelectionChanged(object id)
-        {
-            RequistionProduce item = new RequistionProduce();
-            this.orderGrid.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    if (orderGrid.SelectedItems.Count > 0)
-                    {
-                        item = (RequistionProduce)orderGrid.SelectedItems[0];
-                    }
-                }));
-            if (item.Status != null)
-            {
-                int requistionid = item.Id;
-                var list = new List<Lplfw.UI.Produce.MaterialProduce>();
-                var stocklist = new List<Lplfw.UI.Produce.MaterialProduce>();
-                using (var db = new ModelContainer())
-                {
-                    var _requisitionitemlist = db.RequisitionItemSet.ToList();
-                    var _materiallist = db.MaterialSet.ToList();
-                    var _materialstocklist = db.MaterialStockSet.ToList();
-                    foreach (var _requisitionitem in _requisitionitemlist)
-                    {
-                        if (_requisitionitem.RequisitionId == requistionid)
-                        {
-                            MaterialProduce _orderitem = new MaterialProduce();
-                            MaterialProduce _stockitem = new MaterialProduce();
-                            var _material = db.MaterialSet.Where(i => i.Id == _requisitionitem.MaterialId).ToList();
-                            var _stock = db.MaterialStockSet.Where(i => i.MaterialId == _requisitionitem.MaterialId).ToList();
-                            _orderitem.MaterialName = _material.First().Name;
-                            _stockitem.MaterialName = _material.First().Name;
-                            _orderitem.Quantity = _requisitionitem.Quantity;
-                            _stockitem.Quantity = _stock.First().Quantity;
-                            _orderitem.Unit = _material.First().Unit;
-                            _stockitem.Unit = _material.First().Unit;
-                            list.Add(_orderitem);
-                            stocklist.Add(_stockitem);
-                        }
-                    }
-                }
-                this.requistionGrid.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    requistionGrid.ItemsSource = list;
-                }
-                ));
-                this.stockGrid.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    stockGrid.ItemsSource = stocklist;
-                }
-                ));
-            }
-        }
-        /// <summary>
-        /// 绑定物料确认界面确定领料
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ChangeRequistion(object sender, RoutedEventArgs e)
-        {
-            var mythread = new Thread(new ParameterizedThreadStart(ChangeRequistionStatus));
-            mythread.Start(1);
-        }
-        /// <summary>
-        /// 确定领料具体操作
-        /// </summary>
-        /// <param name="id"></param>
-        private void ChangeRequistionStatus(object id)
-        {
-            RequistionProduce item = new RequistionProduce();
-            this.orderGrid.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    if (orderGrid.SelectedItems.Count > 0)
-                    {
-                        item = (RequistionProduce)orderGrid.SelectedItems[0];
-                    }
-                }));
-            if (item.Status != null)
-            {
-                using (var db = new ModelContainer())
-                {
-                    Requisition requistionitem = db.RequisitionSet.First(i => i.Id == item.Id);
-                    requistionitem.Status = "Recieved";
-                    db.SaveChanges();
-                }
-                ShowUnreceivedOrder();
-                this.requistionGrid.Dispatcher.Invoke(new Action(
-                    delegate
-                    {
-                        requistionGrid.ItemsSource = null;
-                    }
-                    ));
-                this.stockGrid.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    stockGrid.ItemsSource = null;
-                }
-                ));
-            }
-        }
-        /// <summary>
-        /// 绑定领料单管理的显示所有记录
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void GetAllRequistion(object sender, RoutedEventArgs e)
-        {
-            var mythread = new Thread(new ParameterizedThreadStart(ShowAllRequistion));
-            mythread.Start(1);
-        }
-        /// <summary>
-        /// 领料单管理的显示所有记录具体操作
-        /// </summary>
-        /// <param name="id"></param>
-        private void ShowAllRequistion(object id)
-        {
-            var list = new List<Lplfw.UI.Produce.RequistionProduce>();
-            using (var db = new ModelContainer())
-            {
-                var _requistionList = db.RequisitionSet.ToList();
-                foreach (var _order in _requistionList)
-                {
-                    var _myorder = new RequistionProduce();
-                    _myorder.Id = _order.Id;
-                    _myorder.AssemblyLineId = _order.AssemblyLineId;
-                    _myorder.Status = _order.Status;
-                    _myorder.CreatedAt = _order.CreateAt.ToString();
-                    _myorder.FinishedAt = _order.FinishedAt.ToString();
-                    _myorder.UserId = _order.UserId;
-                    _myorder.Description = _order.Description;
-                    list.Add(_myorder);
-                }
-            }
-            this.allrequistionGrid.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    allrequistionGrid.ItemsSource = null;
-                    allrequistionGrid.ItemsSource = list;
-                }
-                ));
-        }
-
-        /// <summary>
-        /// 单击领料单管理中左边大方框中任意一行时右边方框显示相关信息
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void allrequistionGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var mythread = new Thread(new ParameterizedThreadStart(allrequistionGrid_SelectionChanged));
-            mythread.Start(1);
-        }
-        private void allrequistionGrid_SelectionChanged(object id)
-        {
-            RequistionProduce item = new RequistionProduce();
-            this.allrequistionGrid.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    if (allrequistionGrid.SelectedItems.Count > 0)
-                    {
-                        item = (RequistionProduce)allrequistionGrid.SelectedItems[0];
-                    }
-                }));
-            if (item.Status != null)
-            {
-                int requistionid = item.Id;
-                var list = new List<Lplfw.UI.Produce.MaterialProduce>();
-                using (var db = new ModelContainer())
-                {
-                    var _requisitionitemlist = db.RequisitionItemSet.ToList();
-                    var _materiallist = db.MaterialSet.ToList();
-                    foreach (var _requisitionitem in _requisitionitemlist)
-                    {
-                        if (_requisitionitem.RequisitionId == requistionid)
-                        {
-                            MaterialProduce _orderitem = new MaterialProduce();
-                            var _material = db.MaterialSet.Where(i => i.Id == _requisitionitem.MaterialId).ToList();
-                            _orderitem.MaterialName = _material.First().Name;
-                            _orderitem.Quantity = _requisitionitem.Quantity;
-                            _orderitem.Unit = _material.First().Unit;
-                            list.Add(_orderitem);
-                        }
-                    }
-                }
-                this.requistionmaterialGrid.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    requistionmaterialGrid.ItemsSource = list;
-                }
-                ));
-            }
-        }
-        /// <summary>
-        /// 绑定还料单管理显示所有记录
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void GetAllReturn(object sender, RoutedEventArgs e)
-        {
-            var mythread = new Thread(new ParameterizedThreadStart(ShowAllReturn));
-            mythread.Start(1);
-        }
-        /// <summary>
-        /// 还料单管理显示所有记录具体操作
-        /// </summary>
-        /// <param name="id"></param>
-        private void ShowAllReturn(object id)
-        {
-            var list = new List<Lplfw.UI.Produce.RequistionProduce>();
-            using (var db = new ModelContainer())
-            {
-                var _returnList = db.ReturnSet.ToList();
-                foreach (var _order in _returnList)
-                {
-                    var _myorder = new RequistionProduce();
-                    _myorder.Id = _order.Id;
-                    var assem = db.RequisitionSet.Where(i => i.Id == _order.RequisitionId).ToList();
-                    _myorder.AssemblyLineId = assem.First().AssemblyLineId;
-                    _myorder.Status = _order.Status;
-                    _myorder.CreatedAt = _order.CreateAt.ToString();
-                    _myorder.FinishedAt = _order.FinishedAt.ToString();
-                    _myorder.UserId = _order.UserId;
-                    _myorder.Description = _order.Description;
-                    list.Add(_myorder);
-                }
-            }
-            this.allreturnGrid.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    allreturnGrid.ItemsSource = null;
-                    allreturnGrid.ItemsSource = list;
-                }
-                ));
-        }
-        /// <summary>
-        /// 选中allreturnGrid某一行，右边显示相应信息，
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void allreturnGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var mythread = new Thread(new ParameterizedThreadStart(allreturnGrid_SelectionChanged));
-            mythread.Start(1);
-        }
-        private void allreturnGrid_SelectionChanged(object id)
-        {
-            RequistionProduce item = new RequistionProduce();
-            this.allreturnGrid.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    if (allreturnGrid.SelectedItems.Count > 0)
-                    {
-                        item = (RequistionProduce)allreturnGrid.SelectedItems[0];
-                    }
-                }));
-            if (item.Status != null)
-            {
-                int returnid = item.Id;
-                var list = new List<Lplfw.UI.Produce.MaterialProduce>();
-                using (var db = new ModelContainer())
-                {
-                    var _returnitemlist = db.ReturnItemSet.ToList();
-                    var _materiallist = db.MaterialSet.ToList();
-                    foreach (var _returnitem in _returnitemlist)
-                    {
-                        if (_returnitem.ReturnId == returnid)
-                        {
-                            MaterialProduce _orderitem = new MaterialProduce();
-                            var _material = db.MaterialSet.Where(i => i.Id == _returnitem.MaterialId).ToList();
-                            _orderitem.MaterialName = _material.First().Name;
-                            _orderitem.Quantity = _returnitem.Quantity;
-                            _orderitem.Unit = _material.First().Unit;
-                            list.Add(_orderitem);
-                        }
-                    }
-                }
-                this.returnmaterialGrid.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    returnmaterialGrid.ItemsSource = list;
-                }
-                ));
-            }
-        }
-
-        /// <summary>
-        /// 绑定生产记录管理界面显示所有记录
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void GetAllProduction(object sender, RoutedEventArgs e)
-        {
-            var mythread = new Thread(new ParameterizedThreadStart(ShowAllProduction));
-            mythread.Start(1);
-        }
-        /// <summary>
-        /// 生产记录管理界面显示所有记录具体操作
-        /// </summary>
-        /// <param name="id"></param>
-        private void ShowAllProduction(object id)
-        {
-            var list = new List<Lplfw.UI.Produce.ProductionProduce>();
-            using (var db = new ModelContainer())
-            {
-                var _productionList = db.ProductionSet.ToList();
-                foreach (var _order in _productionList)
-                {
-                    var _myorder = new ProductionProduce();
-                    var _products = db.ProductSet.Where(i => i.Id == _order.ProductId).ToList();
-                    _myorder.ProductName = _products.First().Name;
-                    _myorder.RequisitionId = _order.RequisitionId;
-                    _myorder.Id = _order.Id;
-                    _myorder.Status = _order.Status;
-                    _myorder.StartAt = _order.StartAt.ToString();
-                    var assem = db.AssemblyLineSet.Where(i => i.Id == _order.AssemblyLineId).ToList();
-                    _myorder.AssemblyLineName = assem.First().Name;
-                    _myorder.ThinkFinishedAt = _order.ThinkFinishedAt.ToString();
-                    _myorder.FinishedAt = _order.FinishedAt.ToString();
-                    var assemuid = assem.First().UserId;
-                    var users = db.UserSet.Where(i => i.Id == assemuid).ToList();
-                    _myorder.UserName = users.First().Name;
-                    _myorder.Description = _order.Description;
-                    list.Add(_myorder);
-                }
-            }
-            this.allproductionGrid.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    allproductionGrid.ItemsSource = null;
-                    allproductionGrid.ItemsSource = list;
-                }
-                ));
-        }
-        /// <summary>
-        /// 绑定生产记录管理界面标记完成生产部分
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void FinishProduction(object sender, RoutedEventArgs e)
         {
-            var mythread = new Thread(new ParameterizedThreadStart(LetProductionFinished));
-            mythread.Start(1);
-        }
-        /// <summary>
-        /// 生产记录管理界面标记完成生产部分操作
-        /// </summary>
-        /// <param name="id"></param>
-        private void LetProductionFinished(object id)
-        {
-            var selectcount = 0;
-            this.allproductionGrid.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    selectcount = allproductionGrid.SelectedItems.Count;
-                }));
-            if (selectcount > 0)
+            var _item = dgProduction.SelectedItem as ProductionView;
+            if (_item == null) return;
+            if (_item.Status == "已完成") return;
+            using (var _db = new ModelContainer())
             {
-                var item = new ProductionProduce();
-                this.allproductionGrid.Dispatcher.Invoke(new Action(
-               delegate
-               {
-                   item = (ProductionProduce)allproductionGrid.SelectedItems[0];
-               }));
-                if (item.Status.Equals("unfinished"))
+                var _endTime = DateTime.Now;
+                var _production = _db.ProductionSet.FirstOrDefault(i => i.Id == _item.Id);
+                _production.Status = "已完成";
+                _production.FinishedAt = _endTime;
+                _db.SaveChanges();
+                _item.Status = "已完成";
+                _item.FinishedAt = _endTime;
+                dgProduction.Items.Refresh();
+            }
+        }
+        #endregion
+
+        #region 权限控制
+        private void Refresh()
+        {
+            using (var _db = new ModelContainer())
+            {
+                var _temp = _db.UserGroupPrivilegeItemSet.First(i => i.PrivilegeId == 4 && i.UserGroupId == Utils.CurrentUser.UserGroupId);
+                if (_temp.Mode == "只读")
                 {
-                    using (var db = new ModelContainer())
+                    Dispatcher.BeginInvoke((Action)delegate ()
                     {
-                        db.ProductionSet.Where(i => i.Id == item.Id).FirstOrDefault().Status = "finished";
-                        db.SaveChanges();
-                    }
-                    ShowAllProduction(null);                   //尚未调试不清楚可行性
+                        OnlyRead();
+                    });
                 }
             }
         }
         /// <summary>
-        /// 与生产质检浏览界面显示所有记录绑定
+        /// 只读
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void GetAllQuality(object sender, RoutedEventArgs e)
+        private void OnlyRead()
         {
-            var mythread = new Thread(new ParameterizedThreadStart(ShowAllQuality));
-            mythread.Start(1);
+            btnNewProduction.Visibility = Visibility.Hidden;
+            btnFinishProduction.Visibility = Visibility.Hidden;
         }
-        /// <summary>
-        /// 生产质检浏览界面显示所有记录具体操作
-        /// </summary>
-        /// <param name="id"></param>
-        private void ShowAllQuality(object id)
-        {
-            List<QualityProduce> allqplist = new List<QualityProduce>();
-            using (var db = new ModelContainer())
-            {
-                var _qplist = db.ProductionQualitySet.ToList();
-                foreach (var _qp in _qplist)
-                {
-                    var _allqp = new QualityProduce();
-                    _allqp.ProductionId = _qp.ProductionId;
-                    _allqp.Result = _qp.Result;
-                    _allqp.Time = _qp.Time.ToString();
-                    _allqp.Description = _qp.Description;
-                    var users = db.UserSet.Where(i => i.Id == _qp.UserId).ToList();
-                    _allqp.UserName = users.First().Name;
-                    allqplist.Add(_allqp);
-                }
-            }
-            this.allqualityGrid.Dispatcher.Invoke(new Action(
-               delegate
-               {
-                   allqualityGrid.ItemsSource = null;
-                   allqualityGrid.ItemsSource = allqplist;
-               }
-               ));
-        }
-
-        private void btnSearchQuality_Click(object sender, RoutedEventArgs e)
-        {
-            var mythred = new Thread(new ParameterizedThreadStart(SearchQualityAction));
-            mythred.Start(1);
-        }
-        public void SearchQualityAction(object id)
-        {
-            string searchcontent = "";
-            string searchcondition = "";
-            List<QualityProduce> list = new List<QualityProduce>();
-            this.txtSearchQuality.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    searchcontent = txtSearchQuality.Text;
-                }));
-            this.cbSearchQuality.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    searchcondition = cbSearchQuality.Text;
-                }));
-            this.allqualityGrid.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    if (searchcontent != "")
-                    {
-                        var _list = GetAllQualityData();
-                        switch (searchcondition)
-                        {
-                            case "生产记录号":
-                                list = _list.Where(i => i.ProductionId == Convert.ToInt32(searchcontent)).ToList();
-                                break;
-                            case "检查结果":
-                                list = _list.Where(i => i.Result == searchcontent).ToList();
-                                break;
-                            case "检查时间":
-                                list = _list.Where(i => i.Time == searchcontent).ToList();
-                                break;
-                            case "备注":
-                                list = _list.Where(i => i.Description == searchcontent).ToList();
-                                break;
-                            case "负责人":
-                                list = _list.Where(i => i.UserName == searchcontent).ToList();
-                                break;
-                        }
-                    }
-                }));
-            this.allqualityGrid.Dispatcher.Invoke(new Action(
-            delegate
-            {
-                allqualityGrid.ItemsSource = null;
-                allqualityGrid.ItemsSource = list;
-            }));
-        }
-        private List<QualityProduce> GetAllQualityData()
-        {
-            List<QualityProduce> allqplist = new List<QualityProduce>();
-            using (var db = new ModelContainer())
-            {
-                var _qplist = db.ProductionQualitySet.ToList();
-                foreach (var _qp in _qplist)
-                {
-                    var _allqp = new QualityProduce();
-                    _allqp.ProductionId = _qp.ProductionId;
-                    _allqp.Result = _qp.Result;
-                    _allqp.Time = _qp.Time.ToString();
-                    _allqp.Description = _qp.Description;
-                    var users = db.UserSet.Where(i => i.Id == _qp.UserId).ToList();
-                    _allqp.UserName = users.First().Name;
-                    allqplist.Add(_allqp);
-                }
-            }
-            return allqplist;
-        }
-
-        private void btnSearchProduction_Click(object sender, RoutedEventArgs e)
-        {
-            var mythred = new Thread(new ParameterizedThreadStart(SearchProductionAction));
-            mythred.Start(1);
-        }
-        public void SearchProductionAction(object id)
-        {
-            string searchcontent = "";
-            string searchcondition = "";
-            List<ProductionProduce> list = new List<ProductionProduce>();
-            this.txtSearchProduction.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    searchcontent = txtSearchProduction.Text;
-                }));
-            this.cbSearchProduction.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    searchcondition = cbSearchProduction.Text;
-                }));
-            this.allproductionGrid.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    if (searchcontent != "")
-                    {
-                        var _list = GetAllProductionData();
-                        switch (searchcondition)
-                        {
-                            case "状态":
-                                list = _list.Where(i => i.Status == searchcontent).ToList();
-                                break;
-                            case "生产记录号":
-                                list = _list.Where(i => i.Id == Convert.ToInt32(searchcontent)).ToList();
-                                break;
-                            case "产品":
-                                list = _list.Where(i => i.ProductName == searchcontent).ToList();
-                                break;
-                            case "流水线":
-                                list = _list.Where(i => i.AssemblyLineName == searchcontent).ToList();
-                                break;
-                            case "领料单号":
-                                list = _list.Where(i => i.RequisitionId == Convert.ToInt32(searchcontent)).ToList();
-                                break;
-                            case "开始时间":
-                                list = _list.Where(i => i.StartAt == searchcontent).ToList();
-                                break;
-                            case "预计结束时间":
-                                list = _list.Where(i => i.ThinkFinishedAt == searchcontent).ToList();
-                                break;
-                            case "结束时间":
-                                list = _list.Where(i => i.FinishedAt == searchcontent).ToList();
-                                break;
-                            case "备注":
-                                list = _list.Where(i => i.Description == searchcontent).ToList();
-                                break;
-                            case "负责人":
-                                list = _list.Where(i => i.UserName == searchcontent).ToList();
-                                break;
-                        }
-                    }
-                }));
-            this.allproductionGrid.Dispatcher.Invoke(new Action(
-            delegate
-            {
-                allproductionGrid.ItemsSource = null;
-                allproductionGrid.ItemsSource = list;
-            }));
-        }
-        private List<ProductionProduce> GetAllProductionData()
-        {
-            var list = new List<Lplfw.UI.Produce.ProductionProduce>();
-            using (var db = new ModelContainer())
-            {
-                var _productionList = db.ProductionSet.ToList();
-                foreach (var _order in _productionList)
-                {
-                    var _myorder = new ProductionProduce();
-                    var _products = db.ProductSet.Where(i => i.Id == _order.ProductId).ToList();
-                    _myorder.ProductName = _products.First().Name;
-                    _myorder.RequisitionId = _order.RequisitionId;
-                    _myorder.Id = _order.Id;
-                    _myorder.Status = _order.Status;
-                    _myorder.StartAt = _order.StartAt.ToString();
-                    var assem = db.AssemblyLineSet.Where(i => i.Id == _order.AssemblyLineId).ToList();
-                    _myorder.AssemblyLineName = assem.First().Name;
-                    _myorder.ThinkFinishedAt = _order.ThinkFinishedAt.ToString();
-                    _myorder.FinishedAt = _order.FinishedAt.ToString();
-                    var assemuid = assem.First().UserId;
-                    var users = db.UserSet.Where(i => i.Id == assemuid).ToList();
-                    _myorder.UserName = users.First().Name;
-                    _myorder.Description = _order.Description;
-                    list.Add(_myorder);
-                }
-            }
-            return list;
-        }
-
-        private void btnSearchReturn_Click(object sender, RoutedEventArgs e)
-        {
-            var mythred = new Thread(new ParameterizedThreadStart(SearchReturnAction));
-            mythred.Start(1);
-        }
-        public void SearchReturnAction(object id)
-        {
-            string searchcontent = "";
-            string searchcondition = "";
-            List<RequistionProduce> list = new List<RequistionProduce>();
-            this.txtSearchReturn.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    searchcontent = txtSearchReturn.Text;
-                }));
-            this.cbSearchReturn.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    searchcondition = cbSearchReturn.Text;
-                }));
-            this.allreturnGrid.Dispatcher.Invoke(new Action(
-               delegate
-               {
-                   if (searchcontent != "")
-                   {
-                       var _list = GetAllReturnData();
-                       switch (searchcondition)
-                       {
-                           case "状态":
-                               list = _list.Where(i => i.Status == searchcontent).ToList();
-                               break;
-                           case "领料单号":
-                               list = _list.Where(i => i.Id == Convert.ToInt32(searchcontent)).ToList();
-                               break;
-                           case "流水线":
-                               list = _list.Where(i => i.AssemblyLineId == Convert.ToInt32(searchcontent)).ToList();
-                               break;
-                           case "创建时间":
-                               list = _list.Where(i => i.CreatedAt == searchcontent).ToList();
-                               break;
-                           case "完成时间":
-                               list = _list.Where(i => i.FinishedAt == searchcontent).ToList();
-                               break;
-                           case "备注":
-                               list = _list.Where(i => i.Description == searchcontent).ToList();
-                               break;
-                           case "负责人":
-                               list = _list.Where(i => i.UserId == Convert.ToInt32(searchcontent)).ToList();
-                               break;
-                       }
-                   }
-               }));
-            this.allreturnGrid.Dispatcher.Invoke(new Action(
-            delegate
-            {
-                allreturnGrid.ItemsSource = null;
-                allreturnGrid.ItemsSource = list;
-            }));
-            this.returnmaterialGrid.Dispatcher.Invoke(new Action(
-            delegate
-            {
-                returnmaterialGrid.ItemsSource = null;
-            }));
-        }
-        private List<RequistionProduce> GetAllReturnData()
-        {
-            var list = new List<Lplfw.UI.Produce.RequistionProduce>();
-            using (var db = new ModelContainer())
-            {
-                var _returnList = db.ReturnSet.ToList();
-                foreach (var _order in _returnList)
-                {
-                    var _myorder = new RequistionProduce();
-                    _myorder.Id = _order.Id;
-                    var assem = db.RequisitionSet.Where(i => i.Id == _order.RequisitionId).ToList();
-                    _myorder.AssemblyLineId = assem.First().AssemblyLineId;
-                    _myorder.Status = _order.Status;
-                    _myorder.CreatedAt = _order.CreateAt.ToString();
-                    _myorder.FinishedAt = _order.FinishedAt.ToString();
-                    _myorder.UserId = _order.UserId;
-                    _myorder.Description = _order.Description;
-                    list.Add(_myorder);
-                }
-            }
-            return list;
-        }
-
-        private void btnSearchRequisition_Click(object sender, RoutedEventArgs e)
-        {
-            var mythred = new Thread(new ParameterizedThreadStart(SearchRequisitionAction));
-            mythred.Start(1);
-        }
-        public void SearchRequisitionAction(object id)
-        {
-            string searchcontent = "";
-            string searchcondition = "";
-            List<RequistionProduce> list = new List<RequistionProduce>();
-            this.txtSearchRequisition.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    searchcontent = txtSearchRequisition.Text;
-                }));
-            this.cbSearchRequisition.Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    searchcondition = cbSearchRequisition.Text;
-                }));
-            this.allreturnGrid.Dispatcher.Invoke(new Action(
-               delegate
-               {
-                   if (searchcontent != "")
-                   {
-                       var _list = GetAllRequisitionData();
-                       switch (searchcondition)
-                       {
-                           case "状态":
-                               list = _list.Where(i => i.Status == searchcontent).ToList();
-                               break;
-                           case "领料单号":
-                               list = _list.Where(i => i.Id == Convert.ToInt32(searchcontent)).ToList();
-                               break;
-                           case "流水线":
-                               list = _list.Where(i => i.AssemblyLineId == Convert.ToInt32(searchcontent)).ToList();
-                               break;
-                           case "创建时间":
-                               list = _list.Where(i => i.CreatedAt == searchcontent).ToList();
-                               break;
-                           case "完成时间":
-                               list = _list.Where(i => i.FinishedAt == searchcontent).ToList();
-                               break;
-                           case "备注":
-                               list = _list.Where(i => i.Description == searchcontent).ToList();
-                               break;
-                           case "负责人":
-                               list = _list.Where(i => i.UserId == Convert.ToInt32(searchcontent)).ToList();
-                               break;
-                       }
-                   }
-               }));
-            this.allrequistionGrid.Dispatcher.Invoke(new Action(
-            delegate
-            {
-                allrequistionGrid.ItemsSource = null;
-                allrequistionGrid.ItemsSource = list;
-            }));
-            this.requistionmaterialGrid.Dispatcher.Invoke(new Action(
-            delegate
-            {
-                requistionmaterialGrid.ItemsSource = null;
-            }));
-        }
-        private List<RequistionProduce> GetAllRequisitionData()
-        {
-            var list = new List<Lplfw.UI.Produce.RequistionProduce>();
-            using (var db = new ModelContainer())
-            {
-                var _requistionList = db.RequisitionSet.ToList();
-                foreach (var _order in _requistionList)
-                {
-                    var _myorder = new RequistionProduce();
-                    _myorder.Id = _order.Id;
-                    _myorder.AssemblyLineId = _order.AssemblyLineId;
-                    _myorder.Status = _order.Status;
-                    _myorder.CreatedAt = _order.CreateAt.ToString();
-                    _myorder.FinishedAt = _order.FinishedAt.ToString();
-                    _myorder.UserId = _order.UserId;
-                    _myorder.Description = _order.Description;
-                    list.Add(_myorder);
-                }
-            }
-            return list;
-        }
-    }
-    /// <summary>
-    /// 在Produce管理部分用的Requistion领料单类
-    /// </summary>
-    public class RequistionProduce
-    {
-        public int Id { get; set; }
-        public int AssemblyLineId { get; set; }
-        public string Status { get; set; }
-        public string CreatedAt { get; set; }
-        public string FinishedAt { get; set; }
-        public int UserId { get; set; }
-        public string Description { get; set; }
-    }
-    /// <summary>
-    /// 需求清单与物料库存
-    /// </summary>
-    public class MaterialProduce
-    {
-        public string MaterialName { get; set; }
-        public int Quantity { get; set; }
-        public string Unit { get; set; }
-    }
-    public class ProductionProduce
-    {
-        public string Status { get; set; }
-        public int Id { get; set; }
-        public string ProductName { get; set; }
-        public string AssemblyLineName { get; set; }
-        public int RequisitionId { get; set; }
-        public string StartAt { get; set; }
-        public string ThinkFinishedAt { get; set; }
-        public string FinishedAt { get; set; }
-        public string UserName { get; set; }
-        public string Description { get; set; }
-    }
-    public class QualityProduce
-    {
-        public int ProductionId { get; set; }
-        public string Result { get; set; }
-        public string Time { get; set; }
-        public string UserName { get; set; }
-        public string Description { get; set; }
+        #endregion
     }
 }

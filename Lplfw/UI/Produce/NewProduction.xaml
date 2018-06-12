@@ -5,22 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Produce"
         mc:Ignorable="d"
-        Title="新建生产记录" Height="350" Width="300" Loaded="SetControlSource">
+        Title="新建生产记录" Height="350" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
-        <Label Content="产品" HorizontalAlignment="Left" Margin="30,30,0,0" VerticalAlignment="Top"/>
-        <Label Content="流水线" HorizontalAlignment="Left" Margin="30,70,0,0" VerticalAlignment="Top"/>
-        <Label Content="领料单" HorizontalAlignment="Left" Margin="30,110,0,0" VerticalAlignment="Top"/>
-        <Label Content="开始时间" HorizontalAlignment="Left" Margin="30,150,0,0" VerticalAlignment="Top"/>
-        <Label Content="预计结束时间" HorizontalAlignment="Left" Margin="30,190,0,0" VerticalAlignment="Top"/>
-        <Label Content="备注" HorizontalAlignment="Left" Margin="30,230,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="cbProduct" HorizontalAlignment="Left" Margin="120,30,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="Name" SelectedValuePath="Id"/>
-        <ComboBox x:Name="cbAssemblyline" HorizontalAlignment="Left" Margin="120,70,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="Name" SelectedValuePath="Id"/>
-        <ComboBox x:Name="cbRequsition" HorizontalAlignment="Left" Margin="120,110,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="Name" SelectedValuePath="Id"/>
-        <DatePicker x:Name="dtStartAt" HorizontalAlignment="Left" Margin="120,150,0,0" VerticalAlignment="Top" Width="120"/>
-        <DatePicker x:Name="dtThinkFinishedAt" HorizontalAlignment="Left" Margin="120,190,0,0" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Height="23" Margin="120,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Button Content="确定" HorizontalAlignment="Left" Margin="165,279,0,0" VerticalAlignment="Top" Width="75" Click="Confirm"/>
-        <Button Content="取消" HorizontalAlignment="Left" Margin="60,279,0,0" VerticalAlignment="Top" Width="75" Click="Cancel"/>
+        <Label Content="生产记录号" HorizontalAlignment="Left" Margin="30,30,0,0" VerticalAlignment="Top"/>
+        <Label Content="产品种类" HorizontalAlignment="Left" Margin="30,70,0,0" VerticalAlignment="Top"/>
+        <Label Content="产品" HorizontalAlignment="Left" Margin="30,110,0,0" VerticalAlignment="Top"/>
+        <Label Content="预计完成时间" HorizontalAlignment="Left" Margin="30,150,0,0" VerticalAlignment="Top"/>
+        <Label Content="备注" HorizontalAlignment="Left" Margin="30,190,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtCode" HorizontalAlignment="Left" Height="23" Margin="120,30,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="cbClass" HorizontalAlignment="Left" Margin="120,70,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="Name" SelectedValuePath="Id" SelectionChanged="SelectProductClass"/>
+        <ComboBox x:Name="cbProduct" HorizontalAlignment="Left" Margin="120,110,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+        <DatePicker x:Name="dpThinkFinishedAt" HorizontalAlignment="Left" Margin="120,150,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Height="23" Margin="120,190,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <Button Content="确定" HorizontalAlignment="Left" Margin="165,259,0,0" VerticalAlignment="Top" Width="75" Click="Confirm"/>
+        <Button Content="取消" HorizontalAlignment="Left" Margin="60,259,0,0" VerticalAlignment="Top" Width="75" Click="Cancel"/>
+        <TextBlock x:Name="txtMessage" TextWrapping="Wrap" VerticalAlignment="Top" Margin="40,230,40,0" TextAlignment="Center" Foreground="Red"/>
 
     </Grid>
 </Window>

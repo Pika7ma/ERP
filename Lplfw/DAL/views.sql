@@ -161,19 +161,6 @@ from (materialpriceset join materialset
 on materialpriceset.MaterialId = materialset.Id) join supplierset
 on materialpriceset.SupplierId = supplierset.Id;
 
--- 缺料浏览
-drop view if exists materiallackview;
-create view materiallackview as
-select
-	materialset.Id as MaterialId,
-    materialset.ClassId as ClassId,
-    materialset.Name as MaterialName,
-    materialset.SafeQuantity as SafeQuantity,
-    coalesce(materialstockallview.Quantity, 0) as SumQuantity
-from (materialset left join materialstockallview on
-materialset.Id = materialstockallview.MaterialId)
-where materialstockallview.Quantity <= materialset.SafeQuantity or isnull(materialstockallview.Quantity);
-
 -- 订单
 drop view if exists salesview;
 create view salesview as
@@ -191,8 +178,8 @@ select
     productset.Name as ProductName
 from salesitemset join productset on
 salesitemset.ProductId = productset.Id;
-*/
 
+-- 订单分解
 drop procedure if exists getrequsitionfromsales;
 delimiter //
 create procedure getrequsitionfromsales(in id int)
@@ -215,5 +202,77 @@ end;
 //
 delimiter ;
 
+-- 物料单
+drop view if exists requisitionview;
+create view requisitionview as
+select
+	temp.*,
+    salesset.Code as SalesCode
+from
+	(select
+		requisitionset.*,
+		userset.Name as UserName
+	from requisitionset join userset on requisitionset.UserId = userset.Id) as temp
+left join salesset on temp.salesId = salesset.Id;
 
-call getrequsitionfromsales(1);
+-- 物料单条目
+drop view if exists requisitionitemview;
+create view requisitionitemview as 
+select
+	requisitionitemset.*,
+    materialset.Name as MaterialName
+from requisitionitemset join materialset
+on requisitionitemset.MaterialId = materialset.Id;
+
+-- 生产记录
+drop view if exists productionview;
+create view productionview as 
+select
+	temp.*,
+    userset.Name as UserName
+from (
+	select
+		productionset.*,
+		productset.Name as ProductName
+	from productionset join productset
+    on productionset.ProductId = productset.Id) as temp
+join userset on temp.UserId = userset.Id;
+
+-- 全部处理中领料单的材料数量
+drop view if exists requisitionallview;
+create view requisitionallview as
+select
+	temp.Id as RequisitionId,
+    requisitionitemset.MaterialId as MaterialId,
+    sum(requisitionitemset.Quantity) as Quantity
+from
+	(select
+		requisitionset.Id
+	from requisitionset
+	where requisitionset.Status='处理中' or requisitionset.Status='领料中') as temp
+join requisitionitemset
+on temp.Id = requisitionitemset.RequisitionId
+group by requisitionitemset.MaterialId;
+
+
+-- 缺料浏览
+drop view if exists materiallackview;
+create view materiallackview as
+select
+	temp.*,
+    coalesce(requisitionallview.Quantity, 0) as VirtualUsage,
+    temp.SumQuantity-coalesce(requisitionallview.Quantity, 0) as VirtualQuantity
+from
+	(select
+		materialset.Id as MaterialId,
+		materialset.ClassId as ClassId,
+		materialset.Name as MaterialName,
+		materialset.SafeQuantity as SafeQuantity,
+		coalesce(materialstockallview.Quantity, 0) as SumQuantity
+	from (materialset left join materialstockallview on
+	materialset.Id = materialstockallview.MaterialId)) as temp
+left join requisitionallview
+on temp.MaterialId = requisitionallview.MaterialId;
+*/
+
+select * from materialstockallview;

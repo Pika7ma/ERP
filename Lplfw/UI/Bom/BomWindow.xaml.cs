@@ -608,40 +608,6 @@ namespace Lplfw.UI.Bom
                 dgMaterial.ItemsSource = _materials;
             });
         }
-
-        /// <summary>
-        /// 从Excel表格中导入原料信息到数据库
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ImportExcel(object sender, RoutedEventArgs e)
-        {
-            var _reader = new ExcelReader();
-            if (_reader.OpenFileDialog())
-            {
-                try
-                {
-                    _reader.ReadFile();
-                    var _list = _reader.Materials;
-                    using (var _db = new ModelContainer())
-                    {
-                        _db.MaterialSet.AddRange(_list);
-                        _db.SaveChanges();
-                        var _classId = Utils.GetTreeViewSelectedValue(ref tvMaterial);
-                        dgMaterial.ItemsSource = MaterialClass.GetSubClassMaterials((int)_classId);
-                        MessageBox.Show("导入成功!");
-                    }
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("读取文件失败!", null, MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            else
-            {
-                MessageBox.Show("打开文件时发生错误!", null, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
         #endregion
 
         #region Utils
@@ -741,7 +707,6 @@ namespace Lplfw.UI.Bom
             btnDeleteMaterialClass.Visibility = Visibility.Hidden;
             btnEraseMaterial.Visibility = Visibility.Hidden;
             btnChangeMaterialStatus.Visibility = Visibility.Hidden;
-            btnFromExcel.Visibility = Visibility.Hidden;
         }
         #endregion
     }

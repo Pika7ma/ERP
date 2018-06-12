@@ -30,14 +30,10 @@
     <EntitySet Name="PurchaseSet" EntityType="Model.Store.PurchaseSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PurchaseItemSet" EntityType="Model.Store.PurchaseItemSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MaterialPriceSet" EntityType="Model.Store.MaterialPriceSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="AssemblyLineSet" EntityType="Model.Store.AssemblyLineSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RequisitionSet" EntityType="Model.Store.RequisitionSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RequisitionItemSet" EntityType="Model.Store.RequisitionItemSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ReturnSet" EntityType="Model.Store.ReturnSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ReturnItemSet" EntityType="Model.Store.ReturnItemSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProductionSet" EntityType="Model.Store.ProductionSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProductionQualitySet" EntityType="Model.Store.ProductionQualitySet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="LogSet" EntityType="Model.Store.LogSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VirtualUseSet" EntityType="Model.Store.VirtualUseSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="ProductClassNesting" Association="Model.Store.ProductClassNesting">
       <End Role="ProductClass" EntitySet="ProductClassSet" />
       <End Role="ProductClass1" EntitySet="ProductClassSet" />
@@ -174,14 +170,6 @@
       <End Role="PurchaseItem" EntitySet="PurchaseItemSet" />
       <End Role="MaterialPrice" EntitySet="MaterialPriceSet" />
     </AssociationSet>
-    <AssociationSet Name="AssemblyLineUser" Association="Model.Store.AssemblyLineUser">
-      <End Role="AssemblyLine" EntitySet="AssemblyLineSet" />
-      <End Role="User" EntitySet="UserSet" />
-    </AssociationSet>
-    <AssociationSet Name="RequisitionAssemblyLine" Association="Model.Store.RequisitionAssemblyLine">
-      <End Role="Requisition" EntitySet="RequisitionSet" />
-      <End Role="AssemblyLine" EntitySet="AssemblyLineSet" />
-    </AssociationSet>
     <AssociationSet Name="RequisitionUser" Association="Model.Store.RequisitionUser">
       <End Role="Requisition" EntitySet="RequisitionSet" />
       <End Role="User" EntitySet="UserSet" />
@@ -190,48 +178,16 @@
       <End Role="RequisitionItem" EntitySet="RequisitionItemSet" />
       <End Role="Requisition" EntitySet="RequisitionSet" />
     </AssociationSet>
-    <AssociationSet Name="RequisitionItemMaterialStock" Association="Model.Store.RequisitionItemMaterialStock">
-      <End Role="RequisitionItem" EntitySet="RequisitionItemSet" />
-      <End Role="MaterialStock" EntitySet="MaterialStockSet" />
-    </AssociationSet>
-    <AssociationSet Name="ReturnRequisition" Association="Model.Store.ReturnRequisition">
-      <End Role="Return" EntitySet="ReturnSet" />
-      <End Role="Requisition" EntitySet="RequisitionSet" />
-    </AssociationSet>
-    <AssociationSet Name="ReturnUser" Association="Model.Store.ReturnUser">
-      <End Role="Return" EntitySet="ReturnSet" />
-      <End Role="User" EntitySet="UserSet" />
-    </AssociationSet>
-    <AssociationSet Name="ReturnItemReturn" Association="Model.Store.ReturnItemReturn">
-      <End Role="ReturnItem" EntitySet="ReturnItemSet" />
-      <End Role="Return" EntitySet="ReturnSet" />
-    </AssociationSet>
-    <AssociationSet Name="ReturnItemMaterialStock" Association="Model.Store.ReturnItemMaterialStock">
-      <End Role="ReturnItem" EntitySet="ReturnItemSet" />
-      <End Role="MaterialStock" EntitySet="MaterialStockSet" />
-    </AssociationSet>
     <AssociationSet Name="ProductionProduct" Association="Model.Store.ProductionProduct">
       <End Role="Production" EntitySet="ProductionSet" />
       <End Role="Product" EntitySet="ProductSet" />
     </AssociationSet>
-    <AssociationSet Name="ProductionRequisition" Association="Model.Store.ProductionRequisition">
-      <End Role="Production" EntitySet="ProductionSet" />
+    <AssociationSet Name="RequisitionSales" Association="Model.Store.RequisitionSales">
       <End Role="Requisition" EntitySet="RequisitionSet" />
+      <End Role="Sales" EntitySet="SalesSet" />
     </AssociationSet>
-    <AssociationSet Name="ProductionAssemblyLine" Association="Model.Store.ProductionAssemblyLine">
+    <AssociationSet Name="ProductionUser" Association="Model.Store.ProductionUser">
       <End Role="Production" EntitySet="ProductionSet" />
-      <End Role="AssemblyLine" EntitySet="AssemblyLineSet" />
-    </AssociationSet>
-    <AssociationSet Name="ProductionQualityProduction" Association="Model.Store.ProductionQualityProduction">
-      <End Role="ProductionQuality" EntitySet="ProductionQualitySet" />
-      <End Role="Production" EntitySet="ProductionSet" />
-    </AssociationSet>
-    <AssociationSet Name="ProductionQualityUser" Association="Model.Store.ProductionQualityUser">
-      <End Role="ProductionQuality" EntitySet="ProductionQualitySet" />
-      <End Role="User" EntitySet="UserSet" />
-    </AssociationSet>
-    <AssociationSet Name="LogUser" Association="Model.Store.LogUser">
-      <End Role="Log" EntitySet="LogSet" />
       <End Role="User" EntitySet="UserSet" />
     </AssociationSet>
   </EntityContainer>
@@ -440,6 +396,7 @@
     <Property Name="DueTime" Type="datetime" Nullable="false" />
     <Property Name="FinishedAt" Type="datetime" Nullable="true" />
     <Property Name="Description" Type="longtext" Nullable="true" />
+    <Property Name="RequsitionStatus" Type="bool" Nullable="false" />
   </EntityType>
   <EntityType Name="SalesItemSet">
     <Key>
@@ -486,99 +443,48 @@
     <Property Name="StartQuantity" Type="int" Nullable="false" />
     <Property Name="MaxQuantity" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="AssemblyLineSet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="longtext" Nullable="false" />
-    <Property Name="Location" Type="longtext" Nullable="false" />
-    <Property Name="UserId" Type="int" Nullable="false" />
-  </EntityType>
   <EntityType Name="RequisitionSet">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="longtext" Nullable="false" />
     <Property Name="Status" Type="longtext" Nullable="false" />
     <Property Name="CreateAt" Type="datetime" Nullable="false" />
     <Property Name="FinishedAt" Type="datetime" Nullable="true" />
     <Property Name="Description" Type="longtext" Nullable="true" />
-    <Property Name="AssemblyLineId" Type="int" Nullable="false" />
     <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="SalesId" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="RequisitionItemSet">
     <Key>
       <PropertyRef Name="MaterialId" />
-      <PropertyRef Name="StorageId" />
       <PropertyRef Name="RequisitionId" />
-      <PropertyRef Name="Location" />
     </Key>
     <Property Name="RequisitionId" Type="int" Nullable="false" />
     <Property Name="MaterialId" Type="int" Nullable="false" />
-    <Property Name="StorageId" Type="int" Nullable="false" />
     <Property Name="Quantity" Type="int" Nullable="false" />
-    <Property Name="Location" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ReturnSet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Status" Type="longtext" Nullable="false" />
-    <Property Name="CreateAt" Type="datetime" Nullable="false" />
-    <Property Name="FinishedAt" Type="datetime" Nullable="true" />
-    <Property Name="Description" Type="longtext" Nullable="true" />
-    <Property Name="RequisitionId" Type="int" Nullable="false" />
-    <Property Name="UserId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ReturnItemSet">
-    <Key>
-      <PropertyRef Name="ReturnId" />
-      <PropertyRef Name="MaterialId" />
-      <PropertyRef Name="StorageId" />
-      <PropertyRef Name="Location" />
-    </Key>
-    <Property Name="ReturnId" Type="int" Nullable="false" />
-    <Property Name="MaterialId" Type="int" Nullable="false" />
-    <Property Name="StorageId" Type="int" Nullable="false" />
-    <Property Name="Quantity" Type="int" Nullable="false" />
-    <Property Name="Location" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProductionSet">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="longtext" Nullable="false" />
     <Property Name="ProductId" Type="int" Nullable="false" />
-    <Property Name="RequisitionId" Type="int" Nullable="false" />
-    <Property Name="AssemblyLineId" Type="int" Nullable="false" />
     <Property Name="Status" Type="longtext" Nullable="false" />
     <Property Name="StartAt" Type="datetime" Nullable="false" />
     <Property Name="ThinkFinishedAt" Type="datetime" Nullable="false" />
     <Property Name="FinishedAt" Type="datetime" Nullable="true" />
     <Property Name="Description" Type="longtext" Nullable="true" />
-  </EntityType>
-  <EntityType Name="ProductionQualitySet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ProductionId" Type="int" Nullable="false" />
-    <Property Name="Result" Type="longtext" Nullable="false" />
-    <Property Name="Time" Type="datetime" Nullable="false" />
     <Property Name="UserId" Type="int" Nullable="false" />
-    <Property Name="Description" Type="longtext" Nullable="true" />
   </EntityType>
-  <EntityType Name="LogSet">
+  <EntityType Name="VirtualUseSet">
     <Key>
-      <PropertyRef Name="UserId" />
-      <PropertyRef Name="Time" />
+      <PropertyRef Name="MaterialId" />
     </Key>
-    <Property Name="UserId" Type="int" Nullable="false" />
-    <Property Name="Time" Type="datetime" Nullable="false" />
-    <Property Name="Operation" Type="longtext" Nullable="false" />
-    <Property Name="Description" Type="longtext" Nullable="true" />
+    <Property Name="MaterialId" Type="int" Nullable="false" />
+    <Property Name="Quantity" Type="int" Nullable="false" DefaultValue="0" />
   </EntityType>
   <Association Name="ProductClassNesting">
     <End Role="ProductClass" Type="Model.Store.ProductClassSet" Multiplicity="0..1">
@@ -994,30 +900,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="AssemblyLineUser">
-    <End Role="AssemblyLine" Type="Model.Store.AssemblyLineSet" Multiplicity="*" />
-    <End Role="User" Type="Model.Store.UserSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AssemblyLine">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="RequisitionAssemblyLine">
-    <End Role="Requisition" Type="Model.Store.RequisitionSet" Multiplicity="*" />
-    <End Role="AssemblyLine" Type="Model.Store.AssemblyLineSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="AssemblyLine">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Requisition">
-        <PropertyRef Name="AssemblyLineId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="RequisitionUser">
     <End Role="Requisition" Type="Model.Store.RequisitionSet" Multiplicity="*" />
     <End Role="User" Type="Model.Store.UserSet" Multiplicity="1" />
@@ -1042,74 +924,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="RequisitionItemMaterialStock">
-    <End Role="RequisitionItem" Type="Model.Store.RequisitionItemSet" Multiplicity="*" />
-    <End Role="MaterialStock" Type="Model.Store.MaterialStockSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="MaterialStock">
-        <PropertyRef Name="MaterialId" />
-        <PropertyRef Name="StorageId" />
-        <PropertyRef Name="Location" />
-      </Principal>
-      <Dependent Role="RequisitionItem">
-        <PropertyRef Name="MaterialId" />
-        <PropertyRef Name="StorageId" />
-        <PropertyRef Name="Location" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ReturnRequisition">
-    <End Role="Return" Type="Model.Store.ReturnSet" Multiplicity="*" />
-    <End Role="Requisition" Type="Model.Store.RequisitionSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Requisition">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Return">
-        <PropertyRef Name="RequisitionId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ReturnUser">
-    <End Role="Return" Type="Model.Store.ReturnSet" Multiplicity="*" />
-    <End Role="User" Type="Model.Store.UserSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Return">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ReturnItemReturn">
-    <End Role="ReturnItem" Type="Model.Store.ReturnItemSet" Multiplicity="*" />
-    <End Role="Return" Type="Model.Store.ReturnSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Return">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ReturnItem">
-        <PropertyRef Name="ReturnId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ReturnItemMaterialStock">
-    <End Role="ReturnItem" Type="Model.Store.ReturnItemSet" Multiplicity="*" />
-    <End Role="MaterialStock" Type="Model.Store.MaterialStockSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="MaterialStock">
-        <PropertyRef Name="MaterialId" />
-        <PropertyRef Name="StorageId" />
-        <PropertyRef Name="Location" />
-      </Principal>
-      <Dependent Role="ReturnItem">
-        <PropertyRef Name="MaterialId" />
-        <PropertyRef Name="StorageId" />
-        <PropertyRef Name="Location" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="ProductionProduct">
     <End Role="Production" Type="Model.Store.ProductionSet" Multiplicity="*" />
     <End Role="Product" Type="Model.Store.ProductSet" Multiplicity="1" />
@@ -1122,62 +936,26 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="ProductionRequisition">
+  <Association Name="RequisitionSales">
+    <End Role="Requisition" Type="Model.Store.RequisitionSet" Multiplicity="*" />
+    <End Role="Sales" Type="Model.Store.SalesSet" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Sales">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Requisition">
+        <PropertyRef Name="SalesId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProductionUser">
     <End Role="Production" Type="Model.Store.ProductionSet" Multiplicity="*" />
-    <End Role="Requisition" Type="Model.Store.RequisitionSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Requisition">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Production">
-        <PropertyRef Name="RequisitionId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ProductionAssemblyLine">
-    <End Role="Production" Type="Model.Store.ProductionSet" Multiplicity="*" />
-    <End Role="AssemblyLine" Type="Model.Store.AssemblyLineSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="AssemblyLine">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Production">
-        <PropertyRef Name="AssemblyLineId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ProductionQualityProduction">
-    <End Role="ProductionQuality" Type="Model.Store.ProductionQualitySet" Multiplicity="*" />
-    <End Role="Production" Type="Model.Store.ProductionSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Production">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ProductionQuality">
-        <PropertyRef Name="ProductionId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ProductionQualityUser">
-    <End Role="ProductionQuality" Type="Model.Store.ProductionQualitySet" Multiplicity="*" />
     <End Role="User" Type="Model.Store.UserSet" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="User">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="ProductionQuality">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="LogUser">
-    <End Role="Log" Type="Model.Store.LogSet" Multiplicity="*" />
-    <End Role="User" Type="Model.Store.UserSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Log">
+      <Dependent Role="Production">
         <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>
@@ -1347,16 +1125,7 @@
             <End Role="PurchaseItem" EntitySet="PurchaseItemSet" />
             <End Role="MaterialPrice" EntitySet="MaterialPriceSet" />
           </AssociationSet>
-          <EntitySet Name="AssemblyLineSet" EntityType="Model.AssemblyLine" />
-          <AssociationSet Name="AssemblyLineUser" Association="Model.AssemblyLineUser">
-            <End Role="AssemblyLine" EntitySet="AssemblyLineSet" />
-            <End Role="User" EntitySet="UserSet" />
-          </AssociationSet>
           <EntitySet Name="RequisitionSet" EntityType="Model.Requisition" />
-          <AssociationSet Name="RequisitionAssemblyLine" Association="Model.RequisitionAssemblyLine">
-            <End Role="Requisition" EntitySet="RequisitionSet" />
-            <End Role="AssemblyLine" EntitySet="AssemblyLineSet" />
-          </AssociationSet>
           <AssociationSet Name="RequisitionUser" Association="Model.RequisitionUser">
             <End Role="Requisition" EntitySet="RequisitionSet" />
             <End Role="User" EntitySet="UserSet" />
@@ -1366,55 +1135,20 @@
             <End Role="RequisitionItem" EntitySet="RequisitionItemSet" />
             <End Role="Requisition" EntitySet="RequisitionSet" />
           </AssociationSet>
-          <AssociationSet Name="RequisitionItemMaterialStock" Association="Model.RequisitionItemMaterialStock">
-            <End Role="RequisitionItem" EntitySet="RequisitionItemSet" />
-            <End Role="MaterialStock" EntitySet="MaterialStockSet" />
-          </AssociationSet>
-          <EntitySet Name="ReturnSet" EntityType="Model.Return" />
-          <AssociationSet Name="ReturnRequisition" Association="Model.ReturnRequisition">
-            <End Role="Return" EntitySet="ReturnSet" />
-            <End Role="Requisition" EntitySet="RequisitionSet" />
-          </AssociationSet>
-          <AssociationSet Name="ReturnUser" Association="Model.ReturnUser">
-            <End Role="Return" EntitySet="ReturnSet" />
-            <End Role="User" EntitySet="UserSet" />
-          </AssociationSet>
-          <EntitySet Name="ReturnItemSet" EntityType="Model.ReturnItem" />
-          <AssociationSet Name="ReturnItemReturn" Association="Model.ReturnItemReturn">
-            <End Role="ReturnItem" EntitySet="ReturnItemSet" />
-            <End Role="Return" EntitySet="ReturnSet" />
-          </AssociationSet>
-          <AssociationSet Name="ReturnItemMaterialStock" Association="Model.ReturnItemMaterialStock">
-            <End Role="ReturnItem" EntitySet="ReturnItemSet" />
-            <End Role="MaterialStock" EntitySet="MaterialStockSet" />
-          </AssociationSet>
           <EntitySet Name="ProductionSet" EntityType="Model.Production" />
           <AssociationSet Name="ProductionProduct" Association="Model.ProductionProduct">
             <End Role="Production" EntitySet="ProductionSet" />
             <End Role="Product" EntitySet="ProductSet" />
           </AssociationSet>
-          <AssociationSet Name="ProductionRequisition" Association="Model.ProductionRequisition">
-            <End Role="Production" EntitySet="ProductionSet" />
+          <AssociationSet Name="RequisitionSales" Association="Model.RequisitionSales">
             <End Role="Requisition" EntitySet="RequisitionSet" />
+            <End Role="Sales" EntitySet="SalesSet" />
           </AssociationSet>
-          <AssociationSet Name="ProductionAssemblyLine" Association="Model.ProductionAssemblyLine">
+          <AssociationSet Name="ProductionUser" Association="Model.ProductionUser">
             <End Role="Production" EntitySet="ProductionSet" />
-            <End Role="AssemblyLine" EntitySet="AssemblyLineSet" />
-          </AssociationSet>
-          <EntitySet Name="ProductionQualitySet" EntityType="Model.ProductionQuality" />
-          <AssociationSet Name="ProductionQualityProduction" Association="Model.ProductionQualityProduction">
-            <End Role="ProductionQuality" EntitySet="ProductionQualitySet" />
-            <End Role="Production" EntitySet="ProductionSet" />
-          </AssociationSet>
-          <AssociationSet Name="ProductionQualityUser" Association="Model.ProductionQualityUser">
-            <End Role="ProductionQuality" EntitySet="ProductionQualitySet" />
             <End Role="User" EntitySet="UserSet" />
           </AssociationSet>
-          <EntitySet Name="LogSet" EntityType="Model.Log" />
-          <AssociationSet Name="LogUser" Association="Model.LogUser">
-            <End Role="Log" EntitySet="LogSet" />
-            <End Role="User" EntitySet="UserSet" />
-          </AssociationSet>
+          <EntitySet Name="VirtualUseSet" EntityType="Model.VirtualUse" />
         </EntityContainer>
         <EntityType Name="ProductClass">
           <Key>
@@ -1952,6 +1686,7 @@
           <Property Name="FinishedAt" Type="DateTime" Nullable="true" />
           <Property Name="Description" Type="String" Nullable="true" />
           <NavigationProperty Name="Items" Relationship="Model.SalesItemSales" FromRole="Sales" ToRole="SalesItem" />
+          <Property Name="RequsitionStatus" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="SalesUser">
           <End Type="Model.Sales" Role="Sales" Multiplicity="*" />
@@ -2097,52 +1832,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="AssemblyLine">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-          <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="Location" Type="String" Nullable="false" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-        </EntityType>
-        <Association Name="AssemblyLineUser">
-          <End Type="Model.AssemblyLine" Role="AssemblyLine" Multiplicity="*" />
-          <End Type="Model.User" Role="User" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AssemblyLine">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Requisition">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Code" Type="String" Nullable="false" />
           <Property Name="Status" Type="String" Nullable="false" />
           <Property Name="CreateAt" Type="DateTime" Nullable="false" />
           <Property Name="FinishedAt" Type="DateTime" Nullable="true" />
           <Property Name="Description" Type="String" Nullable="true" />
-          <Property Name="AssemblyLineId" Type="Int32" Nullable="false" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Items" Relationship="Model.RequisitionItemRequisition" FromRole="Requisition" ToRole="RequisitionItem" />
+          <Property Name="SalesId" Type="Int32" Nullable="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
         </EntityType>
-        <Association Name="RequisitionAssemblyLine">
-          <End Type="Model.Requisition" Role="Requisition" Multiplicity="*" />
-          <End Type="Model.AssemblyLine" Role="AssemblyLine" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="AssemblyLine">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Requisition">
-              <PropertyRef Name="AssemblyLineId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="RequisitionUser">
           <End Type="Model.Requisition" Role="Requisition" Multiplicity="*" />
           <End Type="Model.User" Role="User" Multiplicity="1" />
@@ -2158,15 +1860,11 @@
         <EntityType Name="RequisitionItem">
           <Key>
             <PropertyRef Name="MaterialId" />
-            <PropertyRef Name="StorageId" />
             <PropertyRef Name="RequisitionId" />
-            <PropertyRef Name="Location" />
           </Key>
           <Property Name="RequisitionId" Type="Int32" Nullable="false" />
           <Property Name="MaterialId" Type="Int32" Nullable="false" />
-          <Property Name="StorageId" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="Location" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="RequisitionItemRequisition">
           <End Type="Model.RequisitionItem" Role="RequisitionItem" Multiplicity="*" />
@@ -2180,113 +1878,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="RequisitionItemMaterialStock">
-          <End Type="Model.RequisitionItem" Role="RequisitionItem" Multiplicity="*" />
-          <End Type="Model.MaterialStock" Role="MaterialStock" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="MaterialStock">
-              <PropertyRef Name="MaterialId" />
-              <PropertyRef Name="StorageId" />
-              <PropertyRef Name="Location" />
-            </Principal>
-            <Dependent Role="RequisitionItem">
-              <PropertyRef Name="MaterialId" />
-              <PropertyRef Name="StorageId" />
-              <PropertyRef Name="Location" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Return">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-          <Property Name="Status" Type="String" Nullable="false" />
-          <Property Name="CreateAt" Type="DateTime" Nullable="false" />
-          <Property Name="FinishedAt" Type="DateTime" Nullable="true" />
-          <Property Name="Description" Type="String" Nullable="true" />
-          <Property Name="RequisitionId" Type="Int32" Nullable="false" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Items" Relationship="Model.ReturnItemReturn" FromRole="Return" ToRole="ReturnItem" />
-        </EntityType>
-        <Association Name="ReturnRequisition">
-          <End Type="Model.Return" Role="Return" Multiplicity="*" />
-          <End Type="Model.Requisition" Role="Requisition" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="Requisition">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Return">
-              <PropertyRef Name="RequisitionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="ReturnUser">
-          <End Type="Model.Return" Role="Return" Multiplicity="*" />
-          <End Type="Model.User" Role="User" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Return">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="ReturnItem">
-          <Key>
-            <PropertyRef Name="ReturnId" />
-            <PropertyRef Name="MaterialId" />
-            <PropertyRef Name="StorageId" />
-            <PropertyRef Name="Location" />
-          </Key>
-          <Property Name="ReturnId" Type="Int32" Nullable="false" />
-          <Property Name="MaterialId" Type="Int32" Nullable="false" />
-          <Property Name="StorageId" Type="Int32" Nullable="false" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="Location" Type="Int32" Nullable="false" />
-        </EntityType>
-        <Association Name="ReturnItemReturn">
-          <End Type="Model.ReturnItem" Role="ReturnItem" Multiplicity="*" />
-          <End Type="Model.Return" Role="Return" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="Return">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ReturnItem">
-              <PropertyRef Name="ReturnId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="ReturnItemMaterialStock">
-          <End Type="Model.ReturnItem" Role="ReturnItem" Multiplicity="*" />
-          <End Type="Model.MaterialStock" Role="MaterialStock" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="MaterialStock">
-              <PropertyRef Name="MaterialId" />
-              <PropertyRef Name="StorageId" />
-              <PropertyRef Name="Location" />
-            </Principal>
-            <Dependent Role="ReturnItem">
-              <PropertyRef Name="MaterialId" />
-              <PropertyRef Name="StorageId" />
-              <PropertyRef Name="Location" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Production">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Code" Type="String" Nullable="false" />
           <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="RequisitionId" Type="Int32" Nullable="false" />
-          <Property Name="AssemblyLineId" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="String" Nullable="false" />
           <Property Name="StartAt" Type="DateTime" Nullable="false" />
           <Property Name="ThinkFinishedAt" Type="DateTime" Nullable="false" />
           <Property Name="FinishedAt" Type="DateTime" Nullable="true" />
           <Property Name="Description" Type="String" Nullable="true" />
+          <Property Name="UserId" Type="Int32" Nullable="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
         </EntityType>
         <Association Name="ProductionProduct">
           <End Type="Model.Production" Role="Production" Multiplicity="*" />
@@ -2300,87 +1904,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="ProductionRequisition">
+        <Association Name="RequisitionSales">
+          <End Type="Model.Requisition" Role="Requisition" Multiplicity="*" />
+          <End Type="Model.Sales" Role="Sales" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Sales">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Requisition">
+              <PropertyRef Name="SalesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ProductionUser">
           <End Type="Model.Production" Role="Production" Multiplicity="*" />
-          <End Type="Model.Requisition" Role="Requisition" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="Requisition">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Production">
-              <PropertyRef Name="RequisitionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="ProductionAssemblyLine">
-          <End Type="Model.Production" Role="Production" Multiplicity="*" />
-          <End Type="Model.AssemblyLine" Role="AssemblyLine" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="AssemblyLine">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Production">
-              <PropertyRef Name="AssemblyLineId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="ProductionQuality">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-          <Property Name="ProductionId" Type="Int32" Nullable="false" />
-          <Property Name="Result" Type="String" Nullable="false" />
-          <Property Name="Time" Type="DateTime" Nullable="false" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="Description" Type="String" Nullable="true" />
-        </EntityType>
-        <Association Name="ProductionQualityProduction">
-          <End Type="Model.ProductionQuality" Role="ProductionQuality" Multiplicity="*" />
-          <End Type="Model.Production" Role="Production" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="Production">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProductionQuality">
-              <PropertyRef Name="ProductionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="ProductionQualityUser">
-          <End Type="Model.ProductionQuality" Role="ProductionQuality" Multiplicity="*" />
           <End Type="Model.User" Role="User" Multiplicity="1" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ProductionQuality">
+            <Dependent Role="Production">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Log">
+        <EntityType Name="VirtualUse" >
           <Key>
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="Time" />
+            <PropertyRef Name="MaterialId" />
           </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="Time" Type="DateTime" Nullable="false" />
-          <Property Name="Operation" Type="String" Nullable="false" />
-          <Property Name="Description" Type="String" Nullable="true" />
+          <Property Name="MaterialId" Type="Int32" Nullable="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" DefaultValue="0" />
         </EntityType>
-        <Association Name="LogUser">
-          <End Type="Model.Log" Role="Log" Multiplicity="*" />
-          <End Type="Model.User" Role="User" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Log">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2596,6 +2150,7 @@
           <ScalarProperty Name="DueTime" ColumnName="DueTime" />
           <ScalarProperty Name="FinishedAt" ColumnName="FinishedAt" />
           <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="RequsitionStatus" ColumnName="RequsitionStatus" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -2644,26 +2199,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="AssemblyLineSet">
-      <EntityTypeMapping TypeName="IsTypeOf(Model.AssemblyLine)">
-        <MappingFragment StoreEntitySet="AssemblyLineSet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Location" ColumnName="Location" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="RequisitionSet">
       <EntityTypeMapping TypeName="IsTypeOf(Model.Requisition)">
         <MappingFragment StoreEntitySet="RequisitionSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="CreateAt" ColumnName="CreateAt" />
           <ScalarProperty Name="FinishedAt" ColumnName="FinishedAt" />
           <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="AssemblyLineId" ColumnName="AssemblyLineId" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="SalesId" ColumnName="SalesId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -2671,33 +2217,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(Model.RequisitionItem)">
         <MappingFragment StoreEntitySet="RequisitionItemSet">
           <ScalarProperty Name="MaterialId" ColumnName="MaterialId" />
-          <ScalarProperty Name="StorageId" ColumnName="StorageId" />
           <ScalarProperty Name="RequisitionId" ColumnName="RequisitionId" />
-          <ScalarProperty Name="Location" ColumnName="Location" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ReturnSet">
-      <EntityTypeMapping TypeName="IsTypeOf(Model.Return)">
-        <MappingFragment StoreEntitySet="ReturnSet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="CreateAt" ColumnName="CreateAt" />
-          <ScalarProperty Name="FinishedAt" ColumnName="FinishedAt" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="RequisitionId" ColumnName="RequisitionId" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ReturnItemSet">
-      <EntityTypeMapping TypeName="IsTypeOf(Model.ReturnItem)">
-        <MappingFragment StoreEntitySet="ReturnItemSet">
-          <ScalarProperty Name="ReturnId" ColumnName="ReturnId" />
-          <ScalarProperty Name="MaterialId" ColumnName="MaterialId" />
-          <ScalarProperty Name="StorageId" ColumnName="StorageId" />
-          <ScalarProperty Name="Location" ColumnName="Location" />
           <ScalarProperty Name="Quantity" ColumnName="Quantity" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -2706,36 +2226,22 @@
       <EntityTypeMapping TypeName="IsTypeOf(Model.Production)">
         <MappingFragment StoreEntitySet="ProductionSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="RequisitionId" ColumnName="RequisitionId" />
-          <ScalarProperty Name="AssemblyLineId" ColumnName="AssemblyLineId" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="StartAt" ColumnName="StartAt" />
           <ScalarProperty Name="ThinkFinishedAt" ColumnName="ThinkFinishedAt" />
           <ScalarProperty Name="FinishedAt" ColumnName="FinishedAt" />
           <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ProductionQualitySet">
-      <EntityTypeMapping TypeName="IsTypeOf(Model.ProductionQuality)">
-        <MappingFragment StoreEntitySet="ProductionQualitySet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ProductionId" ColumnName="ProductionId" />
-          <ScalarProperty Name="Result" ColumnName="Result" />
-          <ScalarProperty Name="Time" ColumnName="Time" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="LogSet">
-      <EntityTypeMapping TypeName="IsTypeOf(Model.Log)">
-        <MappingFragment StoreEntitySet="LogSet">
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="Time" ColumnName="Time" />
-          <ScalarProperty Name="Operation" ColumnName="Operation" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
+    <EntitySetMapping Name="VirtualUseSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.VirtualUse)">
+        <MappingFragment StoreEntitySet="VirtualUseSet">
+          <ScalarProperty Name="MaterialId" ColumnName="MaterialId" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

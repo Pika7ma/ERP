@@ -32,6 +32,8 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="原料名称"  Binding="{Binding MaterialName}"  Width="100"/>
                             <DataGridTextColumn Header="库存"  Binding="{Binding SumQuantity}" Width="100"/>
+                            <DataGridTextColumn Header="虚拟用量"  Binding="{Binding VirtualUsage}" Width="100"/>
+                            <DataGridTextColumn Header="虚拟结余"  Binding="{Binding VirtualQuantity}" Width="100"/>
                             <DataGridTextColumn Header="安全库存"  Binding="{Binding SafeQuantity}" Width="100"/>
                         </DataGrid.Columns>
                     </DataGrid>

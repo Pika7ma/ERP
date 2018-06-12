@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Produce"
         mc:Ignorable="d"
-        Title="生产管理" Height="768" Width="1124">
+        Title="生产管理" Height="768" Width="1124" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        <TabControl>
-            <TabItem Header="物料确认">
+        <TabControl SelectionChanged="TabRouter">
+            <TabItem x:Name="tabConfirm" Header="物料确认">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0"/>
@@ -25,38 +25,36 @@
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="待处理领料单" Grid.Row="1"/>
-                    <DataGrid x:Name="orderGrid" SelectionMode="Single" IsReadOnly="True" Grid.ColumnSpan="3" Margin="0,25,0,5" Grid.Row="1" SelectionChanged="orderGrid_SelectionChanged" AutoGenerateColumns="False">
+                    <DataGrid x:Name="dgToDoRequsitions" SelectionMode="Single" IsReadOnly="True" Grid.ColumnSpan="3" Margin="0,25,0,5" Grid.Row="1" AutoGenerateColumns="False" SelectionChanged="SelectToDoRequisition">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="领料单号" Width ="100" Binding ="{Binding Id}"/>
-                            <DataGridTextColumn Header="流水线" Width ="100" Binding="{Binding AssemblyLineId}"/>
-                            <DataGridTextColumn Header="状态" Width ="100" Binding="{Binding Status}"/>
-                            <DataGridTextColumn Header="创建时间" Width ="100" Binding="{Binding CreatedAt}"/>
-                            <DataGridTextColumn Header="完成时间" Width ="100" Binding="{Binding FinishedAt}"/>
-                            <DataGridTextColumn Header="负责人" Width="100" Binding="{Binding UserId}"/>
+                            <DataGridTextColumn Header="状态" Width ="100" Binding ="{Binding Status}"/>
+                            <DataGridTextColumn Header="领料单号" Width ="100" Binding ="{Binding Code}"/>
+                            <DataGridTextColumn Header="订单号" Width ="100" Binding ="{Binding SalesCode}"/>
+                            <DataGridTextColumn Header="创建时间" Width ="100" Binding="{Binding CreateAt}"/>
+                            <DataGridTextColumn Header="负责人" Width="100" Binding="{Binding UserName}"/>
                             <DataGridTextColumn Header="备注" Width ="200" Binding="{Binding Description}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <GridSplitter HorizontalAlignment="Stretch" Height="5" Grid.Row="1" Grid.ColumnSpan="4" VerticalAlignment="Bottom"/>
-                    <DataGrid Grid.Row="2" Margin="0,30,0,5" AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True" x:Name="requistionGrid">
+                    <DataGrid x:Name="dgToDoItems" Grid.Row="2" Margin="0,30,0,5" AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="原料" Width ="100" Binding="{Binding MaterialName}"/>
                             <DataGridTextColumn Header="数量" Width ="100" Binding="{Binding Quantity}"/>
-                            <DataGridTextColumn Header="单位" Width ="100" Binding="{Binding Unit}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid Grid.Column="1" Grid.Row="2" Margin="10,30,0,5" AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True" x:Name="stockGrid">
+                    <DataGrid x:Name="dgToDoStocks" Grid.Column="1" Grid.Row="2" Margin="10,30,0,5" AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="原料" Width ="100" Binding="{Binding MaterialName}"/>
                             <DataGridTextColumn Header="数量" Width ="100" Binding="{Binding Quantity}"/>
-                            <DataGridTextColumn Header="单位" Width ="100" Binding="{Binding Unit}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <Label Content="需求清单" HorizontalAlignment="Left" Margin="10,5,0,0" Grid.Row="2" VerticalAlignment="Top"/>
                     <Label Content="虚拟库存" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5,0,0" Grid.Row="2" VerticalAlignment="Top"/>
-                    <Button Content="确定领料" Grid.Column="2" HorizontalAlignment="Left" Margin="46,206,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="ChangeRequistion"/>
+                    <Button Content="请求领料" Grid.Column="2" HorizontalAlignment="Left" Margin="46,200,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="SubmitRequsition"/>
+                    <Button Content="确认领料" Grid.Column="2" HorizontalAlignment="Left" Margin="46,240,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="ConfirmRequsition"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="领料单管理">
+            <TabItem x:Name="tabRequisition" Header="领料单浏览">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
@@ -67,128 +65,49 @@
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="2">
-                        <Button Content="显示所有记录" VerticalAlignment="Stretch" Width="100" Click="GetAllRequistion"/>
-                        <Separator/>
-                        <Button Content="生产\研发借料" VerticalAlignment="Stretch" Width="150" Click="NewRequisition"/>
-                        <Separator/>
-                        <ComboBox x:Name="cbSearchRequisition" Width="75" Height="25" DisplayMemberPath="Name" SelectedValuePath="ID"/>
-                        <TextBox x:Name="txtSearchRequisition" Text="请输入查询关键字" VerticalAlignment="Center" Width="150" Height="25" Margin="5,0,0,0"/>
-                        <Button x:Name="btnSearchRequisition" Content="搜索" Width="50" Margin="5,0,0,0" Click="btnSearchRequisition_Click"/>
+                        <Button Content="显示所有记录" VerticalAlignment="Stretch" Width="100" Click="ShowAllRequistion"/>
                     </ToolBar>
                     <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" Width="5" Margin="0,325,0,0"/>
-                    <DataGrid Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" x:Name="allrequistionGrid" SelectionChanged="allrequistionGrid_SelectionChanged">
+                    <DataGrid x:Name="dgRequisition" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionChanged="SelectRequsition">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="领料单号" Width ="100" Binding="{Binding Id}"/>
-                            <DataGridTextColumn Header="流水线" Width ="100" Binding="{Binding AssemblyLineId}"/>
                             <DataGridTextColumn Header="状态" Width ="100" Binding="{Binding Status}"/>
-                            <DataGridTextColumn Header="创建时间" Width ="100" Binding="{Binding CreatedAt}"/>
+                            <DataGridTextColumn Header="领料单号" Width ="100" Binding ="{Binding Code}"/>
+                            <DataGridTextColumn Header="订单号" Width ="100" Binding ="{Binding SalesCode}"/>
+                            <DataGridTextColumn Header="创建时间" Width ="100" Binding="{Binding CreateAt}"/>
                             <DataGridTextColumn Header="完成时间" Width ="100" Binding="{Binding FinishedAt}"/>
-                            <DataGridTextColumn Header="负责人" Width="100" Binding="{Binding UserId}"/>
+                            <DataGridTextColumn Header="负责人" Width="100" Binding="{Binding UserName}"/>
                             <DataGridTextColumn Header="备注" Width ="200" Binding="{Binding Description}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid Grid.Column="1" Grid.Row="1" Margin="5,0,0,0" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="True" x:Name="requistionmaterialGrid">
+                    <DataGrid x:Name="dgRequisitionItems" Grid.Column="1" Grid.Row="1" Margin="5,0,0,0" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="原料名称" Width ="100" Binding="{Binding MaterialName}"/>
                             <DataGridTextColumn Header="数量" Width ="100" Binding="{Binding Quantity}"/>
-                            <DataGridTextColumn Header="单位" Width ="100" Binding="{Binding Unit}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem Header="还料单管理">
-                <Grid Background="#FFE5E5E5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="35"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="2">
-                        <Button Content="显示所有记录" VerticalAlignment="Stretch" Width="100" Click="GetAllReturn"/>
-                        <Separator/>
-                        <Button Content="生产\研发还料" VerticalAlignment="Stretch" Width="150" Click="NewReturn"/>
-                        <Separator/>
-                        <ComboBox x:Name="cbSearchReturn" Width="75" Height="25" DisplayMemberPath="Name" SelectedValuePath="ID"/>
-                        <TextBox x:Name="txtSearchReturn" Text="请输入查询关键字" VerticalAlignment="Center" Width="150" Height="25" Margin="5,0,0,0"/>
-                        <Button x:Name="btnSearchReturn" Content="搜索" Width="50" Margin="5,0,0,0" Click="btnSearchReturn_Click"/>
-                    </ToolBar>
-                    <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" Width="5" Margin="0,325,0,0"/>
-                    <DataGrid Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" x:Name="allreturnGrid" SelectionChanged="allreturnGrid_SelectionChanged">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="领料单号" Width ="100" Binding="{Binding Id}"/>
-                            <DataGridTextColumn Header="流水线" Width ="100" Binding="{Binding AssemblyLineId}"/>
-                            <DataGridTextColumn Header="状态" Width ="100" Binding="{Binding Status}"/>
-                            <DataGridTextColumn Header="创建时间" Width ="100" Binding="{Binding CreatedAt}"/>
-                            <DataGridTextColumn Header="完成时间" Width ="100" Binding="{Binding FinishedAt}"/>
-                            <DataGridTextColumn Header="负责人" Width="100" Binding="{Binding UserId}"/>
-                            <DataGridTextColumn Header="备注" Width ="200" Binding="{Binding Description}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <DataGrid Grid.Column="1" Grid.Row="1" Margin="5,0,0,0" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="True" x:Name="returnmaterialGrid">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="原料名称" Width ="100" Binding="{Binding MaterialName}"/>
-                            <DataGridTextColumn Header="数量" Width ="100" Binding="{Binding Quantity}"/>
-                            <DataGridTextColumn Header="单位" Width ="100" Binding="{Binding Unit}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
-            </TabItem>
-            <TabItem Header="生产记录管理">
+            <TabItem x:Name="tabProduce" Header="生产记录管理">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="2">
-                        <Button Content="显示所有记录" VerticalAlignment="Stretch" Width="100" Click="GetAllProduction"/>
+                        <Button Content="显示所有记录" VerticalAlignment="Stretch" Width="100" Click="ShowAllProdution"/>
                         <Separator/>
-                        <Button Content="新建生产记录" VerticalAlignment="Stretch" Width="100" Click="NewProduction"/>
-                        <Button Content="标记完成生产" VerticalAlignment="Stretch" Width="100" Click="FinishProduction"/>
-                        <Button Content="新建生产质检" VerticalAlignment="Stretch" Width="100" Click="NewQuality"/>
-                        <Separator/>
-                        <ComboBox x:Name="cbSearchProduction" Width="75" Height="25" DisplayMemberPath="Name" SelectedValuePath="ID"/>
-                        <TextBox x:Name="txtSearchProduction" Text="请输入查询关键字" VerticalAlignment="Center" Width="150" Height="25" Margin="5,0,0,0"/>
-                        <Button x:Name="btnSearchProduction" Content="搜索" Width="50" Margin="5,0,0,0" Click="btnSearchProduction_Click"/>
+                        <Button x:Name="btnNewProduction" Content="新建生产记录" VerticalAlignment="Stretch" Width="100" Click="NewProduction"/>
+                        <Button x:Name="btnFinishProduction" Content="完成生产" VerticalAlignment="Stretch" Width="100" Click="FinishProduction"/>
                     </ToolBar>
                     <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" Width="5" Margin="0,325,0,0"/>
-                    <DataGrid Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" x:Name="allproductionGrid">
+                    <DataGrid x:Name="dgProduction" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="状态" Width ="50" Binding="{Binding Status}"/>
-                            <DataGridTextColumn Header="生产记录号" Width ="100" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Header="生产记录号" Width ="100" Binding="{Binding Code}"/>
                             <DataGridTextColumn Header="产品" Width ="100" Binding="{Binding ProductName}"/>
-                            <DataGridTextColumn Header="流水线" Width ="100" Binding="{Binding AssemblyLineName}"/>
-                            <DataGridTextColumn Header="领料单号" Width ="100" Binding="{Binding RequisitionId}"/>
                             <DataGridTextColumn Header="开始时间" Width ="100" Binding="{Binding StartAt}"/>
                             <DataGridTextColumn Header="预计结束时间" Width="100" Binding="{Binding ThinkFinishedAt}"/>
                             <DataGridTextColumn Header="结束时间" Width ="100" Binding="{Binding FinishedAt}"/>
-                            <DataGridTextColumn Header="负责人" Width ="100" Binding="{Binding UserName}"/>
-                            <DataGridTextColumn Header="备注" Width ="200" Binding="{Binding Description}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
-            </TabItem>
-            <TabItem Header="生产质检浏览">
-                <Grid Background="#FFE5E5E5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="35"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="2">
-                        <Button Content="显示所有记录" VerticalAlignment="Stretch" Width="100" Click="GetAllQuality"/>
-                        <Separator/>
-                        <ComboBox x:Name="cbSearchQuality" Width="75" Height="25" DisplayMemberPath="Name" SelectedValuePath="ID"/>
-                        <TextBox x:Name="txtSearchQuality" Text="请输入查询关键字" VerticalAlignment="Center" Width="150" Height="25" Margin="5,0,0,0"/>
-                        <Button x:Name="btnSearchQuality" Content="搜索" Width="50" Margin="5,0,0,0" Click="btnSearchQuality_Click"/>
-                    </ToolBar>
-                    <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" Width="5" Margin="0,325,0,0"/>
-                    <DataGrid Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" x:Name="allqualityGrid">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="生产记录号" Width ="100" Binding="{Binding ProductionId}"/>
-                            <DataGridTextColumn Header="检查结果" Width ="300" Binding="{Binding Result}"/>
-                            <DataGridTextColumn Header="检查时间" Width ="100" Binding="{Binding Time}"/>
                             <DataGridTextColumn Header="负责人" Width ="100" Binding="{Binding UserName}"/>
                             <DataGridTextColumn Header="备注" Width ="200" Binding="{Binding Description}"/>
                         </DataGrid.Columns>

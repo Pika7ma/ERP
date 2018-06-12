@@ -78,7 +78,6 @@
                         <Button x:Name="btnEditMaterialClass" Content="修改类别" VerticalAlignment="Stretch" Width="75" Click="EditMaterialClass"/>
                         <Button x:Name="btnDeleteMaterialClass" Content="删除类别" VerticalAlignment="Stretch" Width="75" Click="DeleteMaterialClass"/>
                         <Separator />
-                        <Button x:Name="btnFromExcel" Content="从excel导入" VerticalAlignment="Stretch" Width="75" Click="ImportExcel"/>
                         <Button x:Name="btnNewMaterial" Content="新建原料" VerticalAlignment="Stretch" Width="75" Click="NewMaterial"/>
                         <Button x:Name="btnEditMaterial"  Content="修改原料" VerticalAlignment="Stretch" Width="75" Click="EditMaterial"/>
                         <Button x:Name="btnEraseMaterial"  Content="删除原料" VerticalAlignment="Stretch" Width="75" Click="EraseMaterial"/>

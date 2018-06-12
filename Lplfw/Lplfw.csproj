@@ -85,14 +85,15 @@
     </ApplicationDefinition>
     <Compile Include="BLL\BindingHelper.cs" />
     <Compile Include="BLL\Bom\ExcelReader.cs" />
-    <Compile Include="DAL\AssemblyLine.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
+    <Compile Include="DAL\DataViews\ProductionView.cs" />
+    <Compile Include="DAL\DataViews\RequisitionProcedure.cs" />
+    <Compile Include="DAL\DataViews\RequisitionStockProcedure.cs" />
+    <Compile Include="DAL\DataViews\RequisitionView.cs" />
+    <Compile Include="DAL\DataViews\RequisitionItemView.cs" />
+    <Compile Include="DAL\DataViews\ReturnItemView.cs" />
+    <Compile Include="DAL\DataViews\ReturnView.cs" />
     <Compile Include="DAL\DataViews\SalesItemView.cs" />
     <Compile Include="DAL\DataViews\SalesView.cs" />
-    <Compile Include="DAL\Log.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="DAL\Material.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -113,6 +114,7 @@
     </Compile>
     <Compile Include="DAL\Models\MaterialClass.cs" />
     <Compile Include="DAL\Models\ProductClass.cs" />
+    <Compile Include="DAL\Models\VirtualUse.cs" />
     <Compile Include="DAL\Privilege.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -123,9 +125,6 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Production.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\ProductionQuality.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\ProductStock.cs">
@@ -150,12 +149,6 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\RequisitionItem.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Return.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\ReturnItem.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Sales.cs">
@@ -186,8 +179,10 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\ViewModels\MaterialPriceViewModel.cs" />
+    <Compile Include="DAL\ViewModels\ProductionViewModel.cs" />
     <Compile Include="DAL\ViewModels\PurchaseItemViewModel.cs" />
     <Compile Include="DAL\ViewModels\RecipeItemViewModel.cs" />
+    <Compile Include="DAL\ViewModels\RequisitionViewModel.cs" />
     <Compile Include="DAL\ViewModels\SalesItemViewModel.cs" />
     <Compile Include="DAL\ViewModels\SalesViewModel.cs" />
     <Compile Include="DAL\ViewModels\StockInViewModel.cs" />
@@ -220,6 +215,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\VirtualUse.cs">
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="UI\Bom\BomWindow.xaml.cs">
       <DependentUpon>BomWindow.xaml</DependentUpon>
@@ -257,6 +255,9 @@
     <Compile Include="UI\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Order\GenerateRequsition.xaml.cs">
+      <DependentUpon>GenerateRequsition.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Order\NewOrder.xaml.cs">
       <DependentUpon>NewOrder.xaml</DependentUpon>
     </Compile>
@@ -268,15 +269,6 @@
     </Compile>
     <Compile Include="UI\Produce\NewProduction.xaml.cs">
       <DependentUpon>NewProduction.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Produce\NewQuality.xaml.cs">
-      <DependentUpon>NewQuality.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Produce\NewRequsition.xaml.cs">
-      <DependentUpon>NewRequsition.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Produce\NewRequsitionItem.xaml.cs">
-      <DependentUpon>NewRequsitionItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Produce\ProduceWindow.xaml.cs">
       <DependentUpon>ProduceWindow.xaml</DependentUpon>
@@ -381,6 +373,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\Order\GenerateRequsition.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Order\NewOrder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -394,18 +390,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Produce\NewProduction.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Produce\NewQuality.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Produce\NewRequsition.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Produce\NewRequsitionItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
