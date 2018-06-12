@@ -16,6 +16,7 @@ namespace Lplfw.UI.Purchase
         public PurchaseWindow()
         {
             InitializeComponent();
+            new Thread(new ThreadStart(Refresh)).Start();
         }
 
         private void TabRouter(object sender, SelectionChangedEventArgs e)
@@ -356,6 +357,37 @@ namespace Lplfw.UI.Purchase
         }
         #endregion
 
+        #region 权限控制
+        private void Refresh()
+        {
+            using (var _db = new ModelContainer())
+            {
+                var _temp = _db.UserGroupPrivilegeItemSet.First(i => i.PrivilegeId == 5 && i.UserGroupId == Utils.CurrentUser.UserGroupId);
+                if (_temp.Mode == "只读")
+                {
+                    Dispatcher.BeginInvoke((Action)delegate ()
+                    {
+                        OnlyRead();
+                    });
+                }
+            }
+        }
+        /// <summary>
+        /// 只读
+        /// </summary>
+        private void OnlyRead()
+        {
+            btnNewPrice.Visibility = Visibility.Hidden;
+            btnEditPrice.Visibility = Visibility.Hidden;
+            btnDeletePrice.Visibility = Visibility.Hidden;
+            btnNewSupplier.Visibility = Visibility.Hidden;
+            btnEditSupplier.Visibility = Visibility.Hidden;
+            btnDeleteSupplier.Visibility = Visibility.Hidden;
+            btnNewOrder.Visibility = Visibility.Hidden;
+            btnCancelOrder.Visibility = Visibility.Hidden;
+            btnFinishOrder.Visibility = Visibility.Hidden;
+        }
 
+        #endregion
     }
 }
