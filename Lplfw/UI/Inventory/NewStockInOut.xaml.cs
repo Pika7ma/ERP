@@ -42,6 +42,7 @@ namespace Lplfw.UI.Inventory
             {
                 stockIn = new StockInViewModel();
                 stockIn.CbStorage = storageId;
+                txtCode.Binding(stockIn, "TxtCode");
                 cbStorage.Binding(stockIn, "CbStorage");
                 dpTime.Binding(stockIn, "DpTime");
                 cbUser.Binding(stockIn, "CbUser");
@@ -55,6 +56,7 @@ namespace Lplfw.UI.Inventory
             {
                 stockOut = new StockOutViewModel();
                 stockOut.CbStorage = storageId;
+                txtCode.Binding(stockOut, "TxtCode");
                 cbStorage.Binding(stockOut, "CbStorage");
                 dpTime.Binding(stockOut, "DpTime");
                 cbUser.Binding(stockOut, "CbUser");
@@ -335,7 +337,7 @@ namespace Lplfw.UI.Inventory
                     }
                     else
                     {
-                        txtMessage.Text = stockIn.CheckMessage;
+                        txtMessage.Text = stockIn.TxtCheckMessage;
                     }
                 }
                 else
@@ -402,7 +404,7 @@ namespace Lplfw.UI.Inventory
                     }
                     else
                     {
-                        txtMessage.Text = stockOut.CheckMessage;
+                        txtMessage.Text = stockOut.TxtCheckMessage;
                     }
                 }
             } catch (Exception)

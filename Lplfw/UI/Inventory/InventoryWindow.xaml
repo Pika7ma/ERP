@@ -77,7 +77,6 @@
                             <DataGrid x:Name="dgMaterial" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="原料名称" Width ="100" Binding="{Binding MaterialName}"/>
-                                    <DataGridTextColumn Header="仓库" Width ="100" Binding="{Binding StorageName}"/>
                                     <DataGridTextColumn Header="货位" Width ="100" Binding="{Binding Location}"/>
                                     <DataGridTextColumn Header="数量" Width ="100" Binding="{Binding Quantity}"/>
                                     <DataGridTextColumn Header="单价" Width ="100" Binding="{Binding Price}"/>
@@ -89,7 +88,6 @@
                             <DataGrid x:Name="dgProduct" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="产品名称" Width ="100" Binding="{Binding ProductName}"/>
-                                    <DataGridTextColumn Header="仓库" Width ="100" Binding="{Binding StorageName}"/>
                                     <DataGridTextColumn Header="货位" Width ="100" Binding="{Binding Location}"/>
                                     <DataGridTextColumn Header="数量" Width ="100" Binding="{Binding Quantity}"/>
                                     <DataGridTextColumn Header="单价" Width ="100" Binding="{Binding Price}"/>
@@ -120,7 +118,7 @@
                         <TabItem Header="入库单">
                             <DataGrid x:Name="dgStockIn" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionChanged="DgStockInChanged">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="入库单号" Width ="100" Binding="{Binding Id}"/>
+                                    <DataGridTextColumn Header="入库单号" Width ="100" Binding="{Binding Code}"/>
                                     <DataGridTextColumn Header="仓库" Width ="100" Binding="{Binding StorageName}"/>
                                     <DataGridTextColumn Header="入库时间" Width ="100" Binding="{Binding Time}"/>
                                     <DataGridTextColumn Header="负责人" Width ="100" Binding="{Binding UserName}"/>
@@ -131,7 +129,7 @@
                         <TabItem Header="出库单">
                             <DataGrid x:Name="dgStockOut" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionChanged="DgStockOutChanged">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="出库单号" Width ="100" Binding="{Binding Id}"/>
+                                    <DataGridTextColumn Header="出库单号" Width ="100" Binding="{Binding Code}"/>
                                     <DataGridTextColumn Header="仓库" Width ="100" Binding="{Binding StorageName}"/>
                                     <DataGridTextColumn Header="出库时间" Width ="100"  Binding="{Binding Time}"/>
                                     <DataGridTextColumn Header="负责人" Width ="100" Binding="{Binding UserName}"/>

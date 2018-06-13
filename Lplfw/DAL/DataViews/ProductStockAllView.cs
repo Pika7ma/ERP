@@ -12,15 +12,31 @@ namespace Lplfw.DAL
         public double Price { get; set; }
         public double Cost { get; set; }
 
-        static public List<ProductStockAllView> Get()
+        static public List<ProductStockAllView> GetAll()
         {
             try
             {
-                using (var db = new ModelContainer())
+                var _list = new List<ProductStockAllView>();
+                var _stocks = ProductStockView.GetAllGrouped();
+                _stocks.ForEach(i =>
                 {
-                    string sql = $"select * from productstockallview";
-                    return db.Database.SqlQuery<ProductStockAllView>(sql).ToList();
-                }
+                    var _stockAll = new ProductStockAllView();
+                    var bar = true;
+                    foreach (var item in i as IGrouping<int, ProductStockView>)
+                    {
+                        if (bar == true)
+                        {
+                            _stockAll.ProductId = item.ProductId;
+                            _stockAll.ProductName = item.ProductName;
+                            _stockAll.Price = item.Price;
+                            bar = false;
+                        }
+                        _stockAll.Quantity += item.Quantity;
+                    }
+                    _stockAll.Cost = _stockAll.Price * _stockAll.Quantity;
+                    _list.Add(_stockAll);
+                });
+                return _list;
             }
             catch (Exception)
             {

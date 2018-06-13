@@ -67,28 +67,35 @@ namespace Lplfw.UI
             var _pass = txtPass.Password;
             if (_name != "" && _pass != "")
             {
-                using (var _db = new DAL.ModelContainer())
+                try
                 {
-                    var _temp = _db.UserSet.FirstOrDefault(i => i.Name == _name);
-                    if (_temp != null)
+                    using (var _db = new DAL.ModelContainer())
                     {
-                        String _thepass = DAL.User.Decrypt(_temp.Password);
-                        if (_thepass != _pass)
+                        var _temp = _db.UserSet.FirstOrDefault(i => i.Name == _name);
+                        if (_temp != null)
                         {
-                            MessageBox.Show("用户名密码错误！");
+                            String _thepass = DAL.User.Decrypt(_temp.Password);
+                            if (_thepass != _pass)
+                            {
+                                MessageBox.Show("用户名密码错误！");
 
+                            }
+                            else
+                            {
+                                Utils.CurrentUser = _temp;
+                                Utils.OpenMainWindow();
+                                Close();
+                            }
                         }
                         else
                         {
-                            Utils.CurrentUser = _temp;
-                            Utils.OpenMainWindow();
-                            Close();
+                            MessageBox.Show("用户名密码错误！");
                         }
                     }
-                    else
-                    {
-                        MessageBox.Show("用户名密码错误！");
-                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("请检查网络连接, 若还有问题请联系管理员", null, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else

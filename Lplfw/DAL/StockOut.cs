@@ -15,6 +15,7 @@ namespace Lplfw.DAL
     public partial class StockOut
     {
         public int Id { get; set; }
+        public string Code { get; set; }
         public int StorageId { get; set; }
         public int UserId { get; set; }
         public System.DateTime Time { get; set; }

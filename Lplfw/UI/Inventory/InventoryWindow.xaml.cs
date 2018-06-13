@@ -154,7 +154,7 @@ namespace Lplfw.UI.Inventory
             var _id = (int)id;
             if (_id == 0)
             {
-                var _list = ProductStockAllView.Get();
+                var _list = ProductStockAllView.GetAll();
                 Dispatcher.BeginInvoke((Action)delegate ()
                 {
                     dgProduct.ItemsSource = _list;
@@ -239,7 +239,7 @@ namespace Lplfw.UI.Inventory
             double _ssum = 0, _psum = 0;
             var _materials = MaterialStockAllView.GetAll();
             if (_materials == null) return;
-            var _products = ProductStockAllView.Get();
+            var _products = ProductStockAllView.GetAll();
             if (_products == null) return;
             for (var _i = 0; _i < _materials.Count; _i++)
             {

@@ -22,5 +22,14 @@ namespace Lplfw.DAL
                 return db.Database.SqlQuery<ProductStockView>(sql).ToList();
             }
         }
+
+        static public List<IGrouping<int, ProductStockView>> GetAllGrouped()
+        {
+            using (var db = new ModelContainer())
+            {
+                string sql = $"select * from productstockview";
+                return db.Database.SqlQuery<ProductStockView>(sql).GroupBy(i => i.ProductId).ToList();
+            }
+        }
     }
 }

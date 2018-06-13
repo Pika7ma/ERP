@@ -51,12 +51,10 @@
           <ConnectorPoint PointX="3.8958333333333335" PointY="12.418874418619794" />
           <ConnectorPoint PointX="4.1666691666666669" PointY="12.418874418619794" />
           <ConnectorPoint PointX="4.3333358333333329" PointY="12.418874418619794" />
-          <ConnectorPoint PointX="4.947916666666667" PointY="12.418874418619794" />
-          <ConnectorPoint PointX="5.114583333333333" PointY="12.418874418619794" />
           <ConnectorPoint PointX="5.1875" PointY="12.418874418619794" />
           <ConnectorPoint PointX="5.1875" PointY="6.878154296875" />
-          <ConnectorPoint PointX="5.2109375" PointY="6.878154296875" />
-          <ConnectorPoint PointX="5.2109375" PointY="6.784404296875" />
+          <ConnectorPoint PointX="5.179685" PointY="6.878154296875" />
+          <ConnectorPoint PointX="5.179685" PointY="6.784404296875" />
         </AssociationConnector>
         <EntityTypeShape EntityType="Model.ProductStockOutItem" Width="1.5" PointX="5.875" PointY="9.25" FillColor="Black" />
         <AssociationConnector Association="Model.ProductStockOutItemProduct" />

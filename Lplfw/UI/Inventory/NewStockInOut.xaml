@@ -9,7 +9,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="115"/>
+            <RowDefinition Height="145"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
@@ -22,14 +22,16 @@
             <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
-        <Label Content="仓库" Grid.Column="2" Margin="0,0,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-        <Label Content="入库时间" Grid.Column="2" Margin="0,30,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-        <Label Content="负责人" Grid.Column="2" Margin="0,60,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-        <Label Content="备注" Grid.Column="2" Margin="0,90,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-        <ComboBox x:Name="cbStorage" Grid.Column="3" Grid.Row="1" Margin="0,0,0,0"  VerticalAlignment="Top" DisplayMemberPath="Name" SelectedValuePath="Id" SelectionChanged="ChangeStorage"/>
-        <DatePicker x:Name="dpTime" Grid.Column="3" Margin="0,30,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <ComboBox x:Name="cbUser" Grid.Column="3" Grid.Row="1" Margin="0,60,0,0"  VerticalAlignment="Top" DisplayMemberPath="Name" SelectedValuePath="Id"/>
-        <TextBox x:Name="txtDescription" Grid.Column="3" Height="23" Margin="0,90,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Label Content="单号" Grid.Column="2" Margin="0,0,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Label Content="仓库" Grid.Column="2" Margin="0,30,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Label Content="入库时间" Grid.Column="2" Margin="0,60,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Label Content="负责人" Grid.Column="2" Margin="0,90,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Label Content="备注" Grid.Column="2" Margin="0,120,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <TextBox x:Name="txtCode" Grid.Column="3" Height="23" Margin="0,0,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cbStorage" Grid.Column="3" Grid.Row="1" Margin="0,30,0,0"  VerticalAlignment="Top" DisplayMemberPath="Name" SelectedValuePath="Id" SelectionChanged="ChangeStorage"/>
+        <DatePicker x:Name="dpTime" Grid.Column="3" Margin="0,60,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cbUser" Grid.Column="3" Grid.Row="1" Margin="0,90,0,0"  VerticalAlignment="Top" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+        <TextBox x:Name="txtDescription" Grid.Column="3" Height="23" Margin="0,120,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <Grid Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>

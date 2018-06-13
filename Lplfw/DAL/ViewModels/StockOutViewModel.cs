@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Lplfw.DAL
 {
@@ -25,6 +26,16 @@ namespace Lplfw.DAL
         public StockOut Object
         {
             get { return obj; }
+        }
+
+        public string TxtCode
+        {
+            get { return obj.Code; }
+            set
+            {
+                if (value == "") obj.Code = null;
+                else obj.Code = value;
+            }
         }
 
         public int? CbUser
@@ -65,24 +76,46 @@ namespace Lplfw.DAL
             }
         }
 
+        public string txtCheckMessage;
         public bool CanSubmit
         {
             get
             {
-                if (obj.StorageId == 0) return false;
-                if (obj.UserId == 0) return false;
-                return true;
+                if (obj.Code == null)
+                {
+                    txtCheckMessage = "请输入单号";
+                    return false;
+                }
+                if (obj.StorageId == 0)
+                {
+                    txtCheckMessage = "请选择仓库";
+                    return false;
+                }
+                if (obj.UserId == 0)
+                {
+                    txtCheckMessage = "请选择负责人";
+                    return false;
+                }
+                using (var _db = new ModelContainer())
+                {
+                    var _old = _db.StockOutSet.FirstOrDefault(i => i.Code == obj.Code);
+                    if (_old == null)
+                    {
+                        txtCheckMessage = null;
+                        return true;
+                    }
+                    else
+                    {
+                        txtCheckMessage = "该出库单号已存在";
+                        return false;
+                    }
+                }
             }
         }
 
-        public string CheckMessage
+        public string TxtCheckMessage
         {
-            get
-            {
-                if (obj.StorageId == 0) return "请选择仓库";
-                if (obj.UserId == 0) return "请选择负责人";
-                return null;
-            }
+            get { return txtCheckMessage; }
         }
     }
 }

@@ -1,3 +1,5 @@
+drop database erp;
+create database erp;
 use erp;
 
 
@@ -44,7 +46,7 @@ use erp;
 -- -----------------------------------------------------------
 -- Entity Designer DDL Script for MySQL Server 4.1 and higher
 -- -----------------------------------------------------------
--- Date Created: 06/12/2018 21:47:51
+-- Date Created: 06/13/2018 09:57:53
 
 -- Generated from EDMX file: E:\code\csharp\Lplfw\Lplfw\DAL\Model.edmx
 -- Target version: 3.0.0.0
@@ -136,8 +138,6 @@ use erp;
 --    ALTER TABLE `RequisitionSet` DROP CONSTRAINT `FK_RequisitionSales`;
 
 --    ALTER TABLE `ProductionSet` DROP CONSTRAINT `FK_ProductionUser`;
-
---    ALTER TABLE `VirtualUseSet` DROP CONSTRAINT `FK_VirtualUseMaterial`;
 
 
 -- --------------------------------------------------
@@ -369,6 +369,7 @@ ALTER TABLE `MaterialStockSet` ADD PRIMARY KEY (`MaterialId`, `StorageId`, `Loca
 
 CREATE TABLE `StockInSet`(
 	`Id` int NOT NULL AUTO_INCREMENT UNIQUE, 
+	`Code` longtext NOT NULL, 
 	`StorageId` int NOT NULL, 
 	`UserId` int NOT NULL, 
 	`Time` datetime NOT NULL, 
@@ -382,6 +383,7 @@ ALTER TABLE `StockInSet` ADD PRIMARY KEY (`Id`);
 
 CREATE TABLE `StockOutSet`(
 	`Id` int NOT NULL AUTO_INCREMENT UNIQUE, 
+	`Code` longtext NOT NULL, 
 	`StorageId` int NOT NULL, 
 	`UserId` int NOT NULL, 
 	`Time` datetime NOT NULL, 

@@ -8,6 +8,7 @@ namespace Lplfw.DAL
     public class StockOutView
     {
         public int Id { get; set; }
+        public string Code { get; set; }
         public int StorageId { get; set; }
         public int UserId { get; set; }
         public DateTime Time { get; set; }

@@ -1,6 +1,6 @@
 use erp;
 
-/*
+
 -- 产品配方的材料名
 drop view if exists recipeview;
 create view recipeview as
@@ -64,17 +64,6 @@ from (materialstockset join materialset
 on materialstockset.MaterialId = materialset.Id) join storageset
 on materialstockset.StorageId = storageset.Id;
 
--- 全部仓库的原料库存和成本
-drop view if exists materialstockallview;
-create view materialstockallview as
-select materialstockview.MaterialId,
-       sum(materialstockview.Quantity) as Quantity,
-       materialstockview.MaterialName,
-       materialstockview.Price,
-       Price * Quantity as Cost
-from materialstockview
-group by MaterialId;
-
 -- 各仓库的产品库存和成本
 drop view if exists productstockview;
 create view productstockview as
@@ -89,17 +78,6 @@ select productstockset.ProductId,
 from (productstockset join productset 
 on productstockset.ProductId = productset.Id) join storageset
 on productstockset.StorageId = storageset.Id;
-
--- 全部仓库的产品库存和成本
-drop view if exists productstockallview;
-create view productstockallview as
-select productstockview.ProductId,
-       sum(productstockview.Quantity) as Quantity,
-       productstockview.ProductName,
-       productstockview.Price,
-       Price * Quantity as Cost
-from productstockview
-group by ProductId;
 
 -- 入库单
 drop view if exists stockinview;
@@ -255,6 +233,28 @@ on temp.Id = requisitionitemset.RequisitionId
 group by requisitionitemset.MaterialId;
 
 
+-- 全部仓库的原料库存和成本
+drop view if exists materialstockallview;
+create view materialstockallview as
+select materialstockview.MaterialId,
+       sum(materialstockview.Quantity) as Quantity,
+       materialstockview.MaterialName,
+       materialstockview.Price,
+       Price * Quantity as Cost
+from materialstockview
+group by MaterialId;
+
+-- 全部仓库的产品库存和成本
+drop view if exists productstockallview;
+create view productstockallview as
+select productstockview.ProductId,
+       sum(productstockview.Quantity) as Quantity,
+       productstockview.ProductName,
+       productstockview.Price,
+       Price * Quantity as Cost
+from productstockview
+group by ProductId;
+
 -- 缺料浏览
 drop view if exists materiallackview;
 create view materiallackview as
@@ -273,6 +273,3 @@ from
 	materialset.Id = materialstockallview.MaterialId)) as temp
 left join requisitionallview
 on temp.MaterialId = requisitionallview.MaterialId;
-*/
-
-select * from materialstockallview;
