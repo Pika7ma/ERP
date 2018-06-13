@@ -377,12 +377,6 @@ namespace Lplfw.UI.User
 
             var _thread = new Thread(new ParameterizedThreadStart(ChangeClick));
             _thread.Start(new { id = _id, temp1 = _temp1 });
-            MessageBox.Show("ok");
-            tbGroupid.Text = "";
-            tbGroup.Text = "";
-            btnChange.IsEnabled = false;
-            Datas.RemoveAll(i => true);
-            dgPrivilege.Items.Refresh();
         }
 
         /// <summary>
@@ -400,6 +394,15 @@ namespace Lplfw.UI.User
                 _db.UserGroupPrivilegeItemSet.AddRange(_temp1);
                 _db.SaveChanges();
             }
+            Dispatcher.BeginInvoke((Action)delegate ()
+            {
+                MessageBox.Show("用户组权限修改成功");
+                tbGroupid.Text = "";
+                tbGroup.Text = "";
+                btnChange.IsEnabled = false;
+                Datas.RemoveAll(i => true);
+                //dgPrivilege.Items.Refresh();
+            });
         }
 
         /// <summary>

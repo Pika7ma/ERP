@@ -728,5 +728,21 @@ namespace Lplfw.UI.Bom
         {
 
         }
+
+        private void ExportRecipeSheet(object sender, RoutedEventArgs e)
+        {
+            var _item = dgProduct.SelectedItem as Product;
+            if (_item == null) return;
+            var writer = new ExcelWriter();
+            var _rtn = writer.WriteRecipe(_item, dgRecipe.ItemsSource as List<RecipeView>);
+            if (_rtn == true)
+            {
+                MessageBox.Show("导出成功!", null, MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("导出失败!", null, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }

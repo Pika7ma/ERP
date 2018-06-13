@@ -6,6 +6,7 @@ using Lplfw.DAL;
 using NPOI.XSSF.UserModel;
 using NPOI.HSSF.UserModel;
 using System.Data;
+using NPOI.SS.Util;
 
 namespace Lplfw.BLL
 {
@@ -19,6 +20,11 @@ namespace Lplfw.BLL
         private string sheetName = null;
         private object data = null;
         private Type type;
+
+        public ExcelWriter()
+        {
+            SelectFileName();
+        }
 
         public ExcelWriter(Type type, object data)
         {
@@ -136,5 +142,56 @@ namespace Lplfw.BLL
         }
         #endregion
 
+        #region 各种清单
+        public bool WriteRecipe(Product product, List<RecipeView> items)
+        {
+            fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+
+            try
+            {
+                if (workbook == null) return false;
+                sheet = workbook.CreateSheet("产品配方");
+
+                var _row = sheet.CreateRow(0);
+                _row.CreateCell(0).SetCellValue("产品配方清单");
+                sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 5));
+                _row = sheet.CreateRow(1);
+                _row.CreateCell(0).SetCellValue("状态");
+                _row.CreateCell(1).SetCellValue(product.Status);
+                _row.CreateCell(2).SetCellValue("名称");
+                _row.CreateCell(3).SetCellValue(product.Name);
+                _row.CreateCell(4).SetCellValue("型号");
+                _row.CreateCell(5).SetCellValue(product.Type);
+                _row = sheet.CreateRow(2);
+                _row.CreateCell(0).SetCellValue("规格");
+                _row.CreateCell(1).SetCellValue(product.Format);
+                _row.CreateCell(2).SetCellValue("单位");
+                _row.CreateCell(3).SetCellValue(product.Unit);
+                _row.CreateCell(4).SetCellValue("价格");
+                _row.CreateCell(5).SetCellValue(product.Price);
+                _row = sheet.CreateRow(3);
+                _row.CreateCell(0).SetCellValue("原料名称");
+                _row.CreateCell(1).SetCellValue("数量");
+                _row.CreateCell(2).SetCellValue("单位");
+
+                for (var _i=0; _i<items.Count; _i++)
+                {
+                    var _item = items[_i];
+                    _row = sheet.CreateRow(_i+4);
+                    _row.CreateCell(0).SetCellValue(_item.Name);
+                    _row.CreateCell(1).SetCellValue(_item.Quantity.ToString());
+                    _row.CreateCell(2).SetCellValue(_item.Unit);
+                }
+
+                workbook.Write(fs);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception: " + ex.Message);
+                return false;
+            }
+        }
+        #endregion
     }
 }
