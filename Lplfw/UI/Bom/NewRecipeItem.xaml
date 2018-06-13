@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Lplfw.UI.Bom"
         mc:Ignorable="d"
         Height="240" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
-    <Grid>
+    <Grid Background="#FFFAF0">
         <Label Content="原料类别" HorizontalAlignment="Left" Margin="40,30,0,0" VerticalAlignment="Top"/>
         <Label Content="原料" HorizontalAlignment="Left" Margin="40,70,0,0" VerticalAlignment="Top"/>
         <Label Content="数量" HorizontalAlignment="Left" Margin="40,110,0,0" VerticalAlignment="Top"/>

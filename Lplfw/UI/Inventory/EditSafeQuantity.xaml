@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Inventory"
         mc:Ignorable="d"
-        Title="修改安全库存量" Height="200" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="修改安全库存量" Height="200" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Background="#FFFAF0">
     <Grid>
         <Label Content="原料名" HorizontalAlignment="Left" Margin="40,30,0,0" VerticalAlignment="Top"/>
         <Label Content="安全库存量" HorizontalAlignment="Left" Margin="40,70,0,0" VerticalAlignment="Top"/>

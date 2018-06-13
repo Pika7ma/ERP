@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Order"
         mc:Ignorable="d"
-        Title="生成领料单" Height="240" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="生成领料单" Height="240" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Background="#FFFAF0">
     <Grid>
         <Label Content="领料单号" HorizontalAlignment="Left" Margin="40,40,0,0" VerticalAlignment="Top"/>
         <Label Content="备注" HorizontalAlignment="Left" Margin="40,80,0,0" VerticalAlignment="Top"/>

@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Order"
         mc:Ignorable="d"
-        Height="300" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Height="300" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Background="#FFFAF0">
     <Grid>
         <Label Content="产品类别" HorizontalAlignment="Left" Margin="40,14,0,0" VerticalAlignment="Top"/>
         <Label Content="品名" HorizontalAlignment="Left" Margin="40,54,0,0" VerticalAlignment="Top"/>

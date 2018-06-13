@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Order"
         mc:Ignorable="d"
-        Height="620" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Height="620" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Background="#FFFAF0">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -34,9 +35,9 @@
         <ComboBox x:Name="cbPriority" Grid.Column="3" Grid.Row="1" Margin="0,90,0,0" VerticalAlignment="Top" DisplayMemberPath="Name" SelectedValuePath="Name"/>
         <DatePicker x:Name="dpDueTime" Grid.Column="3" Margin="0,120,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <TextBox x:Name="txtDescription" Grid.Column="3" Height="23" Margin="0,150,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <DataGrid x:Name="dgSalesItems" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" Width="564" Grid.ColumnSpan="3" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" Margin="0,0,0,5">
+        <DataGrid x:Name="dgSalesItems" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" Width="564" Grid.ColumnSpan="3" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" Margin="0,0,0,5" AlternationCount="2">
             <DataGrid.Columns>
-                <DataGridComboBoxColumn Header="品名" Width="150">
+                <DataGridComboBoxColumn Header="品名" Width="1*">
                     <DataGridComboBoxColumn.ElementStyle>
                         <Style TargetType="ComboBox">
                             <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Products,ElementName=dgSalesItems}" />
@@ -46,8 +47,8 @@
                         </Style>
                     </DataGridComboBoxColumn.ElementStyle>
                 </DataGridComboBoxColumn>
-                <DataGridTextColumn Header="数量" Binding="{Binding Quantity}" Width="150"/>
-                <DataGridTextColumn Header="单价" Binding="{Binding Price}" Width="150"/>
+                <DataGridTextColumn Header="数量" Binding="{Binding Quantity}" Width="1*"/>
+                <DataGridTextColumn Header="单价" Binding="{Binding Price}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="新建订单条目" Grid.Column="4" HorizontalAlignment="Left" Margin="60,30,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90" Click="NewSalesItem"/>

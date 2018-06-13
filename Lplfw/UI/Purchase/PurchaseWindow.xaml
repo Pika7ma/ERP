@@ -11,8 +11,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        <TabControl Grid.ColumnSpan="2" SelectionChanged="TabRouter">
-            <TabItem x:Name="tabLack" Header="缺料浏览">
+        <TabControl Grid.ColumnSpan="2" SelectionChanged="TabRouter" Style="{DynamicResource Style3}">
+            <TabItem x:Name="tabLack" Header="缺料浏览" Style="{DynamicResource Style2}">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
@@ -26,9 +26,9 @@
                         <Button x:Name="btnShowAll" Content="显示全部" VerticalAlignment="Stretch" Width="75" Click="ShowAllLacks" />
                     </ToolBar>
                     <GridSplitter Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Grid.RowSpan="3" Width="5"/>
-                    <TreeView x:Name="tvLack" Grid.RowSpan="3" Grid.Row="1" SelectedItemChanged="SelectLackClass">
+                    <TreeView x:Name="tvLack" Grid.RowSpan="3" Grid.Row="1" SelectedItemChanged="SelectLackClass" Background="#FFFAF0">
                     </TreeView>
-                    <DataGrid  x:Name="dgLack" Grid.Column="1" Grid.Row="1" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Grid.RowSpan="3" Grid.ColumnSpan="3">
+                    <DataGrid  x:Name="dgLack" Grid.Column="1" Grid.Row="1" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Grid.RowSpan="3" Grid.ColumnSpan="3" AlternationCount="2">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="原料名称"  Binding="{Binding MaterialName}"  Width="100"/>
                             <DataGridTextColumn Header="库存"  Binding="{Binding SumQuantity}" Width="100"/>
@@ -39,7 +39,7 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabPrice" Header="报价管理">
+            <TabItem x:Name="tabPrice" Header="报价管理" Style="{DynamicResource Style2}">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
@@ -57,8 +57,8 @@
                         <Button x:Name="btnDeletePrice" Content="删除报价" Width="75" VerticalAlignment="Stretch" Click="DeletePrice"/>
                     </ToolBar>
                     <GridSplitter Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" Grid.RowSpan="2" Width="5"/>
-                    <TreeView x:Name="tvPrice" Grid.Row="1" SelectedItemChanged="SelectPriceClass"/>
-                    <DataGrid x:Name="dgPrice" Grid.Column="2" Grid.Row="1" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Grid.RowSpan="2">
+                    <TreeView x:Name="tvPrice" Grid.Row="1" SelectedItemChanged="SelectPriceClass" Background="#FFFAF0"/>
+                    <DataGrid x:Name="dgPrice" Grid.Column="2" Grid.Row="1" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Grid.RowSpan="2" AlternationCount="2">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="原料" Width ="150" Binding="{Binding MaterialName}"/>
                             <DataGridTextColumn Header="供应商" Width ="150" Binding="{Binding SupplierName}"/>
@@ -69,15 +69,15 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabSupplier" Header="供货商管理">
+            <TabItem x:Name="tabSupplier" Header="供货商管理" Style="{DynamicResource Style2}">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
                     <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="2">
                         <Button Content="显示全部" Width="75" VerticalAlignment="Stretch" Click="ShowAllSuppliers"/>
@@ -86,7 +86,7 @@
                         <Button x:Name="btnEditSupplier" Content="修改供货商" Width="75" VerticalAlignment="Stretch" Click="EditSupplier"/>
                         <Button x:Name="btnDeleteSupplier" Content="删除供货商" Width="75" VerticalAlignment="Stretch" Click="DeleteSupplier"/>
                     </ToolBar>
-                    <DataGrid x:Name="dgSupplier" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Grid.Column="0" SelectionChanged="SelectSupplier">
+                    <DataGrid x:Name="dgSupplier" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Grid.Column="0" SelectionChanged="SelectSupplier" AlternationCount="2">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="供货商" Width ="150" Binding="{Binding Name}"/>
                             <DataGridTextColumn Header="联系人" Width ="100" Binding="{Binding Contact}"/>
@@ -96,18 +96,18 @@
                         </DataGrid.Columns>
                     </DataGrid>
 
-                    <DataGrid x:Name="dgSupplierPrice" Grid.Row="2" Grid.Column="1" AutoGenerateColumns="False" Margin="5,0,0,0" IsReadOnly="True" SelectionMode="Single">
+                    <DataGrid x:Name="dgSupplierPrice" Grid.Row="2" Grid.Column="1" AutoGenerateColumns="False" Margin="5,0,0,0" IsReadOnly="True" SelectionMode="Single" AlternationCount="2">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="名称" Width ="100" Binding="{Binding MaterialName}"/>
-                            <DataGridTextColumn Header="价格" Width ="100" Binding="{Binding Price}"/>
-                            <DataGridTextColumn Header="起购数量" Width ="100" Binding="{Binding StartQuantity}"/>
-                            <DataGridTextColumn Header="最大数量" Width ="100" Binding="{Binding MaxQuantity}"/>
+                            <DataGridTextColumn Header="名称" Width ="1*" Binding="{Binding MaterialName}"/>
+                            <DataGridTextColumn Header="价格" Width ="1*" Binding="{Binding Price}"/>
+                            <DataGridTextColumn Header="起购数量" Width ="1*" Binding="{Binding StartQuantity}"/>
+                            <DataGridTextColumn Header="最大数量" Width ="1*" Binding="{Binding MaxQuantity}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" Width="5"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabPurchase" Header="采购订单管理">
+            <TabItem x:Name="tabPurchase" Header="采购订单管理" Style="{DynamicResource Style2}">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
@@ -126,7 +126,7 @@
                         <Button x:Name="btnCancelOrder" Content="取消采购" VerticalAlignment="Stretch" Width="75" Click="CancelPurchase"/>
                         <Button x:Name="btnFinishOrder" Content="完成采购" VerticalAlignment="Stretch" Width="75" Click="FinishPurchase"/>
                     </ToolBar>
-                    <DataGrid x:Name="dgPurchase" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Grid.Row="1" SelectionChanged="SelectPurchase">
+                    <DataGrid x:Name="dgPurchase" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Grid.Row="1" SelectionChanged="SelectPurchase" AlternationCount="2">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="状态" Width ="100" Binding="{Binding Status}"/>
                             <DataGridTextColumn Header="优先级" Width ="70" Binding="{Binding Priority}"/>
@@ -137,12 +137,12 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" Width="5"/>
-                    <DataGrid x:Name="dgPurchaseItem" Grid.Column="1" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Margin="5,0,0,0">
+                    <DataGrid x:Name="dgPurchaseItem" Grid.Column="1" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Margin="5,0,0,0" AlternationCount="2">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="原料名称" Width ="100" Binding="{Binding MaterialName}"/>
-                            <DataGridTextColumn Header="数量" Width ="70" Binding="{Binding Quantity}"/>
-                            <DataGridTextColumn Header="单价" Width ="70" Binding="{Binding Price}"/>
-                            <DataGridTextColumn Header="供货商" Width ="70" Binding="{Binding SupplierName}"/>
+                            <DataGridTextColumn Header="原料名称" Width ="1*" Binding="{Binding MaterialName}"/>
+                            <DataGridTextColumn Header="数量" Width ="1*" Binding="{Binding Quantity}"/>
+                            <DataGridTextColumn Header="单价" Width ="1*" Binding="{Binding Price}"/>
+                            <DataGridTextColumn Header="供货商" Width ="1*" Binding="{Binding SupplierName}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid >

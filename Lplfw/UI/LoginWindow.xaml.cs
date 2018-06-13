@@ -17,7 +17,7 @@ namespace Lplfw.UI
             InitializeComponent();
         }
 
-        private void Image_MouseEnter(object sender, MouseEventArgs e)
+        private void ImageMouseEnter(object sender, MouseEventArgs e)
         {
             Image ig = sender as Image;
             if (ig.Tag.ToString() == "close")
@@ -34,7 +34,7 @@ namespace Lplfw.UI
             }
         }
 
-        private void Image_MouseLeave(object sender, MouseEventArgs e)
+        private void ImageMouseLeave(object sender, MouseEventArgs e)
         {
             Image ig = sender as Image;
             if (ig.Tag.ToString() == "close")
@@ -51,7 +51,7 @@ namespace Lplfw.UI
             }
         }
 
-        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void ImageMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Image ig = sender as Image;
             if (ig.Tag.ToString() == "close")
@@ -107,6 +107,14 @@ namespace Lplfw.UI
         private void CloseApplication(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void MoveWindow(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
         }
     }
 }

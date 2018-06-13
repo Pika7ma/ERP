@@ -1,5 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 /// <summary>
 /// League of People who Let Father Worry
@@ -17,6 +21,51 @@ namespace Lplfw.UI
             Utils.MainWindow = this;
             Judge();
         }
+
+        private void ImageMouseEnter(object sender, MouseEventArgs e)
+        {
+            Image ig = sender as Image;
+            if (ig.Tag.ToString() == "close")
+            {
+                Uri ur = new Uri("images/close1.png", UriKind.Relative);
+                BitmapImage bp = new BitmapImage(ur);
+                ig.Source = bp;
+            }
+            else
+            {
+                Uri ur = new Uri("images/mini1.png", UriKind.Relative);
+                BitmapImage bp = new BitmapImage(ur);
+                ig.Source = bp;
+            }
+        }
+
+        private void ImageMouseLeave(object sender, MouseEventArgs e)
+        {
+            Image ig = sender as Image;
+            if (ig.Tag.ToString() == "close")
+            {
+                Uri ur = new Uri("images/close0.png", UriKind.Relative);
+                BitmapImage bp = new BitmapImage(ur);
+                ig.Source = bp;
+            }
+            else
+            {
+                Uri ur = new Uri("images/mini0.png", UriKind.Relative);
+                BitmapImage bp = new BitmapImage(ur);
+                ig.Source = bp;
+            }
+        }
+
+        private void ImageMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Image ig = sender as Image;
+            if (ig.Tag.ToString() == "close")
+            {
+                this.Close();
+            }
+            else this.WindowState = System.Windows.WindowState.Minimized;
+        }
+
 
         private void Judge()
         {
@@ -91,6 +140,14 @@ namespace Lplfw.UI
         private void OpenUserWindow(object sender, RoutedEventArgs e)
         {
             Utils.OpenSubwindow(new User.UserWindow());
+        }
+
+        private void MoveWindow(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
         }
     }
 }

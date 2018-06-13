@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Produce"
         mc:Ignorable="d"
-        Title="新建生产记录" Height="350" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="新建生产记录" Height="350" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Background="#FFFAF0">
     <Grid>
         <Label Content="生产记录号" HorizontalAlignment="Left" Margin="30,30,0,0" VerticalAlignment="Top"/>
         <Label Content="产品种类" HorizontalAlignment="Left" Margin="30,70,0,0" VerticalAlignment="Top"/>

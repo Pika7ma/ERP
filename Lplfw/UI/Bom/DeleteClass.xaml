@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Lplfw.UI.Bom"
         mc:Ignorable="d"
         Height="300" Width="500" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
-    <Grid>
+    <Grid Background="#FFFAF0">
         <GroupBox x:Name="gbReserve" HorizontalAlignment="Left" Height="131" Margin="10,10,0,0" VerticalAlignment="Top" Width="472">
             <Grid>
                 <RadioButton x:Name="rdReserve" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,20,0,0" GroupName="Gender" IsChecked="True"/>

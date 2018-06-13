@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Inventory"
         mc:Ignorable="d"
-        Height="620" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Height="620" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Background="#FFFAF0">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -43,9 +44,9 @@
             </Grid.ColumnDefinitions>
             <Label Content="原料条目" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Label Content="产品条目" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <DataGrid x:Name="dgMaterialItems" Grid.Column="0" Grid.Row="1" Margin="0,0,5,0" HorizontalAlignment="Left" SelectionMode="Single" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid x:Name="dgMaterialItems" Grid.Column="0" Grid.Row="1" Margin="0,0,5,0" HorizontalAlignment="Left" SelectionMode="Single" AutoGenerateColumns="False" IsReadOnly="True" AlternationCount="2">
                 <DataGrid.Columns>
-                    <DataGridComboBoxColumn Header="原料" Width="100">
+                    <DataGridComboBoxColumn Header="原料" Width="1*">
                         <DataGridComboBoxColumn.ElementStyle>
                             <Style TargetType="ComboBox">
                                 <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Materials,ElementName=dgMaterialItems}" />
@@ -55,13 +56,13 @@
                             </Style>
                         </DataGridComboBoxColumn.ElementStyle>
                     </DataGridComboBoxColumn>
-                    <DataGridTextColumn Header="数量" Width="75" Binding="{Binding Quantity}"/>
-                    <DataGridTextColumn Header="位置" Width="150" Binding="{Binding Location}"/>
+                    <DataGridTextColumn Header="数量" Width="1*" Binding="{Binding Quantity}"/>
+                    <DataGridTextColumn Header="货位" Width="1*" Binding="{Binding Location}"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid x:Name="dgProductItems" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" SelectionMode="Single" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid x:Name="dgProductItems" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" SelectionMode="Single" AutoGenerateColumns="False" IsReadOnly="True" AlternationCount="2">
                 <DataGrid.Columns>
-                    <DataGridComboBoxColumn Header="产品" Width="100">
+                    <DataGridComboBoxColumn Header="原料" Width="1*">
                         <DataGridComboBoxColumn.ElementStyle>
                             <Style TargetType="ComboBox">
                                 <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Products,ElementName=dgProductItems}" />
@@ -71,8 +72,8 @@
                             </Style>
                         </DataGridComboBoxColumn.ElementStyle>
                     </DataGridComboBoxColumn>
-                    <DataGridTextColumn Header="数量" Width="75" Binding="{Binding Quantity}"/>
-                    <DataGridTextColumn Header="位置" Width="150" Binding="{Binding Location}"/>
+                    <DataGridTextColumn Header="数量" Width="1*" Binding="{Binding Quantity}"/>
+                    <DataGridTextColumn Header="货位" Width="1*" Binding="{Binding Location}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

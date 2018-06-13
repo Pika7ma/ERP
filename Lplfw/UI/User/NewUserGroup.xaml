@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Bom"
         mc:Ignorable="d"
-        Title="新建用户组" Height="200" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="新建用户组" Height="200" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Background="#FFFAF0">
     <Grid>
         <Label Content="用户组名" HorizontalAlignment="Left" Margin="40,50,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="txtGroup" HorizontalAlignment="Left" Height="23" Margin="110,50,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>

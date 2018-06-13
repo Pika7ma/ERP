@@ -11,8 +11,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        <TabControl>
-            <TabItem x:Name="tiEditPassword" Header="修改密码" IsSelected="True">
+        <TabControl Style="{DynamicResource Style3}">
+            <TabItem x:Name="tiEditPassword" Header="修改密码" IsSelected="True" Style="{DynamicResource Style2}">
                 <Grid Background="#f0f0f0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
@@ -34,7 +34,7 @@
                     <Button x:Name="btnSure" Click="BtnSureClick" Content="确定" Grid.Column="1" HorizontalAlignment="Left" Margin="203,161,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tiUserGroupAdmin" Header="用户组管理">
+            <TabItem x:Name="tiUserGroupAdmin" Header="用户组管理" Style="{DynamicResource Style2}">
                 <Grid Background="#f0f0f0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
@@ -46,16 +46,16 @@
                         <ColumnDefinition Width="164*"/>
                     </Grid.ColumnDefinitions>
                     <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="3">
-                        <Button x:Name="btnNewGroup" Content="新建用户组" Width="75" VerticalAlignment="Stretch" Click="BtnNewUserAllClick"/>
-                        <Button x:Name="btnDelGroup" Content="删除用户组" Width="75" VerticalAlignment="Stretch" Click="BtnDelUserGroupClick" IsEnabled="False"/>
+                        <Button x:Name="btnNewGroup" Content="新建用户组" Width="100" VerticalAlignment="Stretch" Click="BtnNewUserAllClick"/>
+                        <Button x:Name="btnDelGroup" Content="删除用户组" Width="100" VerticalAlignment="Stretch" Click="BtnDelUserGroupClick" IsEnabled="False"/>
                     </ToolBar>
                     <Label Content="用户组" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Margin="10,0,0,0" Height="25" Width="46"/>
-                    <TreeView x:Name="tvGroups" Margin="10,23,5,10" Grid.Row="1" MouseDoubleClick="TvGroupsMouseDoubleClick"></TreeView>
+                    <TreeView x:Name="tvGroups" Margin="10,23,5,10" Grid.Row="1" MouseDoubleClick="TvGroupsMouseDoubleClick" Background="#FFFAF0"/>
                     <Label Content="权限" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Margin="10,0,0,0" Height="25" Width="46"/>
                     <DataGrid x:Name="dgPrivilege" ItemsSource="{Binding Datas}" Margin="10,23,5,10" Grid.Column="1" Grid.Row="1" AutoGenerateColumns="False" SelectionMode="Single" >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="权限名称" Width="265" Binding="{Binding Name}" IsReadOnly="True"/>
-                            <DataGridComboBoxColumn x:Name="mon" Header="权限级别" Width="180">
+                            <DataGridTextColumn Header="权限名称" Width="1*" Binding="{Binding Name}" IsReadOnly="True"/>
+                            <DataGridComboBoxColumn x:Name="mon" Header="权限级别" Width="1*">
                                 <DataGridComboBoxColumn.EditingElementStyle>
                                     <Style TargetType="ComboBox">
                                         <Setter Property="ItemsSource" Value="{Binding Path=DataContext.TheModes,ElementName=dgPrivilege}" />
@@ -83,7 +83,7 @@
                 </Grid>
 
             </TabItem>
-            <TabItem x:Name="tiUserAdmin" Header="用户管理">
+            <TabItem x:Name="tiUserAdmin" Header="用户管理" Style="{DynamicResource Style2}">
                 <Grid Background="#f0f0f0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
@@ -100,7 +100,7 @@
                         <Button x:Name="btnDelUser" Content="删除用户" Width="75" VerticalAlignment="Stretch" Click="BtnDelUserClick" IsEnabled="False"/>
                     </ToolBar>
                     <Label Content="用户组" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Margin="10,0,0,0"/>
-                    <TreeView x:Name="tvUserGroups" Margin="10,23,5,5" Grid.Row="1" MouseDoubleClick="TvUserGroupsMouseDoubleClick"></TreeView>
+                    <TreeView x:Name="tvUserGroups" Margin="10,23,5,5" Grid.Row="1" MouseDoubleClick="TvUserGroupsMouseDoubleClick" Background="#FFFAF0"/>
                     <GridSplitter HorizontalAlignment="Right" Grid.Row="1" Width="5" Margin="0,0,0,5"/>
                     <GridSplitter HorizontalAlignment="Stretch" Height="5" Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
                     <DataGrid x:Name="dgUsers" Grid.Column="1" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Margin="0,0,0,5">

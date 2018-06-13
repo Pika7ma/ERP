@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Bom"
         mc:Ignorable="d"
-        Height="300" Width="400" WindowStartupLocation="CenterScreen" Closing="SetDialogResult">
+        Height="300" Width="400" WindowStartupLocation="CenterScreen" Closing="SetDialogResult" ResizeMode="NoResize"
+        Background="#FFFAF0">
     <Grid>
         <Label Content="*类别" HorizontalAlignment="Left" Margin="42,40,0,0" VerticalAlignment="Top"/>
         <Label Content="*名称" HorizontalAlignment="Left" Margin="42,80,0,0" VerticalAlignment="Top"/>

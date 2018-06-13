@@ -7,7 +7,8 @@
         xmlns:local="clr-namespace:Lplfw.UI.Purchase"
         mc:Ignorable="d"
         Title="新建采购条目" Height="350" Width="300"
-        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Background="#FFFAF0">
 
     <Grid>
         <Label Content="原料种类" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top"/>

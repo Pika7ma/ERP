@@ -72,7 +72,7 @@ namespace Lplfw.UI.User
             }
             else
             {
-                MessageBox.Show("wrong");
+                MessageBox.Show("请检查输入数据");
             }
         }
 

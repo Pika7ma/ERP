@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Inventory"
         mc:Ignorable="d"
-        Height="300" Width="400" WindowStartupLocation="CenterScreen">
+        Height="300" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Background="#FFFAF0">
     <Grid>
         <Label Content="仓库名" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,40,0,0"/>
         <Label Content="负责人" HorizontalAlignment="Left" Margin="80,80,0,0"  VerticalAlignment="Top"/>
@@ -17,7 +18,7 @@
         <TextBox x:Name="txtDescription"  HorizontalAlignment="Left" Height="23" Margin="170,160,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
         <TextBlock x:Name="txtMessage" TextWrapping="Wrap" VerticalAlignment="Top" Margin="80,199,80,0" TextAlignment="Center" Foreground="Red"/>
 
-        <Button x:Name="btnConfirm" Content="确定" HorizontalAlignment="Left" Margin="200,230,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="btnConfirm" Content="确定" HorizontalAlignment="Left" Margin="220,230,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Content="取消" HorizontalAlignment="Left" Margin="100,230,0,0" VerticalAlignment="Top" Width="75" Click="Cancel"/>
     </Grid>
 </Window>

@@ -27,7 +27,7 @@
             <Button x:Name="btnGenerateRequsition" Content="生成领料单" VerticalAlignment="Stretch" Width="75" Click="GenerateRequsition"/>
         </ToolBar>
         <Label Content="订单" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1"/>
-        <DataGrid x:Name="dgSales" Grid.Row="1" Margin="0,25,0,0" AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True" SelectionChanged="SelectSales">
+        <DataGrid x:Name="dgSales" Grid.Row="1" Margin="0,25,0,0" AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True" SelectionChanged="SelectSales" AlternationCount="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="状态" Width ="50" Binding="{Binding Status}"/>
                 <DataGridTextColumn Header="优先级" Width ="50" Binding="{Binding Priority}"/>
@@ -43,11 +43,11 @@
         </DataGrid>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" Width="5"/>
         <Label Content="订单详情" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <DataGrid x:Name="dgSalesItem" Grid.Column="1" Grid.Row="1" Margin="5,25,0,0" IsReadOnly="True" AutoGenerateColumns="False">
+        <DataGrid x:Name="dgSalesItem" Grid.Column="1" Grid.Row="1" Margin="5,25,0,0" IsReadOnly="True" AutoGenerateColumns="False" AlternationCount="2">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="品名" Width ="100" Binding="{Binding ProductName}"/>
-                <DataGridTextColumn Header="数量" Width ="100" Binding="{Binding Quantity}"/>
-                <DataGridTextColumn Header="单价" Width ="100" Binding="{Binding Price}"/>
+                <DataGridTextColumn Header="品名" Width ="1*" Binding="{Binding ProductName}"/>
+                <DataGridTextColumn Header="数量" Width ="1*" Binding="{Binding Quantity}"/>
+                <DataGridTextColumn Header="单价" Width ="1*" Binding="{Binding Price}"/>
             </DataGrid.Columns>
         </DataGrid>
         <StatusBar Grid.Row="2" Grid.ColumnSpan="2">

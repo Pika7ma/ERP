@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Lplfw.UI.Bom"
         mc:Ignorable="d"
         Height="200" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
-    <Grid>
+    <Grid Background="#FFFAF0">
         <Label Content="父类" HorizontalAlignment="Left" Margin="41,42,0,0" VerticalAlignment="Top"/>
         <Label Content="类型名" HorizontalAlignment="Left" Margin="29,88,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="cbClass" DisplayMemberPath="Name" SelectedValuePath="Id" HorizontalAlignment="Left" Margin="108,42,0,0" VerticalAlignment="Top" Width="120"/>

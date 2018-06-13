@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Purchase"
         mc:Ignorable="d"
-        Title="添加采购单" Height="650" Width="800" WindowStartupLocation="CenterScreen">
+        Title="添加采购单" Height="650" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Background="#FFFAF0">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -26,9 +27,9 @@
         <Label Content="备注" Grid.Column="2" Margin="0,30,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
         <ComboBox x:Name="cbProirity" Grid.Column="3" Height="23" Grid.Row="1"  VerticalAlignment="Top" SelectedValuePath="Name" DisplayMemberPath="Name"/>
         <TextBox x:Name="txtDescription" Grid.Column="3" Height="23" Margin="0,30,0,0" Grid.Row="1" TextWrapping="NoWrap" VerticalAlignment="Top"/>
-        <DataGrid x:Name="dgItems" Grid.Row="3" Grid.ColumnSpan="3" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" Grid.Column="1" >
+        <DataGrid x:Name="dgItems" Grid.Row="3" Grid.ColumnSpan="3" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" Grid.Column="1" AlternationCount="2">
             <DataGrid.Columns>
-                <DataGridComboBoxColumn Header="原料" Width="100">
+                <DataGridComboBoxColumn Header="原料" Width="1*">
                     <DataGridComboBoxColumn.ElementStyle>
                         <Style TargetType="ComboBox">
                             <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Materials,ElementName=dgItems}" />
@@ -38,7 +39,7 @@
                         </Style>
                     </DataGridComboBoxColumn.ElementStyle>
                 </DataGridComboBoxColumn>
-                <DataGridComboBoxColumn Header="供应商" Width="100">
+                <DataGridComboBoxColumn Header="供应商" Width="1*">
                     <DataGridComboBoxColumn.ElementStyle>
                         <Style TargetType="ComboBox">
                             <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Suppliers,ElementName=dgItems}" />
@@ -48,8 +49,8 @@
                         </Style>
                     </DataGridComboBoxColumn.ElementStyle>
                 </DataGridComboBoxColumn>
-                <DataGridTextColumn Header="数量" Binding="{Binding Quantity}" Width="150" />
-                <DataGridTextColumn Header="价格" Binding="{Binding Price}" Width="150" />
+                <DataGridTextColumn Header="数量" Binding="{Binding Quantity}" Width="1*"/>
+                <DataGridTextColumn Header="价格" Binding="{Binding Price}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="添加采购条目" Grid.Column="4" HorizontalAlignment="Left" Margin="60,30,0,0" Grid.Row="3" VerticalAlignment="Top" Width="90" Click="NewItem"/>

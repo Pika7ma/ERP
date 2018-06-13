@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Purchase"
         mc:Ignorable="d"
-        Title="新建采购单" Height="300" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="新建采购单" Height="300" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        Background="#FFFAF0">
     <Grid>
         <Label Content="名称" HorizontalAlignment="Left" Margin="41,30,0,0" VerticalAlignment="Top"/>
         <Label Content="联系人" HorizontalAlignment="Left" Margin="41,70,0,0" VerticalAlignment="Top"/>

@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Bom"
         mc:Ignorable="d"
-        Title="新建用户" Height="270" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="新建用户" Height="270" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Background="#FFFAF0">
     <Grid>
         <Label Content="用户组" HorizontalAlignment="Left" Margin="40,30,0,0" VerticalAlignment="Top"/>
         <Label Content="用户名" HorizontalAlignment="Left" Margin="40,70,0,0" VerticalAlignment="Top"/>
