@@ -84,7 +84,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BLL\BindingHelper.cs" />
-    <Compile Include="BLL\Bom\ExcelReader.cs" />
+    <Compile Include="BLL\ExcelWriter.cs" />
     <Compile Include="DAL\DataViews\ProductionView.cs" />
     <Compile Include="DAL\DataViews\RequisitionProcedure.cs" />
     <Compile Include="DAL\DataViews\RequisitionStockProcedure.cs" />
@@ -288,6 +288,9 @@
     <Compile Include="UI\Purchase\PurchaseWindow.xaml.cs">
       <DependentUpon>PurchaseWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\TempWindow.xaml.cs">
+      <DependentUpon>TempWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\User\NewUser.xaml.cs">
       <DependentUpon>NewUser.xaml</DependentUpon>
     </Compile>
@@ -414,6 +417,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Purchase\PurchaseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\TempWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

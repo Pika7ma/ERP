@@ -1,11 +1,11 @@
 ﻿using Lplfw.DAL;
-using Lplfw.Bll.Bom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Threading;
+using Lplfw.BLL;
 
 namespace Lplfw.UI.Bom
 {
@@ -709,5 +709,24 @@ namespace Lplfw.UI.Bom
             btnChangeMaterialStatus.Visibility = Visibility.Hidden;
         }
         #endregion
+
+        private void ExportProductSheet(object sender, RoutedEventArgs e)
+        {
+            var writer = new ExcelWriter(ExcelWriter.Type.Product, dgProduct.ItemsSource as List<Product>);
+            var _rtn = writer.Write();
+            if (_rtn == true)
+            {
+                MessageBox.Show("导出成功!", null, MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("导出失败!", null, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ExportMaterialSheet(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

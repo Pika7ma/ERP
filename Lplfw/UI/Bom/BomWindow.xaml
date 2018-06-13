@@ -25,6 +25,7 @@
                     </Grid.ColumnDefinitions>
                     <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.RowSpan="2">
                         <Button Content="显示所有产品" VerticalAlignment="Stretch" Width="100" Click="ShowAllProducts"/>
+                        <Button Content="导出产品清单" VerticalAlignment="Stretch" Width="100" Click="ExportProductSheet"/>
                         <Separator />
                         <Button x:Name="btnNewProductClass" Content="新建类别" VerticalAlignment="Stretch" Width="75" Click="NewProductClass"/>
                         <Button x:Name="btnEditProductClass" Content="修改类别" VerticalAlignment="Stretch" Width="75" Click="EditProductClass"/>
@@ -73,6 +74,7 @@
                     </Grid.ColumnDefinitions>
                     <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="3" Grid.RowSpan="2">
                         <Button Content="显示所有原料" VerticalAlignment="Stretch" Width="100" Click="ShowAllMaterials"/>
+                        <Button Content="导出原料清单" VerticalAlignment="Stretch" Width="100" Click="ExportMaterialSheet"/>
                         <Separator />
                         <Button x:Name="btnNewMaterialClass" Content="新建类别" VerticalAlignment="Stretch" Width="75" Click="NewMaterialClass"/>
                         <Button x:Name="btnEditMaterialClass" Content="修改类别" VerticalAlignment="Stretch" Width="75" Click="EditMaterialClass"/>
