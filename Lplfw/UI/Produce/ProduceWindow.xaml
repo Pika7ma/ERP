@@ -51,7 +51,8 @@
                     <Label Content="需求清单" HorizontalAlignment="Left" Margin="10,5,0,0" Grid.Row="2" VerticalAlignment="Top"/>
                     <Label Content="虚拟库存" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5,0,0" Grid.Row="2" VerticalAlignment="Top"/>
                     <Button x:Name="btnSubmitRequisition" Content="请求领料" Grid.Column="2" HorizontalAlignment="Left" Margin="46,200,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="SubmitRequsition"/>
-                    <Button x:Name="btnConfirmRequisition" Content="确认领料" Grid.Column="2" HorizontalAlignment="Left" Margin="46,240,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="ConfirmRequsition"/>
+                    <Button x:Name="btnExportRequisition" Content="导出领料单" Grid.Column="2" HorizontalAlignment="Left" Margin="46,240,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="ExportRequsition"/>
+                    <Button x:Name="btnConfirmRequisition" Content="确认领料" Grid.Column="2" HorizontalAlignment="Left" Margin="46,350,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="ConfirmRequsition"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabRequisition" Header="领料单浏览" Style="{DynamicResource Style2}">

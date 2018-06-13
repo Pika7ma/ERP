@@ -451,10 +451,10 @@ namespace Lplfw.BLL
         #region 各种清单
         public bool WriteRecipe(Product product, List<RecipeView> items)
         {
-            fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-
             try
             {
+                fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+
                 if (workbook == null) return false;
                 sheet = workbook.CreateSheet("产品配方");
 
@@ -488,6 +488,116 @@ namespace Lplfw.BLL
                     _row.CreateCell(1).SetCellValue(_item.Quantity.ToString());
                     _row.CreateCell(2).SetCellValue(_item.Unit);
                 }
+
+                workbook.Write(fs);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception: " + ex.Message);
+                return false;
+            }
+        }
+
+        public bool WriteRequisition(RequisitionView requisition, List<RequisitionItemView> items)
+        {
+            try
+            {
+                fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+
+                if (workbook == null) return false;
+                sheet = workbook.CreateSheet("物料领取单");
+
+                var _titleStyle = workbook.CreateCellStyle();
+                _titleStyle.Alignment = HorizontalAlignment.Center;
+                _titleStyle.VerticalAlignment = VerticalAlignment.Center;
+                var _titleFont = workbook.CreateFont();
+                _titleFont.FontName = "宋体";
+                _titleFont.FontHeightInPoints = 18;
+                _titleFont.Boldweight = (short)FontBoldWeight.Bold;
+                _titleStyle.SetFont(_titleFont);
+
+                var _lineStyle = workbook.CreateCellStyle();
+                _lineStyle.BorderBottom = BorderStyle.Thin;
+                _lineStyle.Alignment = HorizontalAlignment.Center;
+
+                var _row = sheet.CreateRow(0);
+                var _title = _row.CreateCell(0);
+                _title.SetCellValue("物料领取单");
+                _title.CellStyle = _titleStyle;
+
+                _row = sheet.CreateRow(2);
+                for (var _i = 0; _i < 9; _i++)
+                {
+                    _row.CreateCell(_i).CellStyle = _lineStyle;
+                }
+                sheet.AddMergedRegion(new CellRangeAddress(0, 2, 0, 8));
+
+                _row = sheet.CreateRow(4);
+                _row.CreateCell(0).SetCellValue("领料单号");
+                _row.CreateCell(1).SetCellValue(requisition.Code.ToString());
+                _row.CreateCell(5).SetCellValue("订单号");
+                _row.CreateCell(6).SetCellValue(requisition.SalesCode.ToString());
+                _row = sheet.CreateRow(5);
+                _row.CreateCell(0).SetCellValue("创建时间");
+                _row.CreateCell(1).SetCellValue(requisition.CreateAt.ToString());
+                _row.CreateCell(5).SetCellValue("负责人");
+                _row.CreateCell(6).SetCellValue(requisition.UserName.ToString());
+                _row = sheet.CreateRow(6);
+                _row.CreateCell(0).SetCellValue("备注");
+                _row.CreateCell(1).SetCellValue(requisition.Description);
+                sheet.AddMergedRegion(new CellRangeAddress(4, 4, 1, 3));
+                sheet.AddMergedRegion(new CellRangeAddress(4, 4, 6, 8));
+                sheet.AddMergedRegion(new CellRangeAddress(5, 5, 1, 3));
+                sheet.AddMergedRegion(new CellRangeAddress(5, 5, 6, 8));
+                sheet.AddMergedRegion(new CellRangeAddress(6, 7, 0, 0));
+                sheet.AddMergedRegion(new CellRangeAddress(6, 7, 1, 8));
+
+                _row = sheet.CreateRow(9);
+                _row.CreateCell(0).SetCellValue("物料清单");
+                for (var _i = 1; _i < 9; _i++)
+                {
+                    _row.CreateCell(_i).CellStyle = _lineStyle;
+                }
+                _row = sheet.CreateRow(10);
+                for (var _i = 1; _i < 9; _i++)
+                {
+                    var _cell = _row.CreateCell(_i);
+                    _cell.CellStyle = _lineStyle;
+                    if (_i == 1) _cell.SetCellValue("原料");
+                    if (_i == 5) _cell.SetCellValue("数量");
+                }
+                sheet.AddMergedRegion(new CellRangeAddress(10, 10, 1, 4));
+                sheet.AddMergedRegion(new CellRangeAddress(10, 10, 5, 8));
+                var _count = 11;
+                // 数据
+
+                for (var _j = 0; _j < items.Count; _j++)
+                {
+                    _row = sheet.CreateRow(_count);
+                    var _item = items[_j];
+                    for (var _i = 1; _i < 9; _i++)
+                    {
+                        var _cell = _row.CreateCell(_i);
+                        _cell.CellStyle = _lineStyle;
+                        if (_i == 1) _cell.SetCellValue(_item.MaterialName);
+                        if (_i == 5) _cell.SetCellValue(_item.Quantity);
+                    }
+                    sheet.AddMergedRegion(new CellRangeAddress(_count, _count, 1, 4));
+                    sheet.AddMergedRegion(new CellRangeAddress(_count, _count, 5, 8));
+                    _count++;
+                }
+
+                _count = _count + 2;
+
+                _row = sheet.CreateRow(_count);
+                _row.CreateCell(0).SetCellValue("领取时间");
+                _count++;
+                _row = sheet.CreateRow(_count);
+                _row.CreateCell(0).SetCellValue("仓库负责人签字");
+                _row.CreateCell(5).SetCellValue("生产负责人签字");
+                sheet.AddMergedRegion(new CellRangeAddress(_count, _count, 0, 3));
+                sheet.AddMergedRegion(new CellRangeAddress(_count, _count, 5, 8));
 
                 workbook.Write(fs);
                 return true;

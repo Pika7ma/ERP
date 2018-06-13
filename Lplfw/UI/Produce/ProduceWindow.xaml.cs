@@ -6,6 +6,7 @@ using System.Linq;
 using System;
 using System.Data;
 using System.Threading;
+using Lplfw.BLL;
 
 namespace Lplfw.UI.Produce
 {
@@ -147,6 +148,21 @@ namespace Lplfw.UI.Produce
         }
 
         //TODO: 将物料单导出
+        private void ExportRequsition(object sender, RoutedEventArgs e)
+        {
+            var _requisition = dgToDoRequsitions.SelectedItem as RequisitionView;
+            if (_requisition == null) return;
+            if (_requisition.Status != "领料中") return;
+            var writer = new ExcelWriter();
+            var _rtn = writer.WriteRequisition(_requisition, dgToDoItems.ItemsSource as List<RequisitionItemView>);
+            if (_rtn == true)
+            {
+                MessageBox.Show("导出领料单成功");
+            }
+            else {
+                MessageBox.Show("导出领料单失败");
+            }
+        }
         #endregion
 
         #region 物料单管理
@@ -261,5 +277,6 @@ namespace Lplfw.UI.Produce
             btnConfirmRequisition.Visibility = Visibility.Hidden;
         }
         #endregion
+
     }
 }

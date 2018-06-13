@@ -23,7 +23,8 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="4" Margin="0,0,0.2,0">
-                        <Button x:Name="btnShowAll" Content="显示全部" VerticalAlignment="Stretch" Width="75" Click="ShowAllLacks" />
+                        <Button x:Name="btnShowAll" Content="显示全部" VerticalAlignment="Stretch" Width="75" Click="ShowAllLacks"/>
+                        <Button Content="导出缺料清单" VerticalAlignment="Stretch" Width="100" Click="ExportLackSheet"/>
                     </ToolBar>
                     <GridSplitter Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Grid.RowSpan="3" Width="5"/>
                     <TreeView x:Name="tvLack" Grid.RowSpan="3" Grid.Row="1" SelectedItemChanged="SelectLackClass" Background="#FFFAF0">

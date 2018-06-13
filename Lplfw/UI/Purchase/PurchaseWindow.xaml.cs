@@ -1,4 +1,5 @@
-﻿using Lplfw.DAL;
+﻿using Lplfw.BLL;
+using Lplfw.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +72,20 @@ namespace Lplfw.UI.Purchase
         private void ShowAllLacks(object sender, RoutedEventArgs e)
         {
             new Thread(new ParameterizedThreadStart(SelectLackClassThread)).Start(0);
+        }
+
+        private void ExportLackSheet(object sender, RoutedEventArgs e)
+        {
+            var _writer = new ExcelWriter(ExcelWriter.Type.MaterialLack, dgLack.ItemsSource);
+            var _rtn = _writer.Write();
+            if (_rtn == true)
+            {
+                MessageBox.Show("导出缺料清单成功");
+            }
+            else
+            {
+                MessageBox.Show("导出缺料清单失败");
+            }
         }
 
         //TODO: 将缺料生成EXCEL导出
