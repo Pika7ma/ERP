@@ -8,12 +8,13 @@ namespace Lplfw.DAL
     public class PurchaseView
     {
         public int Id { get; set; }
-        public String Status { get; set; }
-        public String Priority { get; set; }
-        public System.DateTime CreateAt { get; set; }
-        public System.DateTime? FinishedAt { get; set; }
-        public String Description { get; set; }
-        public String Name { get; set; }
+        public string Code { get; set; }
+        public string Status { get; set; }
+        public string Priority { get; set; }
+        public DateTime CreateAt { get; set; }
+        public DateTime? FinishedAt { get; set; }
+        public string Description { get; set; }
+        public string Name { get; set; }
         public int UserId { get; set; }
 
         public static List<PurchaseView> GetAll()

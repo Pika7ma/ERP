@@ -50,7 +50,7 @@ namespace Lplfw.UI.Inventory
 
         private bool CanSubmit()
         {
-            if (int.TryParse(txtQuantity.Text, out int _temp))
+            if (int.TryParse(txtQuantity.Text, out int _temp) && _temp >= 0)
             {
                 return true;
             }

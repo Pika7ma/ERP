@@ -53,6 +53,7 @@ namespace Lplfw.UI.Order
         {
             var _item = dgSales.SelectedItem as SalesView;
             if (_item == null) return;
+            var _now = DateTime.Now;
             using (var _db = new ModelContainer())
             {
                 var _sales = _db.SalesSet.FirstOrDefault(i => i.Id == _item.Id);
@@ -61,8 +62,10 @@ namespace Lplfw.UI.Order
                 if (SalesStatus.CanFinish(_sales.Status))
                 {
                     _sales.Status = SalesStatus.Finished;
+                    _sales.FinishedAt = _now;
                     _db.SaveChanges();
                     _item.Status = SalesStatus.Finished;
+                    _item.FinishedAt = _now;
                     dgSales.Items.Refresh();
                 }
             }
@@ -117,23 +120,29 @@ namespace Lplfw.UI.Order
         {
             var _item = dgSales.SelectedItem as SalesView;
             if (_item == null) return;
-            if (_item.RequsitionStatus == true)
-            {
-                MessageBox.Show("该订单已生成领料单", null, MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else
-            {
-                var _win = new GenerateRequsition(_item.Id);
-                var _rtn = _win.ShowDialog();
-                if (_rtn == true)
+            if (SalesStatus.CanRequisition(_item.Status)){
+                if (_item.RequsitionStatus == true)
                 {
-                    _item.RequsitionStatus = true;
-                    MessageBox.Show("物料分解成功");
+                    MessageBox.Show("该订单已生成领料单", null, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
-                    MessageBox.Show("物料分解失败");
+                    var _win = new GenerateRequsition(_item.Id);
+                    var _rtn = _win.ShowDialog();
+                    if (_rtn == true)
+                    {
+                        _item.RequsitionStatus = true;
+                        MessageBox.Show("物料分解成功");
+                    }
+                    else
+                    {
+                        MessageBox.Show("物料分解失败");
+                    }
                 }
+            }
+            else
+            {
+                MessageBox.Show("该订单处于不能生成领料单的阶段", null, MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -208,6 +217,13 @@ namespace Lplfw.UI.Order
         static public bool CanDelay(string status)
         {
             if (status == Processing) return true;
+            return false;
+        }
+
+        static public bool CanRequisition(string status)
+        {
+            if (status == Processing) return true;
+            if (status == Delayed) return true;
             return false;
         }
     }

@@ -415,6 +415,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="longtext" Nullable="false" />
     <Property Name="Status" Type="longtext" Nullable="false" />
     <Property Name="Priority" Type="longtext" Nullable="false" />
     <Property Name="CreateAt" Type="datetime" Nullable="false" />
@@ -1743,6 +1744,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Code" Type="String" Nullable="false" />
           <Property Name="Status" Type="String" Nullable="false" />
           <Property Name="Priority" Type="String" Nullable="false" />
           <Property Name="CreateAt" Type="DateTime" Nullable="false" />
@@ -2174,6 +2176,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(Model.Purchase)">
         <MappingFragment StoreEntitySet="PurchaseSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Priority" ColumnName="Priority" />
           <ScalarProperty Name="CreateAt" ColumnName="CreateAt" />

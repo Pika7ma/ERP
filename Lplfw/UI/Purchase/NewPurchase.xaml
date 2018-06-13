@@ -10,7 +10,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="65"/>
+            <RowDefinition Height="95"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
@@ -23,10 +23,12 @@
             <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
-        <Label Content="*优先级" Grid.Column="2" Margin="0,0,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-        <Label Content="备注" Grid.Column="2" Margin="0,30,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-        <ComboBox x:Name="cbProirity" Grid.Column="3" Height="23" Grid.Row="1"  VerticalAlignment="Top" SelectedValuePath="Name" DisplayMemberPath="Name"/>
-        <TextBox x:Name="txtDescription" Grid.Column="3" Height="23" Margin="0,30,0,0" Grid.Row="1" TextWrapping="NoWrap" VerticalAlignment="Top"/>
+        <Label Content="*采购单号" Grid.Column="2" Margin="0,0,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Label Content="*优先级" Grid.Column="2" Margin="0,30,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Label Content="备注" Grid.Column="2" Margin="0,60,20,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+        <TextBox x:Name="txtCode" Grid.Column="3" Height="23" Margin="0,0,0,0" Grid.Row="1" TextWrapping="NoWrap" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cbProirity" Grid.Column="3" Height="23" Grid.Row="1"  VerticalAlignment="Top" SelectedValuePath="Name" DisplayMemberPath="Name" Margin="0,30,0,0"/>
+        <TextBox x:Name="txtDescription" Grid.Column="3" Height="23" Margin="0,60,0,0" Grid.Row="1" TextWrapping="NoWrap" VerticalAlignment="Top"/>
         <DataGrid x:Name="dgItems" Grid.Row="3" Grid.ColumnSpan="3" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" Grid.Column="1" AlternationCount="2">
             <DataGrid.Columns>
                 <DataGridComboBoxColumn Header="原料" Width="1*">

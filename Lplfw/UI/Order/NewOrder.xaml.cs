@@ -36,6 +36,7 @@ namespace Lplfw.UI.Order
             txtDescription.Binding(sales, "TxtDescription");
             cbPriority.Binding(sales, "CbPriority");
             dpDueTime.Binding(sales, "DpDueTime");
+            dpDueTime.Value = DateTime.Now;
             dgSalesItems.ItemsSource = sales.Items;
             cbPriority.ItemsSource = PriorityList;
             cbPriority.SelectedIndex = 0;

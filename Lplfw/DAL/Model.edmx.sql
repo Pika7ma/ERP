@@ -44,7 +44,7 @@ use erp;
 -- -----------------------------------------------------------
 -- Entity Designer DDL Script for MySQL Server 4.1 and higher
 -- -----------------------------------------------------------
--- Date Created: 06/13/2018 18:58:56
+-- Date Created: 06/14/2018 00:32:11
 
 -- Generated from EDMX file: E:\code\csharp\Lplfw\Lplfw\DAL\Model.edmx
 -- Target version: 3.0.0.0
@@ -475,6 +475,7 @@ ALTER TABLE `SalesItemSet` ADD PRIMARY KEY (`SalesId`, `ProductId`);
 
 CREATE TABLE `PurchaseSet`(
 	`Id` int NOT NULL AUTO_INCREMENT UNIQUE, 
+	`Code` longtext NOT NULL, 
 	`Status` longtext NOT NULL, 
 	`Priority` longtext NOT NULL, 
 	`CreateAt` datetime NOT NULL, 

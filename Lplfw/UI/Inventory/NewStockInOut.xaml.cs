@@ -54,6 +54,7 @@ namespace Lplfw.UI.Inventory
             }
             else
             {
+                lblTime.Content = "出库时间";
                 stockOut = new StockOutViewModel();
                 stockOut.CbStorage = storageId;
                 txtCode.Binding(stockOut, "TxtCode");
@@ -66,7 +67,7 @@ namespace Lplfw.UI.Inventory
                 dgMaterialItems.ItemsSource = materialStockOutItems;
                 dgProductItems.ItemsSource = productStockOutItems;
             }
-            dpTime.SelectedDate = DateTime.Now;
+            dpTime.Value = DateTime.Now;
         }
 
         private void SetControls()
@@ -280,6 +281,13 @@ namespace Lplfw.UI.Inventory
                 {
                     if (stockIn.CanSubmit)
                     {
+                        var _materialsBlank = materialStockInItems.Count == 0 ? true : false;
+                        var _productsBlank = productStockInItems.Count == 0 ? true : false;
+                        if (_materialsBlank && _productsBlank)
+                        {
+                            txtMessage.Text = "入库内容不能为空!";
+                            return;
+                        }
                         // 新建入库
                         using (var _db = new ModelContainer())
                         {
@@ -344,6 +352,13 @@ namespace Lplfw.UI.Inventory
                 {
                     if (stockOut.CanSubmit)
                     {
+                        var _materialsBlank = materialStockOutItems.Count == 0 ? true : false;
+                        var _productsBlank = productStockOutItems.Count == 0 ? true : false;
+                        if (_materialsBlank && _productsBlank)
+                        {
+                            txtMessage.Text = "出库内容不能为空!";
+                            return;
+                        }
                         // 新建出库
                         using (var _db = new ModelContainer())
                         {

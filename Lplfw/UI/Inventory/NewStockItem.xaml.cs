@@ -294,7 +294,7 @@ namespace Lplfw.UI.Inventory
             }
             else
             {
-                var _id = cbName.SelectedItem as int?;
+                var _id = cbName.SelectedValue as int?;
                 if (_id == null) return;
                 using (var _db = new ModelContainer())
                 {

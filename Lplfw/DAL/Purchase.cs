@@ -21,6 +21,7 @@ namespace Lplfw.DAL
         }
     
         public int Id { get; set; }
+        public string Code { get; set; }
         public string Status { get; set; }
         public string Priority { get; set; }
         public System.DateTime CreateAt { get; set; }

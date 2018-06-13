@@ -28,7 +28,7 @@ namespace Lplfw.UI.Produce
             cbProduct.Binding(production, "CbProduct");
             dpThinkFinishedAt.Binding(production, "DpThinkFinishedAt");
             txtDescription.Binding(production, "TxtDescription");
-            dpThinkFinishedAt.SelectedDate = DateTime.Now;
+            dpThinkFinishedAt.Value = DateTime.Now;
             new Thread(new ThreadStart(SetControlsThread)).Start();
         }
 

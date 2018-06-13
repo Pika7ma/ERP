@@ -41,7 +41,8 @@ namespace Lplfw.DAL
             {
                 if (int.TryParse(value, out int _quantity))
                 {
-                    obj.Quantity = _quantity;
+                    if (_quantity < 0) obj.Quantity = 0;
+                    else obj.Quantity = _quantity;
                 }
                 else
                 {
@@ -57,7 +58,8 @@ namespace Lplfw.DAL
             {
                 if (double.TryParse(value, out double _price))
                 {
-                    obj.Price = _price;
+                    if (_price < 0) obj.Price = 0;
+                    else obj.Price = _price;
                 }
                 else
                 {

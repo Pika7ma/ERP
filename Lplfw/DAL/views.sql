@@ -17,6 +17,7 @@ from recipeitemset join materialset
 drop view if exists purchaseview;
 create view purchaseview as
 select purchaseset.Id,
+	   purchaseset.Code,
 	   purchaseset.Status,
 	   purchaseset.Priority,
 	   purchaseset.CreateAt,

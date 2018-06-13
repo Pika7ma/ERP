@@ -129,6 +129,7 @@
                     <DataGrid x:Name="dgPurchase" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Grid.Row="1" SelectionChanged="SelectPurchase" AlternationCount="2">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="状态" Width ="100" Binding="{Binding Status}"/>
+                            <DataGridTextColumn Header="采购单号" Width ="100" Binding="{Binding Code}"/>
                             <DataGridTextColumn Header="优先级" Width ="70" Binding="{Binding Priority}"/>
                             <DataGridTextColumn Header="创建时间" Width ="150" Binding="{Binding CreateAt}"/>
                             <DataGridTextColumn Header="完成时间" Width ="150" Binding="{Binding FinishedAt}"/>

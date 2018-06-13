@@ -58,7 +58,12 @@ namespace Lplfw.DAL
             {
                 if (double.TryParse(value, out double _price))
                 {
-                    obj.Price = _price;
+                    if (_price > 0) obj.Price = _price;
+                    else obj.Price = 0;
+                }
+                else
+                {
+                    obj.Price = 0;
                 }
             }
         }
@@ -70,7 +75,12 @@ namespace Lplfw.DAL
             {
                 if (int.TryParse(value, out int _startQuantity))
                 {
-                    obj.StartQuantity = _startQuantity;
+                    if (_startQuantity > 0) obj.StartQuantity = _startQuantity;
+                    else obj.StartQuantity = 0;
+                }
+                else
+                {
+                    obj.StartQuantity = 0;
                 }
             }
         }
@@ -82,7 +92,12 @@ namespace Lplfw.DAL
             {
                 if (int.TryParse(value, out int _maxQuantity))
                 {
-                    obj.MaxQuantity = _maxQuantity;
+                    if (_maxQuantity > 0) obj.MaxQuantity = _maxQuantity;
+                    else obj.MaxQuantity = 0;
+                }
+                else
+                {
+                    obj.MaxQuantity = 0;
                 }
             }
         }
@@ -94,6 +109,8 @@ namespace Lplfw.DAL
                 if (obj.MaterialId == 0) return false;
                 if (obj.SupplierId == 0) return false;
                 if (obj.Price == 0) return false;
+                if (obj.StartQuantity == 0) return false;
+                if (obj.MaxQuantity == 0) return false;
                 return true;
             }
         }
@@ -105,6 +122,8 @@ namespace Lplfw.DAL
                 if (obj.MaterialId == 0) return "请选择正确的原料";
                 if (obj.SupplierId == 0) return "请选择正确的供应商";
                 if (obj.Price == 0) return "请输入正确的价格";
+                if (obj.StartQuantity == 0) return "请输入正确的起购数量";
+                if (obj.MaxQuantity == 0) return "请输入正确的最大数量";
                 return null;
             }
         }
@@ -136,7 +155,7 @@ namespace Lplfw.DAL
                     if (_item == null) return false;
                     _item.Price = obj.Price;
                     _item.StartQuantity = obj.StartQuantity;
-                    _item.MaterialId = obj.MaterialId;
+                    _item.MaxQuantity = obj.MaxQuantity;
                     _db.SaveChanges();
                     return true;
                 }

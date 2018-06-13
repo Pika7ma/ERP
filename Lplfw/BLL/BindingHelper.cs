@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Xceed.Wpf.Toolkit;
 
 namespace Lplfw
 {
@@ -122,6 +123,23 @@ namespace Lplfw
                 _binding.Path = new PropertyPath(property);
             }
             control.SetBinding(DatePicker.SelectedDateProperty, _binding);
+        }
+
+        /// <summary>
+        /// 将DateTimePicker的Value属性绑定到指定对象的DateTime属性上
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="obj"></param>
+        /// <param name="property"></param>
+        static public void Binding(this DateTimePicker control, object obj, string property = null)
+        {
+            var _binding = new Binding();
+            _binding.Source = obj;
+            if (property != null)
+            {
+                _binding.Path = new PropertyPath(property);
+            }
+            control.SetBinding(DateTimePicker.ValueProperty, _binding);
         }
     }
 }

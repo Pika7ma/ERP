@@ -26,10 +26,10 @@
                     </ToolBar>
                     <DataGrid x:Name="dgStorage" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" AlternationCount="2">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="仓库名称" Width="1*" Binding="{Binding Name}"/>
-                            <DataGridTextColumn Header="负责人" Width="1*" Binding="{Binding UserName}"/>
-                            <DataGridTextColumn Header="位置" Width="1*"  Binding="{Binding Location}"/>
-                            <DataGridTextColumn Header="备注" Width="2*" Binding="{Binding Description}"/>
+                            <DataGridTextColumn Header="仓库名称" Width="200" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="负责人" Width="200" Binding="{Binding UserName}"/>
+                            <DataGridTextColumn Header="位置" Width="200"  Binding="{Binding Location}"/>
+                            <DataGridTextColumn Header="备注" Width="*" Binding="{Binding Description}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -76,22 +76,22 @@
                         <TabItem x:Name="tabMaterial" Header="原料">
                             <DataGrid x:Name="dgMaterial" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" AlternationCount="2">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="原料名称" Width ="100" Binding="{Binding MaterialName}"/>
-                                    <DataGridTextColumn Header="货位" Width ="100" Binding="{Binding Location}"/>
-                                    <DataGridTextColumn Header="数量" Width ="100" Binding="{Binding Quantity}"/>
-                                    <DataGridTextColumn Header="单价" Width ="100" Binding="{Binding Price}"/>
-                                    <DataGridTextColumn Header="库存成本" Width ="100" Binding="{Binding Cost}"/>
+                                    <DataGridTextColumn Header="原料名称" Width ="200" Binding="{Binding MaterialName}"/>
+                                    <DataGridTextColumn Header="货位" Width ="200" Binding="{Binding Location}"/>
+                                    <DataGridTextColumn Header="数量" Width ="200" Binding="{Binding Quantity}"/>
+                                    <DataGridTextColumn Header="单价" Width ="200" Binding="{Binding Price}"/>
+                                    <DataGridTextColumn Header="库存成本" Width ="200" Binding="{Binding Cost}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </TabItem>
                         <TabItem x:Name="tabProduct" Header="产品">
                             <DataGrid x:Name="dgProduct" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" AlternationCount="2">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="产品名称" Width ="100" Binding="{Binding ProductName}"/>
-                                    <DataGridTextColumn Header="货位" Width ="100" Binding="{Binding Location}"/>
-                                    <DataGridTextColumn Header="数量" Width ="100" Binding="{Binding Quantity}"/>
-                                    <DataGridTextColumn Header="单价" Width ="100" Binding="{Binding Price}"/>
-                                    <DataGridTextColumn Header="库存成本" Width ="100" Binding="{Binding Cost}"/>
+                                    <DataGridTextColumn Header="产品名称" Width ="200" Binding="{Binding ProductName}"/>
+                                    <DataGridTextColumn Header="货位" Width ="200" Binding="{Binding Location}"/>
+                                    <DataGridTextColumn Header="数量" Width ="200" Binding="{Binding Quantity}"/>
+                                    <DataGridTextColumn Header="单价" Width ="200" Binding="{Binding Price}"/>
+                                    <DataGridTextColumn Header="库存成本" Width ="200" Binding="{Binding Cost}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </TabItem>

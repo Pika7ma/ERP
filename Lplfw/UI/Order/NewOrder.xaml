@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lplfw.UI.Order"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
         mc:Ignorable="d"
         Height="620" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         Background="#FFFAF0">
@@ -33,7 +34,7 @@
         <TextBox x:Name="txtCustomer" Grid.Column="3" Height="23" Margin="0,30,0,0" Grid.Row="1" TextWrapping="NoWrap" VerticalAlignment="Top"/>
         <TextBox x:Name="txtTel" Grid.Column="3" Height="23" Margin="0,60,0,0" Grid.Row="1" TextWrapping="NoWrap" VerticalAlignment="Top"/>
         <ComboBox x:Name="cbPriority" Grid.Column="3" Grid.Row="1" Margin="0,90,0,0" VerticalAlignment="Top" DisplayMemberPath="Name" SelectedValuePath="Name"/>
-        <DatePicker x:Name="dpDueTime" Grid.Column="3" Margin="0,120,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <xctk:DateTimePicker x:Name="dpDueTime" Grid.Column="3" Margin="0,120,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <TextBox x:Name="txtDescription" Grid.Column="3" Height="23" Margin="0,150,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <DataGrid x:Name="dgSalesItems" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" Width="564" Grid.ColumnSpan="3" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" Margin="0,0,0,5" AlternationCount="2">
             <DataGrid.Columns>

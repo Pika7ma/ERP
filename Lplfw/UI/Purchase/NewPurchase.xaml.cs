@@ -81,41 +81,65 @@ namespace Lplfw.UI.Purchase
             var _item = dgItems.SelectedItem as PurchaseItem;
             if (_item == null) return;
             items.Remove(_item);
+            dgItems.Items.Refresh();
         }
 
         private bool CanSubmit()
         {
-            if(items.Count == 0)
+            var _code = txtCode.Text;
+            if (_code == "" || _code == null)
+            {
+                txtMessage.Text = "请填写采购单号";
+                return false;
+            }
+            if (items.Count == 0)
             {
                 txtMessage.Text = "请填写采购条目";
                 return false;
             }
-            return true;
+            using (var _db = new ModelContainer())
+            {
+                var _old = _db.PurchaseSet.FirstOrDefault(i => i.Code == _code);
+                if (_old == null)
+                {
+                    txtMessage.Text = null;
+                    return true;
+                }
+                else
+                {
+                    txtMessage.Text = "已存在的订单号";
+                    return true;
+                }
+            }
         }
 
         private void Confirm(object sender, RoutedEventArgs e)
         {
-            try
+            if (CanSubmit())
             {
-                using (var _db = new ModelContainer())
+                try
                 {
-                    purchase.CreateAt = DateTime.Now;
-                    purchase.Description = txtDescription.Text;
-                    _db.PurchaseSet.Add(purchase);
-                    _db.SaveChanges();
-
-                    for (var _i = 0; _i < items.Count; _i++)
+                    using (var _db = new ModelContainer())
                     {
-                        items[_i].PurchaseId = purchase.Id;
+                        purchase.Code = txtCode.Text;
+                        purchase.CreateAt = DateTime.Now;
+                        purchase.Description = txtDescription.Text;
+                        _db.PurchaseSet.Add(purchase);
+                        _db.SaveChanges();
+
+                        for (var _i = 0; _i < items.Count; _i++)
+                        {
+                            items[_i].PurchaseId = purchase.Id;
+                        }
+                        _db.PurchaseItemSet.AddRange(items);
+                        _db.SaveChanges();
+                        DialogResult = true;
                     }
-                    _db.PurchaseItemSet.AddRange(items);
-                    _db.SaveChanges();
-                    DialogResult = true;
                 }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("创建采购单失败!", null, MessageBoxButton.OK, MessageBoxImage.Error);
+                catch (Exception)
+                {
+                    MessageBox.Show("创建采购单失败!", null, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 

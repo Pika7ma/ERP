@@ -280,7 +280,7 @@ namespace Lplfw.UI.Inventory
         private void RefreshDgStockIn()
         {
             var _id = 0;
-            if (cbStorageInventory.SelectedItem is Storage _storage) _id = _storage.Id;
+            if (cbStorageStock.SelectedItem is Storage _storage) _id = _storage.Id;
             new Thread(new ParameterizedThreadStart(RefreshDgStockInThread)).Start(_id);
         }
         private void RefreshDgStockInThread(object id)
@@ -296,7 +296,7 @@ namespace Lplfw.UI.Inventory
         private void RefreshDgSrockOut()
         {
             var _id = 0;
-            if (cbStorageInventory.SelectedItem is Storage _storage) _id = _storage.Id;
+            if (cbStorageStock.SelectedItem is Storage _storage) _id = _storage.Id;
             new Thread(new ParameterizedThreadStart(RefreshDgStockOutThread)).Start(_id);
         }
         private void RefreshDgStockOutThread(object id)
