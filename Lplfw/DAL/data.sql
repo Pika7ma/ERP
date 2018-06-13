@@ -48,3 +48,6 @@ insert into userset values(0, "admin", "ixTfreDyxMU=", "-", 1);
 
 -- 供货商
 insert into supplierset values(0, "南开大学", "张三", "天津市某区某大街", "400-000-0000");
+
+-- 仓库
+insert into storageset values(0, "一号仓库", 1, "滨海新区东", "一个全新的仓库");

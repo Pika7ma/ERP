@@ -299,7 +299,8 @@ namespace Lplfw.UI.Inventory
                                 var _item = materialStockInItems[_i];
                                 _item.StockInId = _stockIn.Id;
                                 var _stock = _db.MaterialStockSet.FirstOrDefault(i => i.StorageId == _stockIn.StorageId
-                                    && i.MaterialId == _item.MaterialId);
+                                    && i.MaterialId == _item.MaterialId
+                                    && i.Location == _item.Location);
                                 if (_stock == null)
                                 {
                                     _db.MaterialStockSet.Add(new MaterialStock

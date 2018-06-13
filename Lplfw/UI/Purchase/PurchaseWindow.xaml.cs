@@ -66,6 +66,10 @@ namespace Lplfw.UI.Purchase
             Dispatcher.BeginInvoke((Action)delegate ()
             {
                 dgLack.ItemsSource = _lacks;
+                if(_lacks == null)
+                {
+                    MessageBox.Show("数据记录为空, 如果多次刷新后仍为空, 可能遇到了数据库错误, 请重新打开此程序");
+                }
             });
         }
 
