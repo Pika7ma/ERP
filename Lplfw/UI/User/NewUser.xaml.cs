@@ -12,69 +12,53 @@ namespace Lplfw.UI.User
     /// </summary>
     public partial class NewUser : Window
     {
-        /// <summary>
-        /// 初始化窗口
-        /// </summary>
+        private UserViewModel user;
+
         public NewUser()
         {
             InitializeComponent();
-            var _thread = new Thread(new ThreadStart(GiveUserGroup));
-            _thread.Start();
+            user = new UserViewModel();
+            SetControls();
         }
 
-        /// <summary>
-        /// 读取用户组
-        /// </summary>
-        private void GiveUserGroup()
+        private void SetControls()
         {
-            using (var _db = new DAL.ModelContainer())
+            cbGroup.Binding(user, "CbGroup");
+            txtName.Binding(user, "TxtName");
+            txtPassword.Binding(user, "TxtPassword");
+            txtTel.Binding(user, "TxtTel");
+            new Thread(new ThreadStart(ReadGroupsThread)).Start();
+        }
+
+        private void ReadGroupsThread()
+        {
+            using (var _db = new ModelContainer())
             {
-                var _userGroups = _db.UserGroupSet.Select(i => i).ToList();
+                var _userGroups = _db.UserGroupSet.ToList();
                 Dispatcher.BeginInvoke((Action)delegate ()
                 {
-                    cbUsergroup.ItemsSource = _userGroups;
-                    cbUsergroup.SelectedIndex = 0;
+                    cbGroup.ItemsSource = _userGroups;
+                    cbGroup.SelectedIndex = 0;
                 });
             }
         }
 
-        /// <summary>
-        /// 确认按钮
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void BtnOK(object sender, RoutedEventArgs e)
+        private void Confirm(object sender, RoutedEventArgs e)
         {
-            if (txtUsername.Text != "" && txtPassword.Text != "" && txtTel.Text != "" && cbUsergroup.SelectedValue != null)
+            if (user.CanSubmit)
             {
-                var _user = new DAL.User
-                {
-                    Name = txtUsername.Text,
-                    Password = DAL.User.Encryption(txtPassword.Text),
-                    Tel = txtTel.Text,
-                    UserGroupId = (int)cbUsergroup.SelectedValue
-                };
-                using (var _db = new ModelContainer())
-                {
-                    if (_db.UserSet.FirstOrDefault(i => i.Name == txtUsername.Text) == null)
-                    {
-                        _db.UserSet.Add(_user);
-                        _db.SaveChanges();
-                        DialogResult = true;
-                        Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("已有此用户！");
-                    }
-                }
-
+                var _rtn = user.CreateNew();
+                DialogResult = _rtn;
             }
             else
             {
-                MessageBox.Show("请检查输入数据");
+                txtMessage.Text = user.TxtCheckMessage;
             }
         }
 
+        private void Cancel(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+        }
     }
 }

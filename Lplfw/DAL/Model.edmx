@@ -263,7 +263,7 @@
     </Key>
     <Property Name="PrivilegeId" Type="int" Nullable="false" />
     <Property Name="UserGroupId" Type="int" Nullable="false" />
-    <Property Name="Mode" Type="longtext" Nullable="false" />
+    <Property Name="Mode" Type="int" Nullable="false" DefaultValue="0" />
   </EntityType>
   <EntityType Name="UserSet">
     <Key>
@@ -272,7 +272,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="longtext" Nullable="false" />
     <Property Name="Password" Type="longtext" Nullable="false" />
-    <Property Name="Tel" Type="longtext" Nullable="false" />
+    <Property Name="Tel" Type="longtext" Nullable="true" />
     <Property Name="UserGroupId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SupplierSet">
@@ -1310,7 +1310,7 @@
           </Key>
           <Property Name="PrivilegeId" Type="Int32" Nullable="false" />
           <Property Name="UserGroupId" Type="Int32" Nullable="false" />
-          <Property Name="Mode" Type="String" Nullable="false" />
+          <Property Name="Mode" Type="Int32" Nullable="false" DefaultValue="0" />
         </EntityType>
         <Association Name="UserGroupPrivilegeItemDescription">
           <End Type="Model.Privilege" Role="Privilege" Multiplicity="1" />
@@ -1343,7 +1343,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="Password" Type="String" Nullable="false" />
-          <Property Name="Tel" Type="String" Nullable="false" />
+          <Property Name="Tel" Type="String" Nullable="true" />
           <NavigationProperty Name="UserGroup" Relationship="Model.UserUserGroup" FromRole="User" ToRole="UserGroup" />
           <Property Name="UserGroupId" Type="Int32" Nullable="false" />
         </EntityType>

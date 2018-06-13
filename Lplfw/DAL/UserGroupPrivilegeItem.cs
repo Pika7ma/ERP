@@ -14,8 +14,14 @@ namespace Lplfw.DAL
     
     public partial class UserGroupPrivilegeItem
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public UserGroupPrivilegeItem()
+        {
+            this.Mode = 0;
+        }
+    
         public int PrivilegeId { get; set; }
         public int UserGroupId { get; set; }
-        public string Mode { get; set; }
+        public int Mode { get; set; }
     }
 }

@@ -16,8 +16,8 @@ namespace Lplfw.UI.Order
         private SalesViewModel sales;
         private List<Utils.KeyValue> PriorityList = new List<Utils.KeyValue>
         {
-            new Utils.KeyValue { ID = 0, Name= "普通" },
-            new Utils.KeyValue { ID = 0, Name= "高" },
+            new Utils.KeyValue { Id = 0, Name= "普通" },
+            new Utils.KeyValue { Id = 0, Name= "高" },
         };
 
         public NewOrder()

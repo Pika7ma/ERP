@@ -77,31 +77,31 @@ namespace Lplfw.UI
                     switch (i.PrivilegeId)
                     {
                         case 1:
-                            if (i.Mode == "不可见")
+                            if (i.Mode ==0)
                             {
                                 btnBOM.IsEnabled = false;
                             }
                             break;
                         case 2:
-                            if (i.Mode == "不可见")
+                            if (i.Mode == 0)
                             {
                                 btnInventory.IsEnabled = false;
                             }
                             break;
                         case 3:
-                            if (i.Mode == "不可见")
+                            if (i.Mode == 0)
                             {
                                 btnOrder.IsEnabled = false;
                             }
                             break;
                         case 4:
-                            if (i.Mode == "不可见")
+                            if (i.Mode == 0)
                             {
                                 btnProduce.IsEnabled = false;
                             }
                             break;
                         case 5:
-                            if (i.Mode == "不可见")
+                            if (i.Mode == 0)
                             {
                                 btnPurchase.IsEnabled = false;
                             }

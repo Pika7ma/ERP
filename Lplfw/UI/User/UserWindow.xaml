@@ -11,30 +11,30 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        <TabControl Style="{DynamicResource Style3}">
-            <TabItem x:Name="tiEditPassword" Header="修改密码" IsSelected="True" Style="{DynamicResource Style2}">
+        <TabControl Style="{DynamicResource Style3}" SelectionChanged="TabRouter">
+            <TabItem x:Name="tabEditPassword" Header="修改密码" IsSelected="True" Style="{DynamicResource Style2}">
                 <Grid Background="#f0f0f0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="240"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="320"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="原密码" Grid.Column="1" HorizontalAlignment="Left" Margin="45,45,0,0" Grid.Row="1" VerticalAlignment="Top"/>
                     <Label Content="新密码" Grid.Column="1" HorizontalAlignment="Left" Margin="45,75,0,0" Grid.Row="1" VerticalAlignment="Top"/>
                     <Label Content="新密码重复" Grid.Column="1" HorizontalAlignment="Left" Margin="45,105,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-                    <PasswordBox x:Name="OldPassword" Width="120" Height="23" Grid.Column="1" HorizontalAlignment="Left" Margin="148,45,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-                    <PasswordBox x:Name="NewPassword" Width="120" Height="23" Grid.Column="1" HorizontalAlignment="Left" Margin="148,75,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-                    <PasswordBox x:Name="RepetePassword" Width="120" Height="23" Grid.Column="1" HorizontalAlignment="Left" Margin="148,105,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-                    <Button x:Name="btnCancel" Click="BtnCancelClick" Content="取消" Grid.Column="1" HorizontalAlignment="Left" Margin="66,161,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"/>
-                    <Button x:Name="btnSure" Click="BtnSureClick" Content="确定" Grid.Column="1" HorizontalAlignment="Left" Margin="203,161,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"/>
+                    <PasswordBox x:Name="pwbOld" Width="120" Height="23" Grid.Column="1" HorizontalAlignment="Left" Margin="148,45,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+                    <PasswordBox x:Name="pwbNew" Width="120" Height="23" Grid.Column="1" HorizontalAlignment="Left" Margin="148,75,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+                    <PasswordBox x:Name="pwbRepeat" Width="120" Height="23" Grid.Column="1" HorizontalAlignment="Left" Margin="148,105,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+                    <Button Click="CancelEditPassword" Content="取消" Grid.Column="1" HorizontalAlignment="Left" Margin="66,161,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"/>
+                    <Button Click="SubmitEditPassword" Content="确定" Grid.Column="1" HorizontalAlignment="Left" Margin="203,161,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tiUserGroupAdmin" Header="用户组管理" Style="{DynamicResource Style2}">
+            <TabItem x:Name="tabUserGroupAdmin" Header="用户组管理" Style="{DynamicResource Style2}">
                 <Grid Background="#f0f0f0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
@@ -46,29 +46,29 @@
                         <ColumnDefinition Width="164*"/>
                     </Grid.ColumnDefinitions>
                     <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="3">
-                        <Button x:Name="btnNewGroup" Content="新建用户组" Width="100" VerticalAlignment="Stretch" Click="BtnNewUserAllClick"/>
-                        <Button x:Name="btnDelGroup" Content="删除用户组" Width="100" VerticalAlignment="Stretch" Click="BtnDelUserGroupClick" IsEnabled="False"/>
+                        <Button x:Name="btnNewGroup" Content="新建用户组" Width="100" VerticalAlignment="Stretch" Click="NewUserGroup"/>
+                        <Button x:Name="btnDelGroup" Content="删除用户组" Width="100" VerticalAlignment="Stretch" Click="DeleteUserGroup" IsEnabled="False"/>
                     </ToolBar>
-                    <Label Content="用户组" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Margin="10,0,0,0" Height="25" Width="46"/>
-                    <TreeView x:Name="tvGroups" Margin="10,23,5,10" Grid.Row="1" MouseDoubleClick="TvGroupsMouseDoubleClick" Background="#FFFAF0"/>
+                    <Label Content="用户组" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Margin="10,0,0,0" Height="25" Width="75"/>
+                    <TreeView x:Name="tvGroups" Margin="10,23,5,10" Grid.Row="1" Background="#FFFAF0" SelectedItemChanged="SelectUserGroupPrivilege"/>
                     <Label Content="权限" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Margin="10,0,0,0" Height="25" Width="46"/>
-                    <DataGrid x:Name="dgPrivilege" ItemsSource="{Binding Datas}" Margin="10,23,5,10" Grid.Column="1" Grid.Row="1" AutoGenerateColumns="False" SelectionMode="Single" >
+                    <DataGrid x:Name="dgPrivilege" Margin="10,23,5,10" Grid.Column="1" Grid.Row="1" AutoGenerateColumns="False" SelectionMode="Single" >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="权限名称" Width="1*" Binding="{Binding Name}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="权限名称" Width="1*" Binding="{Binding PrivilegeName}" IsReadOnly="True"/>
                             <DataGridComboBoxColumn x:Name="mon" Header="权限级别" Width="1*">
                                 <DataGridComboBoxColumn.EditingElementStyle>
                                     <Style TargetType="ComboBox">
-                                        <Setter Property="ItemsSource" Value="{Binding Path=DataContext.TheModes,ElementName=dgPrivilege}" />
-                                        <Setter Property="DisplayMemberPath" Value="Name" />
-                                        <Setter Property="SelectedValuePath" Value="Name" />
+                                        <Setter Property="ItemsSource" Value="{Binding Path=DataContext.PrivilegeModes,ElementName=dgPrivilege}" />
+                                        <Setter Property="DisplayMemberPath" Value="Name"/>
+                                        <Setter Property="SelectedValuePath" Value="Id"/>
                                         <Setter Property="SelectedValue" Value="{Binding Mode}" />
                                     </Style>
                                 </DataGridComboBoxColumn.EditingElementStyle>
                                 <DataGridComboBoxColumn.ElementStyle>
                                     <Style TargetType="ComboBox">
-                                        <Setter Property="ItemsSource" Value="{Binding Path=DataContext.TheModes,ElementName=dgPrivilege}" />
-                                        <Setter Property="DisplayMemberPath" Value="Name" />
-                                        <Setter Property="SelectedValuePath" Value="Name" />
+                                        <Setter Property="ItemsSource" Value="{Binding Path=DataContext.PrivilegeModes,ElementName=dgPrivilege}" />
+                                        <Setter Property="DisplayMemberPath" Value="Name"/>
+                                        <Setter Property="SelectedValuePath" Value="Id"/>
                                         <Setter Property="SelectedValue" Value="{Binding Mode}" />
                                     </Style>
                                 </DataGridComboBoxColumn.ElementStyle>
@@ -76,14 +76,12 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <Grid Grid.Column="2" Grid.Row="1" >
-                        <TextBox x:Name="tbGroup" Margin="65,238,43,355" IsEnabled="False"/>
-                        <TextBox x:Name="tbGroupid" Margin="65,168,43,416" IsEnabled="False"/>
-                        <Button x:Name="btnChange" Content="确定改变" Margin="65,304,43,295" IsEnabled="False" Click="BtnChangeClick"/>
+                        <Button x:Name="btnEditPrivilege" Content="提交更改" Margin="65,304,43,295" Click="EditPrivilege"/>
                     </Grid>
                 </Grid>
 
             </TabItem>
-            <TabItem x:Name="tiUserAdmin" Header="用户管理" Style="{DynamicResource Style2}">
+            <TabItem x:Name="tabUserAdmin" Header="用户管理" Style="{DynamicResource Style2}">
                 <Grid Background="#f0f0f0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
@@ -95,15 +93,14 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <ToolBar Height="35" VerticalAlignment="Top" Grid.ColumnSpan="2">
-                        <Button x:Name="btnShowAll"  Content="显示全部" Width="75" VerticalAlignment="Stretch" Click="BtnShowAllClick"/>
-                        <Button x:Name="btnNewUser" Content="新建用户" Width="75" VerticalAlignment="Stretch" Click="BtnNewUserClick"/>
-                        <Button x:Name="btnDelUser" Content="删除用户" Width="75" VerticalAlignment="Stretch" Click="BtnDelUserClick" IsEnabled="False"/>
+                        <Button x:Name="btnShowAll"  Content="显示全部" Width="75" VerticalAlignment="Stretch" Click="ShowAllUsers"/>
+                        <Button x:Name="btnNewUser" Content="新建用户" Width="75" VerticalAlignment="Stretch" Click="NewUser"/>
                     </ToolBar>
                     <Label Content="用户组" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Margin="10,0,0,0"/>
-                    <TreeView x:Name="tvUserGroups" Margin="10,23,5,5" Grid.Row="1" MouseDoubleClick="TvUserGroupsMouseDoubleClick" Background="#FFFAF0"/>
+                    <TreeView x:Name="tvUserGroups" Margin="10,23,5,5" Grid.Row="1" Background="#FFFAF0" SelectedItemChanged="SelectUserGroup"/>
                     <GridSplitter HorizontalAlignment="Right" Grid.Row="1" Width="5" Margin="0,0,0,5"/>
                     <GridSplitter HorizontalAlignment="Stretch" Height="5" Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
-                    <DataGrid x:Name="dgUsers" Grid.Column="1" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Margin="0,0,0,5">
+                    <DataGrid x:Name="dgUsers" Grid.Column="1" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Margin="0,0,0,5" SelectionChanged="SelectUser">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="工号" Width="200" Binding="{Binding Id}"/>
                             <DataGridTextColumn Header="姓名" Width="100" Binding="{Binding Name}"/>
@@ -119,16 +116,16 @@
                                     <ColumnDefinition Width="1*"/>
                                     <ColumnDefinition Width="1*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label Content="姓名" Grid.Column="1" HorizontalAlignment="Left" Margin="30,75,0,0" VerticalAlignment="Top"/>
-                                <Label Content="联系方式" Grid.Column="1" HorizontalAlignment="Left" Margin="30,115,0,0" VerticalAlignment="Top"/>
-                                <Label Content="用户组" Grid.Column="1" HorizontalAlignment="Left" Margin="30,155,0,0" VerticalAlignment="Top"/>
-                                <Label Content="密码修改" Grid.Column="1" HorizontalAlignment="Left" Margin="30,195,0,0" VerticalAlignment="Top"/>
-                                <TextBox x:Name="btnName" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="141,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                                <TextBox x:Name="btnPhone" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="141,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                                <ComboBox x:Name="btnChoose" Grid.Column="1" DisplayMemberPath="Name" SelectedValuePath="Id" HorizontalAlignment="Left" Margin="141,155,0,0" VerticalAlignment="Top" Width="120"/>
-                                <Button x:Name="btnEditPassword" Content="重置密码" Grid.Column="1" HorizontalAlignment="Left" Margin="163,195,0,0" VerticalAlignment="Top" Width="75" Click="BtnEditPasswordClick"/>
-                                <Button x:Name="btnCancel2" Content="取消" Grid.Column="1" HorizontalAlignment="Left" Margin="70,244,0,0" VerticalAlignment="Top" Width="75" Click="BtnCancel2Click"/>
-                                <Button x:Name="btnSure2" Click="BtnSure2Click" Content="确定" Grid.Column="1" HorizontalAlignment="Left" Margin="201,244,0,0" VerticalAlignment="Top" Width="75"/>
+                                <Label Content="姓名" Grid.Column="1" HorizontalAlignment="Left" Margin="57,40,0,0" VerticalAlignment="Top"/>
+                                <Label Content="联系方式" Grid.Column="1" HorizontalAlignment="Left" Margin="57,80,0,0" VerticalAlignment="Top"/>
+                                <Label Content="用户组" Grid.Column="1" HorizontalAlignment="Left" Margin="57,120,0,0" VerticalAlignment="Top"/>
+                                <Label Content="密码修改" Grid.Column="1" HorizontalAlignment="Left" Margin="57,160,0,0" VerticalAlignment="Top"/>
+                                <TextBox x:Name="txtName" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="168,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                                <TextBox x:Name="txtTel" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="168,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                                <ComboBox x:Name="cbGroup" Grid.Column="1" DisplayMemberPath="Name" SelectedValuePath="Id" HorizontalAlignment="Left" Margin="168,120,0,0" VerticalAlignment="Top" Width="120"/>
+                                <Button x:Name="btnResetPassword" Content="重置密码" Grid.Column="1" HorizontalAlignment="Left" Margin="190,163,0,0" VerticalAlignment="Top" Width="75" Click="ResetPassword"/>
+                                <Button x:Name="btnCancel" Content="取消" Grid.Column="1" HorizontalAlignment="Left" Margin="97,209,0,0" VerticalAlignment="Top" Width="75" Click="CancelResetPassword"/>
+                                <Button x:Name="btnConfrim" Content="确定" Grid.Column="1" HorizontalAlignment="Left" Margin="228,209,0,0" VerticalAlignment="Top" Width="75" Click="SubmitResetPassword"/>
                             </Grid>
                         </TabItem>
                     </TabControl>

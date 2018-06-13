@@ -32,20 +32,18 @@ insert into recipeitemset values(2, 2, 10);
 
 -- 用户
 insert into usergroupset values(0, "管理员");
-insert into privilegeset values(0, "BOM管理");
-insert into privilegeset values(0, "仓库管理");
-insert into privilegeset values(0, "订单管理");
-insert into privilegeset values(0, "生产管理");
-insert into privilegeset values(0, "采购管理");
-insert into privilegeset values(0, "修改密码");
-insert into privilegeset values(0, "用户管理");
-insert into usergroupprivilegeitemset values(1, 1, "可修改");
-insert into usergroupprivilegeitemset values(2, 1, "可修改");
-insert into usergroupprivilegeitemset values(3, 1, "可修改");
-insert into usergroupprivilegeitemset values(4, 1, "可修改");
-insert into usergroupprivilegeitemset values(5, 1, "可修改");
-insert into usergroupprivilegeitemset values(6, 1, "可修改");
-insert into usergroupprivilegeitemset values(7, 1, "可修改");
+insert into privilegeset values(1, "BOM管理");
+insert into privilegeset values(2, "仓库管理");
+insert into privilegeset values(3, "订单管理");
+insert into privilegeset values(4, "生产管理");
+insert into privilegeset values(5, "采购管理");
+insert into privilegeset values(6, "用户管理");
+insert into usergroupprivilegeitemset values(1, 1, 2);
+insert into usergroupprivilegeitemset values(2, 1, 2);
+insert into usergroupprivilegeitemset values(3, 1, 2);
+insert into usergroupprivilegeitemset values(4, 1, 2);
+insert into usergroupprivilegeitemset values(5, 1, 2);
+insert into usergroupprivilegeitemset values(6, 1, 2);
 insert into userset values(0, "admin", "ixTfreDyxMU=", "-", 1);
 
 -- 供货商

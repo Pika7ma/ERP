@@ -17,7 +17,7 @@ namespace Lplfw.DAL
         /// <param name="encryptString">待加密的字符串</param>
         /// <param name="encryptKey">加密密钥,要求为8位</param>
         /// <returns>加密成功返回加密后的字符串，失败返回源串</returns>
-        public static string Encryption(string encryptString, string encryptKey = "KING_XIN")
+        public static string Encrypt(string encryptString, string encryptKey = "KING_XIN")
         {
             try
             {

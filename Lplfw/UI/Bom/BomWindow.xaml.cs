@@ -21,8 +21,7 @@ namespace Lplfw.UI.Bom
             cbSearchProduct.SelectedValue = 1;
             cbSearchMaterial.ItemsSource = MaterialFields;
             cbSearchMaterial.SelectedValue = 1;
-            var _thread = new Thread(new ThreadStart(Refresh));
-            _thread.Start();
+            new Thread(new ThreadStart(CheckPrivilege)).Start();
         }
 
         #region 产品管理
@@ -651,17 +650,17 @@ namespace Lplfw.UI.Bom
 
         static public List<Utils.KeyValue> ProductFields = new List<Utils.KeyValue>
         {
-            new Utils.KeyValue { ID=0, Name="状态" },
-            new Utils.KeyValue { ID=1, Name="名称" },
-            new Utils.KeyValue { ID=2, Name="型号" },
-            new Utils.KeyValue { ID=3, Name="规格" }
+            new Utils.KeyValue { Id=0, Name="状态" },
+            new Utils.KeyValue { Id=1, Name="名称" },
+            new Utils.KeyValue { Id=2, Name="型号" },
+            new Utils.KeyValue { Id=3, Name="规格" }
         };
 
         static public List<Utils.KeyValue> MaterialFields = new List<Utils.KeyValue>
         {
-            new Utils.KeyValue { ID=0, Name="状态" },
-            new Utils.KeyValue { ID=1, Name="名称" },
-            new Utils.KeyValue { ID=2, Name="规格" }
+            new Utils.KeyValue { Id=0, Name="状态" },
+            new Utils.KeyValue { Id=1, Name="名称" },
+            new Utils.KeyValue { Id=2, Name="规格" }
         };
 
         class SearchParams
@@ -674,12 +673,12 @@ namespace Lplfw.UI.Bom
 
         #region 权限控制
 
-        private void Refresh()
+        private void CheckPrivilege()
         {
             using (var _db = new ModelContainer())
             {
                 var _temp = _db.UserGroupPrivilegeItemSet.First(i => i.PrivilegeId == 1 && i.UserGroupId == Utils.CurrentUser.UserGroupId);
-                if (_temp.Mode == "只读")
+                if (_temp.Mode == 1)
                 {
                     Dispatcher.BeginInvoke((Action)delegate ()
                     {

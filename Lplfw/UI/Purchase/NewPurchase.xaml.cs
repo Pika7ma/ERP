@@ -19,8 +19,8 @@ namespace Lplfw.UI.Purchase
         private List<PurchaseItem> items;
         private List<Utils.KeyValue> priorityList = new List<Utils.KeyValue>
         {
-            new Utils.KeyValue{ ID=0, Name="普通" },
-            new Utils.KeyValue{ ID=1, Name="高" },
+            new Utils.KeyValue{ Id=0, Name="普通" },
+            new Utils.KeyValue{ Id=1, Name="高" },
         };
 
         public NewPurchase()

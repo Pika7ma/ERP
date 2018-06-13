@@ -1,6 +1,6 @@
 use erp;
 
-
+/*
 -- 产品配方的材料名
 drop view if exists recipeview;
 create view recipeview as
@@ -273,3 +273,18 @@ from
 	materialset.Id = materialstockallview.MaterialId)) as temp
 left join requisitionallview
 on temp.MaterialId = requisitionallview.MaterialId;
+
+-- 用户组权限列表
+drop view if exists privilegeview;
+create view privilegeview as
+select
+	usergroupprivilegeitemset.UserGroupId,
+    usergroupprivilegeitemset.PrivilegeId,
+    usergroupprivilegeitemset.Mode,
+    privilegeset.Description as PrivilegeName
+from
+	usergroupprivilegeitemset join privilegeset
+on
+	usergroupprivilegeitemset.PrivilegeId = privilegeset.Id;
+*/
+

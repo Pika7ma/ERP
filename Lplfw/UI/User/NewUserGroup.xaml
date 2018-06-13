@@ -8,8 +8,11 @@
         Title="新建用户组" Height="200" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         Background="#FFFAF0">
     <Grid>
-        <Label Content="用户组名" HorizontalAlignment="Left" Margin="40,50,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtGroup" HorizontalAlignment="Left" Height="23" Margin="110,50,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
-        <Button Content="确定" HorizontalAlignment="Left" Margin="170,110,0,0" VerticalAlignment="Top" Width="75" Click="btnOK"/>
+        <Label Content="用户组名" HorizontalAlignment="Left" Margin="40,40,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtName" HorizontalAlignment="Left" Height="23" Margin="110,40,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <Button Content="确定" HorizontalAlignment="Left" Margin="170,123,0,0" VerticalAlignment="Top" Width="75" Click="Confirm"/>
+        <Button Content="取消" HorizontalAlignment="Left" Margin="45,123,0,0" VerticalAlignment="Top" Width="75" Click="Cancel"/>
+        <TextBlock x:Name="txtMessage" TextAlignment="Center" HorizontalAlignment="Left" Margin="60,87,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="20" Width="174" Foreground="Red"/>
+
     </Grid>
 </Window>

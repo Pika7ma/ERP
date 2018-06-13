@@ -17,7 +17,7 @@ namespace Lplfw.UI.Produce
         public ProduceWindow()
         {
             InitializeComponent();
-            new Thread(new ThreadStart(Refresh)).Start();
+            new Thread(new ThreadStart(CheckPrivilege)).Start();
         }
 
         private void TabRouter(object sender, SelectionChangedEventArgs e)
@@ -234,12 +234,12 @@ namespace Lplfw.UI.Produce
         #endregion
 
         #region 权限控制
-        private void Refresh()
+        private void CheckPrivilege()
         {
             using (var _db = new ModelContainer())
             {
                 var _temp = _db.UserGroupPrivilegeItemSet.First(i => i.PrivilegeId == 4 && i.UserGroupId == Utils.CurrentUser.UserGroupId);
-                if (_temp.Mode == "只读")
+                if (_temp.Mode == 1)
                 {
                     Dispatcher.BeginInvoke((Action)delegate ()
                     {
@@ -255,6 +255,8 @@ namespace Lplfw.UI.Produce
         {
             btnNewProduction.Visibility = Visibility.Hidden;
             btnFinishProduction.Visibility = Visibility.Hidden;
+            btnSubmitRequisition.Visibility = Visibility.Hidden;
+            btnConfirmRequisition.Visibility = Visibility.Hidden;
         }
         #endregion
     }

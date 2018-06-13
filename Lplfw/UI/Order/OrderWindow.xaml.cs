@@ -16,8 +16,7 @@ namespace Lplfw.UI.Order
         public OrderWindow()
         {
             InitializeComponent();
-            var _thread = new Thread(new ThreadStart(Refresh));
-            _thread.Start();
+            new Thread(new ThreadStart(CheckPrivilege)).Start();
             RefreshDgSales();
         }
 
@@ -139,12 +138,12 @@ namespace Lplfw.UI.Order
         }
 
         #region 权限控制
-        private void Refresh()
+        private void CheckPrivilege()
         {
             using (var _db = new ModelContainer())
             {
                 var _temp = _db.UserGroupPrivilegeItemSet.First(i => i.PrivilegeId == 3 && i.UserGroupId == Utils.CurrentUser.UserGroupId);
-                if (_temp.Mode == "只读")
+                if (_temp.Mode == 1)
                 {
                     Dispatcher.BeginInvoke((Action)delegate ()
                     {

@@ -1,5 +1,3 @@
-drop database erp;
-create database erp;
 use erp;
 
 
@@ -46,7 +44,7 @@ use erp;
 -- -----------------------------------------------------------
 -- Entity Designer DDL Script for MySQL Server 4.1 and higher
 -- -----------------------------------------------------------
--- Date Created: 06/13/2018 09:57:53
+-- Date Created: 06/13/2018 18:58:56
 
 -- Generated from EDMX file: E:\code\csharp\Lplfw\Lplfw\DAL\Model.edmx
 -- Target version: 3.0.0.0
@@ -296,7 +294,7 @@ ALTER TABLE `UserGroupSet` ADD PRIMARY KEY (`Id`);
 CREATE TABLE `UserGroupPrivilegeItemSet`(
 	`PrivilegeId` int NOT NULL, 
 	`UserGroupId` int NOT NULL, 
-	`Mode` longtext NOT NULL);
+	`Mode` int NOT NULL);
 
 ALTER TABLE `UserGroupPrivilegeItemSet` ADD PRIMARY KEY (`PrivilegeId`, `UserGroupId`);
 
@@ -308,7 +306,7 @@ CREATE TABLE `UserSet`(
 	`Id` int NOT NULL AUTO_INCREMENT UNIQUE, 
 	`Name` longtext NOT NULL, 
 	`Password` longtext NOT NULL, 
-	`Tel` longtext NOT NULL, 
+	`Tel` longtext, 
 	`UserGroupId` int NOT NULL);
 
 ALTER TABLE `UserSet` ADD PRIMARY KEY (`Id`);

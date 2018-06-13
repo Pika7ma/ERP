@@ -16,7 +16,7 @@ namespace Lplfw.UI.Purchase
         public PurchaseWindow()
         {
             InitializeComponent();
-            new Thread(new ThreadStart(Refresh)).Start();
+            new Thread(new ThreadStart(CheckPrivilege)).Start();
         }
 
         private void TabRouter(object sender, SelectionChangedEventArgs e)
@@ -358,12 +358,12 @@ namespace Lplfw.UI.Purchase
         #endregion
 
         #region 权限控制
-        private void Refresh()
+        private void CheckPrivilege()
         {
             using (var _db = new ModelContainer())
             {
                 var _temp = _db.UserGroupPrivilegeItemSet.First(i => i.PrivilegeId == 5 && i.UserGroupId == Utils.CurrentUser.UserGroupId);
-                if (_temp.Mode == "只读")
+                if (_temp.Mode == 1)
                 {
                     Dispatcher.BeginInvoke((Action)delegate ()
                     {

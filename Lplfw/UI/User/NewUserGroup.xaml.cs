@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lplfw.DAL;
+using System;
 using System.Linq;
 using System.Windows;
 
@@ -9,12 +10,13 @@ namespace Lplfw.UI.User
     /// </summary>
     public partial class NewUserGroup : Window
     {
-        /// <summary>
-        /// 初始化窗口
-        /// </summary>
+        private UserGroupViewModel group;
+
         public NewUserGroup()
         {
             InitializeComponent();
+            group = new UserGroupViewModel();
+            txtName.Binding(group, "TxtName");
         }
 
         /// <summary>
@@ -22,38 +24,22 @@ namespace Lplfw.UI.User
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnOK(object sender, RoutedEventArgs e)
+        private void Confirm(object sender, RoutedEventArgs e)
         {
-            if (txtGroup.Text != "")
+            if (group.CanSubmit)
             {
-                var _usergroup = new DAL.UserGroup
-                {
-                    Name = txtGroup.Text
-                };
-                using (var _db = new DAL.ModelContainer())
-                {
-                    _db.UserGroupSet.Add(_usergroup);
-                    _db.SaveChanges();
-                    for (int i = 0; i < _db.PrivilegeSet.Count(); i++)
-                    {
-                        _db.UserGroupPrivilegeItemSet.Add(new DAL.UserGroupPrivilegeItem
-                        {
-                            PrivilegeId = i + 1,
-                            UserGroupId = _usergroup.Id,
-                            Mode = "可修改"
-                        });
-                    }
-                    _db.SaveChanges();
-                }
-                DialogResult = true;
-                Close();
+                var _rtn = group.CreateNew();
+                DialogResult = _rtn;
             }
             else
             {
-                MessageBox.Show("wrong");
+                txtMessage.Text = group.TxtCheckMessage;
             }
         }
 
-
+        private void Cancel(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+        }
     }
 }
