@@ -105,6 +105,51 @@ namespace Lplfw.BLL
                 case Type.Product:
                     WriteProduct();
                     break;
+                case Type.Material:
+                    WriteMaterial();
+                    break;
+                case Type.StorageView:
+                    WriteStorageView();
+                    break;
+                case Type.MaterialSafety:
+                    WriteMaterialSafety();
+                    break;
+                case Type.MaterialStorage:
+                    WriteMaterialStorage();
+                    break;
+                case Type.ProductStorage:
+                    WriteProductStorage();
+                    break;
+                case Type.StockIn:
+                    WriteStockIn();
+                    break;
+                case Type.StockOut:
+                    WriteStockOut();
+                    break;
+                case Type.Order:
+                    WriteOrder();
+                    break;
+                case Type.Requistion:
+                    WriteRequistion();
+                    break;
+                case Type.ProduceRecord:
+                    WriteProduceRecord();
+                    break;
+                case Type.MaterialLack:
+                    WriteMaterialLack();
+                    break;
+                case Type.MaterialPrice:
+                    WriteMaterialPrice();
+                    break;
+                case Type.Supplier:
+                    WriteSupplier();
+                    break;
+                case Type.Purchase:
+                    WritePurchase();
+                    break;
+                case Type.Users:
+                    WriteUsers();
+                    break;
                 default:
                     break;
             }
@@ -114,15 +159,45 @@ namespace Lplfw.BLL
         public enum Type
         {
             Product,
+            Material,
+            StorageView,
+            MaterialSafety,
+            MaterialStorage,
+            ProductStorage,
+            StockIn,
+            StockOut,
+            Order,
+            Requistion,
+            ProduceRecord,
+            MaterialLack,
+            MaterialPrice,
+            Supplier,
+            Purchase,
+            Users
         }
 
         public string[][] defaultHeaders = new string[][] {
-            new string[]{ "状态", "名称", "型号", "规格", "单位", "价格" }
+            new string[]{ "状态", "名称", "型号", "规格", "单位", "价格" },
+            new string[]{ "状态", "名称", "规格", "单位", "平均价格"},
+            new string[]{ "仓库名称", "负责人", "位置", "备注"},
+            new string[]{ "状态", "名称", "安全库存量"},
+            new string[]{ "原料名称", "货位", "数量", "单价", "库存成本"},
+            new string[]{ "产品名称", "货位", "数量", "单价", "库存成本"},
+            new string[]{ "入库单号", "仓库", "入库时间", "负责人", "备注"},
+            new string[]{ "出库单号", "仓库", "出库时间", "负责人", "备注"},
+            new string[]{ "状态", "优先级", "订单号", "客户", "联系方式","订货时间", "应付时间", "完成时间", "负责人", "备注"},
+            new string[]{ "状态", "领料单号", "订单号", "创建时间", "完成时间", "负责人", "备注"},
+            new string[]{ "状态", "生产记录号", "产品", "开始时间", "预计结束时间", "结束时间", "负责人", "备注"},
+            new string[]{ "原料名称", "库存", "虚拟用量", "虚拟结余", "安全库存"},
+            new string[]{ "原料", "供应商", "价格", "起购数量", "最大数量"},
+            new string[]{ "供应商", "联系人", "联系方式", "地址"},
+            new string[]{ "状态", "优先级", "创建时间", "完成时间", "备注", "负责人" },
+            new string[]{ "工号", "姓名", "联系方式"}
         };
 
         public string[] defaultSheetName = new string[]
         {
-            "产品"
+            "产品","原料","仓库","原料安全库存","原料库存","产品库存","入库单","出库单","订单","领料单","生产记录","缺料浏览","材料报价","供应商","采购单","用户"
         };
 
         private void WriteProduct()
@@ -130,7 +205,7 @@ namespace Lplfw.BLL
             var _data = data as List<Product>;
             for (var _i = 0; _i < _data.Count; _i++)
             {
-                IRow _row = sheet.CreateRow(_i+1);
+                IRow _row = sheet.CreateRow(_i + 1);
                 var _item = _data[_i];
                 _row.CreateCell(0).SetCellValue(_item.Status);
                 _row.CreateCell(1).SetCellValue(_item.Name);
@@ -140,6 +215,237 @@ namespace Lplfw.BLL
                 _row.CreateCell(5).SetCellValue(_item.Price);
             }
         }
+
+        private void WriteMaterial()
+        {
+            var _data = data as List<Material>;
+            for (var _i = 0; _i < _data.Count; _i++)
+            {
+                IRow _row = sheet.CreateRow(_i + 1);
+                var _item = _data[_i];
+                _row.CreateCell(0).SetCellValue(_item.Status);
+                _row.CreateCell(1).SetCellValue(_item.Name);
+                _row.CreateCell(2).SetCellValue(_item.Format);
+                _row.CreateCell(3).SetCellValue(_item.Unit);
+                _row.CreateCell(4).SetCellValue(_item.Price);
+            }
+        }
+
+        private void WriteStorageView()
+        {
+            var _data = data as List<StorageView>;
+            for (var _i = 0; _i < _data.Count; _i++)
+            {
+                IRow _row = sheet.CreateRow(_i + 1);
+                var _item = _data[_i];
+                _row.CreateCell(0).SetCellValue(_item.Name);
+                _row.CreateCell(1).SetCellValue(_item.UserName);
+                _row.CreateCell(2).SetCellValue(_item.Location);
+                _row.CreateCell(3).SetCellValue(_item.Description);
+            }
+        }
+
+        private void WriteMaterialSafety()
+        {
+            var _data = data as List<Material>;
+            for (var _i = 0; _i < _data.Count; _i++)
+            {
+                IRow _row = sheet.CreateRow(_i + 1);
+                var _item = _data[_i];
+                _row.CreateCell(0).SetCellValue(_item.Status);
+                _row.CreateCell(1).SetCellValue(_item.Name);
+                _row.CreateCell(2).SetCellValue(_item.SafeQuantity);
+            }
+        }
+
+        private void WriteMaterialStorage()
+        {
+            var _data = data as List<MaterialStockAllView>;
+            for (var _i = 0; _i < _data.Count; _i++)
+            {
+                IRow _row = sheet.CreateRow(_i + 1);
+                var _item = _data[_i];
+                _row.CreateCell(0).SetCellValue(_item.MaterialName);
+                //_row.CreateCell(1).SetCellValue(_item.Location);
+                _row.CreateCell(2).SetCellValue(_item.Quantity);
+                _row.CreateCell(3).SetCellValue(_item.Price);
+                _row.CreateCell(4).SetCellValue(_item.Cost);
+            }
+        }
+
+        private void WriteProductStorage()
+        {
+            var _data = data as List<ProductStockAllView>;
+            for (var _i = 0; _i < _data.Count; _i++)
+            {
+                IRow _row = sheet.CreateRow(_i + 1);
+                var _item = _data[_i];
+                _row.CreateCell(0).SetCellValue(_item.ProductName);
+                //_row.CreateCell(1).SetCellValue(_item.Location);
+                _row.CreateCell(2).SetCellValue(_item.Quantity);
+                _row.CreateCell(3).SetCellValue(_item.Price);
+                _row.CreateCell(4).SetCellValue(_item.Cost);
+            }
+        }
+
+        private void WriteStockIn()
+        {
+            var _data = data as List<StockInView>;
+            for (var _i = 0; _i < _data.Count; _i++)
+            {
+                IRow _row = sheet.CreateRow(_i + 1);
+                var _item = _data[_i];
+                _row.CreateCell(0).SetCellValue(_item.Code);
+                _row.CreateCell(1).SetCellValue(_item.StorageName);
+                _row.CreateCell(2).SetCellValue(_item.Time);
+                _row.CreateCell(3).SetCellValue(_item.UserName);
+                _row.CreateCell(4).SetCellValue(_item.Description);
+            }
+        }
+
+        private void WriteStockOut()
+        {
+            var _data = data as List<StockOutView>;
+            for (var _i = 0; _i < _data.Count; _i++)
+            {
+                IRow _row = sheet.CreateRow(_i + 1);
+                var _item = _data[_i];
+                _row.CreateCell(0).SetCellValue(_item.Code);
+                _row.CreateCell(1).SetCellValue(_item.StorageName);
+                _row.CreateCell(2).SetCellValue(_item.Time);
+                _row.CreateCell(3).SetCellValue(_item.UserName);
+                _row.CreateCell(4).SetCellValue(_item.Description);
+            }
+        }
+
+        private void WriteOrder()
+        {
+            var _data = data as List<SalesView>;
+            for (var _i = 0; _i < _data.Count; _i++)
+            {
+                IRow _row = sheet.CreateRow(_i + 1);
+                var _item = _data[_i];
+                _row.CreateCell(0).SetCellValue(_item.Status);
+                _row.CreateCell(1).SetCellValue(_item.Priority);
+                _row.CreateCell(2).SetCellValue(_item.Code);
+                _row.CreateCell(3).SetCellValue(_item.Customer);
+                _row.CreateCell(4).SetCellValue(_item.Tel);
+                _row.CreateCell(5).SetCellValue(_item.CreateAt);
+                _row.CreateCell(6).SetCellValue(_item.DueTime);
+                _row.CreateCell(7).SetCellValue((DateTime)_item.FinishedAt);
+                _row.CreateCell(8).SetCellValue(_item.UserName);
+                _row.CreateCell(9).SetCellValue(_item.Description);
+            }
+        }
+
+        private void WriteRequistion()
+        {
+            var _data = data as List<RequisitionView>;
+            for (var _i = 0; _i < _data.Count; _i++)
+            {
+                IRow _row = sheet.CreateRow(_i + 1);
+                var _item = _data[_i];
+                _row.CreateCell(0).SetCellValue(_item.Status);
+                _row.CreateCell(1).SetCellValue(_item.Code);
+                _row.CreateCell(2).SetCellValue(_item.SalesCode);
+                _row.CreateCell(3).SetCellValue(_item.CreateAt);
+                _row.CreateCell(4).SetCellValue((DateTime)_item.FinishedAt);
+                _row.CreateCell(5).SetCellValue(_item.UserName);
+                _row.CreateCell(6).SetCellValue(_item.Description);
+            }
+        }
+
+        private void WriteProduceRecord()
+        {
+            var _data = data as List<ProductionView>;
+            for (var _i = 0; _i < _data.Count; _i++)
+            {
+                IRow _row = sheet.CreateRow(_i + 1);
+                var _item = _data[_i];
+                _row.CreateCell(0).SetCellValue(_item.Status);
+                _row.CreateCell(1).SetCellValue(_item.Code);
+                _row.CreateCell(2).SetCellValue(_item.ProductName);
+                _row.CreateCell(3).SetCellValue(_item.StartAt);
+                _row.CreateCell(4).SetCellValue(_item.ThinkFinishedAt);
+                _row.CreateCell(5).SetCellValue((DateTime)_item.FinishedAt);
+                _row.CreateCell(6).SetCellValue(_item.UserName);
+                _row.CreateCell(7).SetCellValue(_item.Description);
+            }
+        }
+
+        private void WriteMaterialLack()
+        {
+            var _data = data as List<MaterialLackView>;
+            for (var _i = 0; _i < _data.Count; _i++)
+            {
+                IRow _row = sheet.CreateRow(_i + 1);
+                var _item = _data[_i];
+                _row.CreateCell(0).SetCellValue(_item.MaterialName);
+                _row.CreateCell(1).SetCellValue(_item.SumQuantity);
+                _row.CreateCell(2).SetCellValue(_item.VirtualUsage);
+                _row.CreateCell(3).SetCellValue(_item.VirtualQuantity);
+                _row.CreateCell(4).SetCellValue(_item.SafeQuantity);
+            }
+        }
+
+        private void WriteMaterialPrice()
+        {
+            var _data = data as List<MaterialPriceView>;
+            for (var _i = 0; _i < _data.Count; _i++)
+            {
+                IRow _row = sheet.CreateRow(_i + 1);
+                var _item = _data[_i];
+                _row.CreateCell(0).SetCellValue(_item.MaterialName);
+                _row.CreateCell(1).SetCellValue(_item.SupplierName);
+                _row.CreateCell(2).SetCellValue(_item.Price);
+                _row.CreateCell(3).SetCellValue(_item.StartQuantity);
+                _row.CreateCell(4).SetCellValue(_item.MaxQuantity);
+            }
+        }
+
+        private void WriteSupplier()
+        {
+            var _data = data as List<Supplier>;
+            for (var _i = 0; _i < _data.Count; _i++)
+            {
+                IRow _row = sheet.CreateRow(_i + 1);
+                var _item = _data[_i];
+                _row.CreateCell(0).SetCellValue(_item.Name);
+                _row.CreateCell(1).SetCellValue(_item.Contact);
+                _row.CreateCell(2).SetCellValue(_item.Tel);
+                _row.CreateCell(3).SetCellValue(_item.Location);
+            }
+        }
+
+        private void WritePurchase()
+        {
+            var _data = data as List<PurchaseView>;
+            for (var _i = 0; _i < _data.Count; _i++)
+            {
+                IRow _row = sheet.CreateRow(_i + 1);
+                var _item = _data[_i];
+                _row.CreateCell(0).SetCellValue(_item.Status);
+                _row.CreateCell(1).SetCellValue(_item.Priority);
+                _row.CreateCell(2).SetCellValue(_item.CreateAt);
+                _row.CreateCell(3).SetCellValue((DateTime)_item.FinishedAt);
+                _row.CreateCell(4).SetCellValue(_item.Description);
+                _row.CreateCell(5).SetCellValue(_item.Name);
+            }
+        }
+
+        private void WriteUsers()
+        {
+            var _data = data as List<User>;
+            for (var _i = 0; _i < _data.Count; _i++)
+            {
+                IRow _row = sheet.CreateRow(_i + 1);
+                var _item = _data[_i];
+                _row.CreateCell(0).SetCellValue(_item.Id);
+                _row.CreateCell(1).SetCellValue(_item.Name);
+                _row.CreateCell(2).SetCellValue(_item.Tel);
+            }
+        }
+
         #endregion
 
         #region 各种清单

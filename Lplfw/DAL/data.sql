@@ -47,4 +47,4 @@ insert into usergroupprivilegeitemset values(6, 1, 2);
 insert into userset values(0, "admin", "ixTfreDyxMU=", "-", 1);
 
 -- 供货商
-insert into supplierset values(0, "南开大学", "王信", "天津市某区某大街", "400-000-0000");
+insert into supplierset values(0, "南开大学", "张三", "天津市某区某大街", "400-000-0000");

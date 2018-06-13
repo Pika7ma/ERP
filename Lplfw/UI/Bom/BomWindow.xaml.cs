@@ -725,7 +725,16 @@ namespace Lplfw.UI.Bom
 
         private void ExportMaterialSheet(object sender, RoutedEventArgs e)
         {
-
+            var writer = new ExcelWriter(ExcelWriter.Type.Material, dgMaterial.ItemsSource as List<Material>);
+            var _rtn = writer.Write();
+            if (_rtn == true)
+            {
+                MessageBox.Show("导出成功!", null, MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("导出失败!", null, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ExportRecipeSheet(object sender, RoutedEventArgs e)

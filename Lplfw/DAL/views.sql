@@ -1,6 +1,6 @@
 use erp;
 
-/*
+
 -- 产品配方的材料名
 drop view if exists recipeview;
 create view recipeview as
@@ -286,5 +286,4 @@ from
 	usergroupprivilegeitemset join privilegeset
 on
 	usergroupprivilegeitemset.PrivilegeId = privilegeset.Id;
-*/
 
