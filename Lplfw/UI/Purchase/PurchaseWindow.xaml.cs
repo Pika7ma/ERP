@@ -92,7 +92,6 @@ namespace Lplfw.UI.Purchase
             }
         }
 
-        //TODO: 将缺料生成EXCEL导出
         #endregion
 
         #region 报价管理
